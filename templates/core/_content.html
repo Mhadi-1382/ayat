@@ -1,0 +1,356 @@
+{% load static %}
+<div class="content-nav-minimize flex flex-col gap-2.5 py-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    <!-- Widget: Calendar -->
+    <div class="bg-primary bg-widget-calendar text-white w-full flex items-center justify-between gap-2.5 py-3 px-6 rounded-3xl transition-all">
+        <div class="flex items-center gap-6 max-[430px]:gap-4 transition-all">
+            <p class="text-[38px] max-[430px]:text-[30px] font-semibold font-estedad transition-all" id="calendarDayFa"></p>
+            <div class="flex flex-col gap-0.5">
+                <p class="max-[430px]:text-sm transition-all"><span id="calendarWeekDayFa"></span> <span class="px-0.5">.</span> <span id="calendarMonthYearFa"></span></p>
+                <p class="text-sm max-[430px]:text-[12px] transition-all"><span id="calendarDayEn"></span> <span class="px-0.5">.</span> <span id="calendarDayMonthYearEn"></span></p>
+            </div>
+        </div>
+        <div>
+            <p class="hidden" id="calendarStatusMorning">
+                <img src="{% static 'assets/images/icons/calendar/state-1.svg' %}" alt="" class="size-12 drop-shadow-sm animate-pulse" draggable="false">
+            </p>
+            <p class="hidden" id="calendarStatusAfternoon">
+                <img src="{% static 'assets/images/icons/calendar/state-2.svg' %}" alt="" class="size-12 drop-shadow-sm animate-pulse" draggable="false">
+            </p>
+            <p class="hidden" id="calendarStatusNight">
+                <img src="{% static 'assets/images/icons/calendar/state-3.svg' %}" alt="" class="size-12 drop-shadow-sm animate-pulse" draggable="false">
+            </p>
+        </div>
+    </div>
+
+    <!-- Shortcuts -->
+    <div class="shortcuts flex flex-wrap gap-8 mt-4 mb-12 transition-all" style="row-gap: 1.2rem;">
+        <a href="/surahs" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/surahs.svg' %}" alt="surahs" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">قرآن</p>
+            </div>
+        </a>
+        <a href="/duas" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/duas.svg' %}" alt="duas" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">ادعیه</p>
+            </div>
+        </a>
+        <a href="/hadiths" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/hadiths.svg' %}" alt="hadiths" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">احادیث</p>
+            </div>
+        </a>
+        <a href="javascript:modal('zekarCounter');" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false" id="zekarCounterBtnScroll">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/salavat.svg' %}" alt="zekar counter" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">ذکرشمار</p>
+            </div>
+        </a>
+        <a href="/lifestyle-quran" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/lifestyle-quran.svg' %}" alt="lifestyle quran" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">سبک‌زندگی</p>
+            </div>
+        </a>
+
+        {% if request.user.is_authenticated %}
+            {% if request.user.university_id %}
+                <a href="/cultural-events" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                    <div class="flex items-center flex-col gap-2.5">
+                        <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                            <img src="{% static 'assets/images/icons/cultural-events.svg' %}" alt="cultural events" class="drop-shadow-sm" draggable="false">
+                        </div>
+                        <p class="text-sm" style="width: 60px; text-align: center;">رویدادهای فرهنگی</p>
+                    </div>
+                </a>
+            {% else %}
+                <a href="javascript:modal('userUnuniversityId');" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                    <div class="flex items-center flex-col gap-2.5">
+                        <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                            <img src="{% static 'assets/images/icons/cultural-events.svg' %}" alt="cultural events" class="drop-shadow-sm" draggable="false">
+                        </div>
+                        <p class="text-sm" style="width: 60px; text-align: center;">رویدادهای فرهنگی</p>
+                    </div>
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="javascript:modal('userUnauthenticated');" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                <div class="flex items-center flex-col gap-2.5">
+                    <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                        <img src="{% static 'assets/images/icons/cultural-events.svg' %}" alt="cultural events" class="drop-shadow-sm" draggable="false">
+                    </div>
+                    <p class="text-sm" style="width: 60px; text-align: center;">رویدادهای فرهنگی</p>
+                </div>
+            </a>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+            {% if request.user.university_id and request.user.role == 'student' %}
+                <a href="/challenge" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                    <div class="flex items-center flex-col gap-2.5">
+                        <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                            <img src="{% static 'assets/images/icons/challenge.svg' %}" alt="challenge" class="drop-shadow-sm" draggable="false">
+                        </div>
+                        <p class="text-sm" style="width: 60px; text-align: center;">چالش‌های روزانه</p>
+                    </div>
+                </a>
+            {% elif request.user.role == 'cultural_admin' %}
+                <a href="javascript:modal('sectionDisabledCulturalAdmin');" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                    <div class="flex items-center flex-col gap-2.5">
+                        <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                            <img src="{% static 'assets/images/icons/challenge.svg' %}" alt="challenge" class="drop-shadow-sm" draggable="false">
+                        </div>
+                        <p class="text-sm" style="width: 60px; text-align: center;">چالش‌های روزانه</p>
+                    </div>
+                </a>
+            {% else %}
+                <a href="javascript:modal('userUnuniversityId');" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                    <div class="flex items-center flex-col gap-2.5">
+                        <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                            <img src="{% static 'assets/images/icons/challenge.svg' %}" alt="challenge" class="drop-shadow-sm" draggable="false">
+                        </div>
+                        <p class="text-sm" style="width: 60px; text-align: center;">چالش‌های روزانه</p>
+                    </div>
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="javascript:modal('userUnauthenticated');" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+                <div class="flex items-center flex-col gap-2.5">
+                    <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                        <img src="{% static 'assets/images/icons/challenge.svg' %}" alt="challenge" class="drop-shadow-sm" draggable="false">
+                    </div>
+                    <p class="text-sm" style="width: 60px; text-align: center;">چالش‌های روزانه</p>
+                </div>
+            </a>
+        {% endif %}
+
+        <a href="/ahkam" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/islamic-rulings.svg' %}" alt="islamic rulings" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">احکام</p>
+            </div>
+        </a>
+        <a href="/relax-room" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/relaxation-room.svg' %}" alt="relaxation room" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">اتاق‌آرامش</p>
+            </div>
+        </a>
+        <a href="/maktab-haj-qasem" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/maktab-haj-qasem.svg' %}" alt="maktab haj qasem" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">مکتب حاج‌قاسم</p>
+            </div>
+        </a>
+        <a href="/maktab-emam-khamenei" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/maktab-emam-khamenei.svg' %}" alt="maktab emam khamenei" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">مکتب امام‌خامنه‌ای</p>
+            </div>
+        </a>
+        <a href="/exam-yar" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/exam-yar.svg' %}" alt="exam yar" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">امتحان‌یار</p>
+            </div>
+        </a>
+        <a href="/ramadhan-yar" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/ramadhan-yar.svg' %}" alt="ramadhan yar" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">رمضان‌یار</p>
+            </div>
+        </a>
+        <a href="/recitation-path" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/recitation-path.svg' %}" alt="recitation path" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">مسیر تلاوت</p>
+            </div>
+        </a>
+        <a href="/cultural-challenges" class="w-fit flex text-slate-600 flex-1 min-[550px]:flex-none transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/challenge-cultural.svg' %}" alt="challenge cultural" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">چالش‌های فرهنگی</p>
+            </div>
+        </a>
+        <a href="/cultural-calender" class="w-fit flex text-slate-600 transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/calendar-cultural.svg' %}" alt="calendar cultural" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">تقویم فرهنگی</p>
+            </div>
+        </a>
+        <a href="javascript:modal('soon');" class="w-fit flex text-slate-600 transition-all" draggable="false">
+            <div class="flex items-center flex-col gap-2.5">
+                <div class="flex items-center justify-center size-14 p-3 rounded-2xl outline outline-blue-200/40 hover:bg-slate-50 bg-white transition-all">
+                    <img src="{% static 'assets/images/icons/halghe.svg' %}" alt="halghe" class="drop-shadow-sm" draggable="false">
+                </div>
+                <p class="text-sm" style="width: 60px; text-align: center;">حلقه <span class="text-xs text-slate-500">(بزودی)</span></p>
+            </div>
+        </a>
+    </div>
+
+    <!-- Widgets Pack -->
+    <div class="bg-primary bg-widget-pack w-full flex flex-col gap-2.5 py-3 px-4 rounded-3xl overflow-hidden transition-all">
+        <!-- Widget: Exam Yar -->
+		<div class="flex flex-col gap-2.5 border-b border-slate-100 pb-6 transition-all" id="WidgetExamYar">
+			<div class="flex items-center justify-between gap-2.5 mb-2.5">
+				<p class="font-semibold text-gray-700 flex items-center gap-2.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.47 99.13" class="size-7 fill-white py-1 bg-primary rounded-full">
+                        <g>
+                            <g>
+                                <path class="cls-1" d="m23.83.03c0,11.33-.02,22.66.03,33.99,0,1.5-.64,2.03-1.89,2.71-5.35,2.91-5.45,9.84-.14,12.92,1.52.89,2.04,1.73,2.01,3.4-.09,5.44-.08,10.88,0,16.32.03,1.69-.37,2.33-2.25,2.39-7.57.24-7.46.28-10.2-6.83-2.53-6.58-5.99-12.69-10.27-18.32-.89-1.17-1.77-2.06-.42-3.76C10.91,29.96,18.71,15.75,23.82,0v.03Z"/>
+                                <path class="cls-1" d="m26.66.06c4.08,11.83,9.23,22.98,16.15,33.28,2.08,3.1,4.31,6.11,6.63,9.03,1.11,1.4,1.53,2.31.21,3.97-5.53,6.99-9.71,14.74-12.04,23.38-.46,1.72-1.29,1.99-2.85,2.03-8.01.17-8,.21-8.01-7.71,0-2.49.01-4.99-.07-7.48-.1-3.15-.07-5.73,3.27-7.95,4.22-2.8,3.35-9.07-1.1-11.66-1.37-.8-2.49-1.4-2.21-3.24.14-.88.01-1.81.01-2.72V.06h.01Z"/>
+                                <path class="cls-1" d="m25.23,75.31c3.62,0,7.25.03,10.87-.01,2.38-.03,3.56,1.06,3.61,3.45.05,2.36-1.06,3.69-3.4,3.71-7.47.06-14.94.05-22.41.04-2.26,0-3.32-1.41-3.32-3.47,0-2.17.97-3.69,3.46-3.68,3.74.01,7.47,0,11.21,0v-.04h-.02Z"/>
+                                <path class="cls-1" d="m25.56,86.09h2.37c5.11,0,5.6.59,4.97,5.88-.44,3.69-3.9,7.02-7.45,7.16-3.33.13-6.92-2.95-7.62-6.54-1.04-5.31-.08-6.46,5.37-6.5h2.37,0Z"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <span>امتحان‌یار <span class="text-xs text-slate-400">(بزودی)</span></span>
+                </p>
+                <a href="/exam-yar" class="hover:bg-blue-100/25 text-slate-500 text-xs rounded-full py-2 px-4 transition-all" draggable="false">برو به امتحان‌یار</a>
+			</div>
+			<div class="flex flex-col gap-2.5 text-slate-600" style="filter: blur(2px);">
+                <div class="flex flex-col gap-1">
+                    <p class="font-indopak text-2xl leading-10!">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي</p>
+                    <p class="text-sm text-slate-400">پروردگارا سینه‌ام را گشاده کن و کارم را آسان فرما</p>
+                </div>
+            </div>
+		</div>
+        <!-- Widget: Ramadhan Yar -->
+		<div class="flex flex-col gap-2.5 border-b border-slate-100 pb-6 transition-all" id="WidgetRamadhanYar">
+			<div class="flex items-center justify-between gap-2.5 mb-2.5">
+				<p class="font-semibold text-gray-700 flex items-center gap-2.5">
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-7 bg-primary rounded-full">
+                        <path d="M24.5 25C24.2128 24.2408 23.9563 23.1375 23 22.5C21.5 21.5 20 21 20 19.5C20 18 19.5 15 19.5 15L20.1955 14.268C21.8935 15.0246 23.5 12.8807 23.5 11.5C23.5 10.1193 22.3807 9 21 9C19.6193 9 18.5 10.1193 18.5 11.5C18.5 12.5 17.7 13.1 16.5 13.5C15 14 13 15 13 20C13 24 14.8333 25.3333 15.5 26C12.3 26 11.5 28 11.5 29H24.5C25.6046 29 26.5 28.1046 26.5 27C26.5 25.8954 25.6046 25 24.5 25ZM24.5 25C16.7719 25 16.0599 20.3333 16.5 18" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>رمضان‌یار <span class="text-xs text-slate-400">(بزودی)</span></span>
+                </p>
+                <a href="/ramadhan-yar" class="hover:bg-blue-100/25 text-slate-500 text-xs rounded-full py-2 px-4 transition-all" draggable="false">برو به رمضان‌یار</a>
+			</div>
+			<div class="flex flex-col gap-2.5 text-slate-600" style="filter: blur(2px);">
+                <div class="flex flex-col gap-1">
+                    <p class="font-indopak text-2xl leading-10!">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي</p>
+                    <p class="text-sm text-slate-400">پروردگارا سینه‌ام را گشاده کن و کارم را آسان فرما</p>
+                </div>
+            </div>
+		</div>
+
+		<!-- Widget: Prayer Times -->
+		<div class="flex flex-col gap-2.5 border-b border-slate-100 pb-6 transition-all">
+			<div class="flex items-center justify-between gap-2.5 mb-2.5 overflow-hidden">
+				<p class="font-semibold text-gray-700 flex items-center gap-2.5">
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-7 bg-primary rounded-full">
+                        <path d="M13.0719 22C6.65426 14 17.0123 12 19.0001 9C20.9875 12 31.3473 14 24.9267 22V25C24.9267 26.8856 24.9267 27.8284 24.3481 28.4142C23.7695 29 22.8382 29 20.9756 29H17.0236C15.1614 29 14.2303 29 13.6517 28.4144C13.0731 27.8287 13.0729 26.8861 13.0725 25.0009L13.0719 22Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18 26L18.2988 25.7828C19.9134 24.6094 20.7206 24.0227 21.6386 24.0008C21.7479 23.9982 21.8573 24.0017 21.9662 24.0112C22.8444 24.0877 23.5 25 24.5 26" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M13.5 26C15 25 15.6689 24.0254 16.6805 24.0009C16.801 23.998 16.9215 24.0019 17.0415 24.0125C17.6754 24.0688 18.2447 24.3721 19 24.9447" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M22 19.4343C21.4347 20.3725 20.406 21 19.2308 21C17.4465 21 16 19.5535 16 17.7692C16 16.594 16.6275 15.5653 17.5657 15" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M21 16H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>اوقات شرعی</span>
+                </p>
+				<a href="javascript:modal('soon');" class="hover:bg-blue-100/25 text-slate-500 text-xs rounded-full py-2 px-4 transition-all" draggable="false">به افق تهران</a>
+			</div>
+			<div class="none-scroll flex justify-between gap-0.5 text-slate-600 text-center overflow-auto" id="prayerTimeError">
+                <div class="flex items-center ml-2.5">
+                    <div class="py-2 px-2.5 rounded-2xl text-sm flex flex-col gap-2"><span>صبح</span><span id="prayerTimeImsaak"></span></div>
+                </div>
+                <div class="border-l border-slate-200 h-8 w-2.5 flex m-auto"></div>
+                <div class="flex items-center mx-2.5">
+                    <div class="py-2 px-2.5 rounded-2xl text-sm flex flex-col gap-2"><span>طلوع</span><span id="prayerTimeSunrise"></span></div>
+                </div>
+                <div class="border-l border-slate-200 h-8 w-2.5 flex m-auto"></div>
+                <div class="flex items-center mx-2.5">
+                    <div class="py-2 px-2.5 rounded-2xl text-sm flex flex-col gap-2"><span>ظهر</span><span id="prayerTimeNoon"></span></div>
+                </div>
+                <div class="border-l border-slate-200 h-8 w-2.5 flex m-auto"></div>
+                <div class="flex items-center mx-2.5">
+                    <div class="py-2 px-2.5 rounded-2xl text-sm flex flex-col gap-2"><span>غروب</span><span id="prayerTimeSunset"></span></div>
+                </div>
+                <div class="border-l border-slate-200 h-8 w-2.5 flex m-auto"></div>
+                <div class="flex items-center mx-2.5">
+                    <div class="py-2 px-2.5 rounded-2xl text-sm flex flex-col gap-2"><span>مغرب</span><span id="prayerTimeMaghreb"></span></div>
+                </div>
+                <div class="border-l border-slate-200 h-8 w-2.5 flex m-auto"></div>
+                <div class="flex items-center mx-2.5">
+                    <div class="py-2 px-2.5 rounded-2xl text-sm flex flex-col gap-2"><span>نیمه‌شب</span><span id="prayerTimeMidnight"></span></div>
+                </div>
+            </div>
+		</div>
+        <!-- Widget: Mention Day -->
+		<div class="flex flex-col gap-2.5 border-b border-slate-100 pb-6 transition-all">
+			<div class="flex items-center justify-between gap-2.5 mb-2.5">
+				<p class="font-semibold text-gray-700 flex items-center gap-2.5">
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-7 bg-primary rounded-full">
+                        <path d="M26 20L25.3417 19.3417C24.5896 18.5896 23.3803 18.5578 22.5896 19.2694L19.9931 21.6062C19.361 22.1751 19 22.9856 19 23.8361V28H21.6865C22.5238 28 23.323 27.6501 23.8909 27.0348L28.2044 22.3619C28.7159 21.8077 29 21.0812 29 20.327V13H28C26.8954 13 26 13.8954 26 15V20ZM26 20L23 23" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 20L12.6583 19.3417C13.4104 18.5896 14.6197 18.5578 15.4104 19.2694L18.0069 21.6062C18.639 22.1751 19 22.9856 19 23.8361V28H16.3135C15.4762 28 14.677 27.6501 14.1091 27.0348L9.79559 22.3619C9.28405 21.8077 9 21.0812 9 20.327V13H10C11.1046 13 12 13.8954 12 15V20ZM12 20L15 23" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 14.4343C21.4347 15.3725 20.406 16 19.2308 16C17.4465 16 16 14.5535 16 12.7692C16 11.594 16.6275 10.5653 17.5657 10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M21 11H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>ذکر روز</span>
+                </p>
+				<a href="javascript:modal('zekarCounter');" id="zekarCounterBtnScroll2" class="hover:bg-blue-100/25 text-slate-500 text-xs rounded-full py-2 px-4 transition-all" draggable="false">ذکرشمار</a>
+			</div>
+			<div class="flex flex-col items-center justify-center text-center gap-2.5 text-slate-600">
+                <p class="font-nabi text-2xl" id="mentionDayAr"></p>
+                <p class="text-sm" id="mentionDayFa"></p>
+            </div>
+		</div>
+        <!-- Widget: Hadith Day -->
+		<div class="flex flex-col gap-2.5 pb-6 transition-all">
+			<div class="flex items-center justify-between gap-2.5 mb-2.5">
+				<p class="font-semibold text-gray-700 flex items-center gap-2.5">
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-7 bg-primary rounded-full">
+                        <path d="M26 20L25.3417 19.3417C24.5896 18.5896 23.3803 18.5578 22.5896 19.2694L19.9931 21.6062C19.361 22.1751 19 22.9856 19 23.8361V28H21.6865C22.5238 28 23.323 27.6501 23.8909 27.0348L28.2044 22.3619C28.7159 21.8077 29 21.0812 29 20.327V13H28C26.8954 13 26 13.8954 26 15V20ZM26 20L23 23" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 20L12.6583 19.3417C13.4104 18.5896 14.6197 18.5578 15.4104 19.2694L18.0069 21.6062C18.639 22.1751 19 22.9856 19 23.8361V28H16.3135C15.4762 28 14.677 27.6501 14.1091 27.0348L9.79559 22.3619C9.28405 21.8077 9 21.0812 9 20.327V13H10C11.1046 13 12 13.8954 12 15V20ZM12 20L15 23" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 14.4343C21.4347 15.3725 20.406 16 19.2308 16C17.4465 16 16 14.5535 16 12.7692C16 11.594 16.6275 10.5653 17.5657 10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M21 11H21.009" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>حدیث روز</span>
+                </p>
+				<a href="/hadiths" class="hover:bg-blue-100/25 text-slate-500 text-xs rounded-full py-2 px-4 flex items-center gap-2 transition-all" draggable="false">
+                    <span></span>
+                    <span>نمایش همه</span>
+                </a>
+			</div>
+			<div class="flex flex-col items-center justify-center text-center gap-2.5 text-slate-600">
+                <p class="font-nabi text-[18px]">{{ hadith.text_ar }}</p>
+                <p class="text-sm">{{ hadith.text_fa }}</p>
+            </div>
+		</div>
+	</div>
+
+    <div class="pb-4"></div>
+</div>
+
+<!-- Include _modal_zekar_counter Module -->
+{% include 'core/_modal_zekar_counter.html' %}
+<!-- Include _assistant_ayat Module -->
+{% include 'pages/ai/index.html' %}

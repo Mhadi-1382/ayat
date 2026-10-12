@@ -1,0 +1,1014 @@
+{% load static %}
+<script>
+    function reqFullScreenSectionPanel(id) {
+        document.getElementById(id).requestFullscreen();
+    }
+</script>
+
+<div class="panel content-nav-minimize flex flex-col gap-2.5 overflow-auto pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    {% if request.user.role == 'admin' %}
+        <!-- Panel Details -->
+        <div class="flex flex-col gap-4">
+            <div>
+                <!-- Panel Details: Statistics -->
+                <details open class="statistics rounded-4xl py-5 flex flex-col overflow-auto transition-all">
+                    <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                        <span class="flex items-center gap-2.5">
+                            <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                            <span class="font-bold text-sm">آمار و ارقام</span>
+                        </span>
+                    </summary>
+
+                    <div class="flex items-center justify-between flex-wrap gap-2.5 mt-4 w-full">
+                        <div class="flex flex-col gap-2.5 py-2 px-4 bg-white border border-slate-200 rounded-3xl" style="flex-grow: 1;">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="notify-icon size-9 text-gray-700 p-2 rounded-full bg-slate-50 transition-all"  width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.0307 5.46369C11.0305 3.78995 9.6734 2.43357 7.99961 2.43357C6.32601 2.43379 4.96972 3.79009 4.96949 5.46369C4.96949 7.13748 6.32587 8.49455 7.99961 8.49477C9.67354 8.49477 11.0307 7.13762 11.0307 5.46369ZM12.3163 5.46369C12.3163 7.84777 10.3837 9.78042 7.99961 9.78042C5.61572 9.7802 3.68288 7.84763 3.68288 5.46369C3.6831 3.07993 5.61586 1.14718 7.99961 1.14695C10.3836 1.14695 12.3161 3.0798 12.3163 5.46369Z" fill="currentColor"></path><path d="M8.00002 10.3316C11.7343 10.3316 14.1864 11.8997 15.0387 14.4445L14.4292 14.6483L13.8197 14.8531C13.1955 12.9893 11.3673 11.6182 8.00002 11.6182C4.63277 11.6182 2.80455 12.9893 2.18031 14.8531L1.5708 14.6483L0.961304 14.4445C1.81368 11.8997 4.26579 10.3316 8.00002 10.3316Z" fill="currentColor"></path></svg>
+                                <p class="text-sm text-gray-700">تعداد کاربران</p>
+                            </div>
+                            <p class="font-semibold text-2xl">{{ users | length }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2.5 py-2 px-4 bg-white border border-slate-200 rounded-3xl" style="flex-grow: 1;">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="notify-icon size-9 text-gray-700 p-2 rounded-full bg-slate-50 transition-all" fill="none" viewBox="0 0 24 24"><path fill="#364153" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                                <p class="text-sm text-gray-700">تعداد نوتیفیکیشنها</p>
+                            </div>
+                            <p class="font-semibold text-2xl">{{ notifications | length }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2.5 py-2 px-4 bg-white border border-slate-200 rounded-3xl" style="flex-grow: 1;">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="notify-icon size-9 text-gray-700 p-2 rounded-full bg-slate-50 transition-all" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                <p class="text-sm text-gray-700">تعداد درخواستها</p>
+                            </div>
+                            <p class="font-semibold text-2xl">{{ cultural_manager_requests | length }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2.5 py-2 px-4 bg-white border border-slate-200 rounded-3xl" style="flex-grow: 1;">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="notify-icon size-9 text-gray-700 p-2 rounded-full bg-slate-50 transition-all" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                <p class="text-sm text-gray-700">تعداد دانشگاه ها</p>
+                            </div>
+                            <p class="font-semibold text-2xl">{{ universities | length }}</p>
+                        </div>
+                    </div>
+                </details>
+                <!-- Panel Details: Management Report -->
+                <details class="rounded-4xl py-5 flex flex-col overflow-auto transition-all">
+                    <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                        <span class="flex items-center gap-2.5">
+                            <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                            <span class="font-bold text-sm">گزارش مدیریتی <span class="text-xs text-slate-400">(بزودی)</span></span>
+                        </span>
+                    </summary>
+
+                    <div class="flex flex-col gap-2.5 mt-8 w-full" style="filter: blur(2px);">
+                        <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Panel Details: Manage System -->
+            <details class="bg-blue-50 rounded-4xl p-5 flex flex-col overflow-auto transition-all" id="manageSystem">
+                <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                    <span class="flex items-center gap-2.5">
+                        <span class="bg-amber-200 rounded-full size-2.5" style="content: '';"></span>
+                        <span class="font-bold text-sm text-slate-500">مدیریت سیستمی</span>
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="" onclick="reqFullScreenSectionPanel('manageSystem');">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5h3m-6.75 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-15a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 4.5v15a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                        </span>
+                        <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                    </div>
+                </summary>
+
+                <div class="flex flex-col gap-2.5">
+                    <!-- Panel Details: Manage System: Users -->
+                    <details class="mt-2.5 flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">کاربران</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalUserCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>ایجاد کاربر</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">نام کاربری</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if users|length >= 1 %}
+                                {% for item in users %}
+                                    {% if item.is_superuser %}
+                                    {% else %}
+                                        <div class="flex items-center justify-between gap-2.5">
+                                            <a href="javascript:modal('modalUserInfo{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                            <a href="javascript:modal('modalUserInfo{{ item.id }}');" class="w-full py-0.5">{{ item.username }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                {% if item.is_active %}
+                                                    <form action="{% url 'panel_admin_user_disable' id=item.id %}" method="post">
+                                                        {% csrf_token %}
+
+                                                        <p class="py-0.5"><button type="submit" class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="غیرفعالسازی حساب">○</button></p>
+                                                    </form>
+                                                {% else %}
+                                                    <form action="{% url 'panel_admin_user_enable' id=item.id %}" method="post">
+                                                        {% csrf_token %}
+
+                                                        <p class="py-0.5"><button type="submit" class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="فعالسازی حساب">◉</button></p>
+                                                    </form>
+                                                {% endif %}
+                                                <form action="{% url 'panel_admin_user_delete' id=item.id %}" method="post">
+                                                    {% csrf_token %}
+
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف حساب">×</button></p>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_users Module -->
+                    {% include './admin/_modals_users.html' %}
+
+                    <!-- Panel Details: Manage System: Notifications -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">نوتیفیکیشنها</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalSendNotification');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>ارسال نوتیفیکیشن</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">عنوان</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if notifications|length >= 1 %}
+                                {% for item in notifications %}
+                                    <div class="flex items-center justify-between gap-2.5">
+                                        <a href="javascript:modal('modalNotificationInfo{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                        <a href="javascript:modal('modalNotificationInfo{{ item.id }}');" class="w-full py-0.5 line-clamp-1">{{ item.title }}</a>
+                                        <div class="flex items-center gap-2.5">
+                                            <form action="{% url 'panel_notifications_delete' id=item.id %}" method="post">
+                                                {% csrf_token %}
+
+                                                <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف نوتیفیکیشن">×</button></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_notifications Module -->
+                    {% include './admin/_modals_notifications.html' %}
+
+                    <!-- Panel Details: Manage System: Cultural Manager Requests -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">درخواستهای امور فرهنگی</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5"></div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">نام کاربری و دانشگاه</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if cultural_manager_requests|length >= 1 %}
+                                {% for item in cultural_manager_requests %}
+                                    <div class="flex items-center justify-between gap-2.5">
+                                        <a href="javascript:modal('modalCulturalManagerRequests{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                        <a href="javascript:modal('modalCulturalManagerRequests{{ item.id }}');" class="w-full py-0.5 line-clamp-1">{{ item.user_id.username }}، {{ item.university_name }}</a>
+                                        <div class="flex items-center gap-2.5">
+                                            {% if not item.status == 'approved' %}
+                                                <a href="javascript:modal('modalCulturalManagerRequestsRejected{{ item.id }}');">
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-yellow-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="رد درخواست">↪</button></p>
+                                                </a>
+                                                <a href="javascript:modal('modalCulturalManagerRequestsApproved{{ item.id }}');">
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-green-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="تایید درخواست">↩</button></p>
+                                                </a>
+                                            {% endif %}
+                                            <form action="{% url 'panel_cultural_admin_request_delete' id=item.id user_id=item.user_id.id %}" method="post">
+                                                {% csrf_token %}
+
+                                                <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف کامل درخواست و دانشگاه">×</button></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_cultural_manager_requests Module -->
+                    {% include './admin/_modals_cultural_manager_requests.html' %}
+
+                    <!-- Panel Details: Manage System: Universities -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">دانشگاه ها</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5"></div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">نام کاربری و دانشگاه</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if universities|length >= 1 %}
+                                {% for item in universities %}
+                                    <div class="flex items-center justify-between gap-2.5">
+                                        <a href="javascript:modal('modalUniversitiesInfo{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                        <a href="javascript:modal('modalUniversitiesInfo{{ item.id }}');" class="w-full py-0.5 line-clamp-1">{{ item.university_name.user_id.username }}، {{ item.university_name.university_name }}</a>
+                                        <div class="flex items-center gap-2.5">
+                                            {% if item.is_verified %}
+                                                <a href="javascript:modal('modalPanelUniversityDisable{{ item.id }}');">
+                                                    <p class="py-0.5"><button type="submit" class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="غیرفعالسازی دانشگاه">○</button></p>
+                                                </a>
+                                            {% else %}
+                                                <a href="javascript:modal('modalPanelUniversityEnable{{ item.id }}');">
+                                                    <p class="py-0.5"><button type="submit" class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="فعالسازی دانشگاه">◉</button></p>
+                                                </a>
+                                            {% endif %}
+                                            <form action="{% url 'panel_university_delete' id=item.id %}" method="post">
+                                                {% csrf_token %}
+
+                                                <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف دانشگاه">×</button></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_universities Module -->
+                    {% include './admin/_modals_universities.html' %}
+                </div>
+            </details>
+            <!-- Panel Details: Manage Content -->
+            <details class="bg-emerald-50 rounded-4xl p-5 flex flex-col overflow-auto transition-all" id="manageContent">
+                <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                    <span class="flex items-center gap-2.5">
+                        <span class="bg-sky-200 rounded-full size-2.5" style="content: '';"></span>
+                        <span class="font-bold text-sm text-slate-500">مدیریت محتوا</span>
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="" onclick="reqFullScreenSectionPanel('manageContent');">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5h3m-6.75 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-15a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 4.5v15a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                        </span>
+                        <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                    </div>
+                </summary>
+
+                <div class="flex flex-col gap-2.5">
+                    <!-- Panel Details: Manage Content: Categories Content -->
+                    <details class="mt-2.5 flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">دسته بندی</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalPanelCategoriesContentCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>ایجاد دسته بندی</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">عنوان</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if categories_content|length >= 1 %}
+                                {% for item in categories_content %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="javascript:modal('modalPanelCategoriesContentEdit{{ item.id }}');" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="javascript:modal('modalPanelCategoriesContentEdit{{ item.id }}');" class="w-full py-0.5 cursor-pointer">
+                                                <div class="flex flex-col gap-0.5">
+                                                    <p class="line-clamp-1">{{ item.title }}</p>
+                                                    <p class="line-clamp-1 text-slate-400">
+                                                        {% if item.description == none or item.description == '' %}
+                                                        {% else %}
+                                                            <span>{{ item.description }}</span>
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                            </a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="javascript:modal('modalPanelCategoriesContentEdit{{ item.id }}');"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش دسته بندی">¶</button></p></a>
+                                                <form action="{% url 'panel_categories_content_delete' id=item.id %}" method="post">
+                                                    {% csrf_token %}
+            
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف دسته بندی">×</button></p>
+                                                </form>
+                                            </div>
+                                        </summary>
+                                    </details>
+
+                                    <!-- Include _modals_categories_content Module -->
+                                    {% include './admin/_modals_categories_content.html' %}
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_categories_content_create Module -->
+                    {% include './admin/_modals_categories_content_create.html' %}
+
+                    <!-- Panel Details: Manage Content: Quran -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">قرآن</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5"></div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">نام سوره</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if surahs|length >= 1 %}
+                                {% for item in surahs %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="{% url 'panel_quran' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="{% url 'panel_quran' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.name_fa }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="{% url 'panel_quran' id=item.id %}"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش سوره">¶</button></p></a>
+                                            </div>
+                                        </summary>
+                                    </details>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+
+                    <!-- Panel Details: Manage Content: Duas -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">ادعیه</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalPanelDuasCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>افزودن دعا</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">نام دعا</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if duas|length >= 1 %}
+                                {% for item in duas %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="{% url 'panel_dua' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="{% url 'panel_dua' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.title }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="{% url 'panel_dua' id=item.id %}"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش دعا">¶</button></p></a>
+                                            </div>
+                                        </summary>
+                                    </details>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_duas_create Module -->
+                    {% include './admin/_modals_duas_create.html' %}
+
+                    <!-- Panel Details: Manage Content: Hadiths-->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">احادیث</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalPanelHadithsCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>افزودن حدیث</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">عنوان حدیث</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if hadiths|length >= 1 %}
+                                {% for item in hadiths %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="{% url 'panel_hadith' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="{% url 'panel_hadith' id=item.id %}" class="w-full py-0.5 cursor-pointer line-clamp-1">{{ item.text_ar }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="{% url 'panel_hadith' id=item.id %}"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش حدیث">¶</button></p></a>
+                                            </div>
+                                        </summary>
+                                    </details>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_hadiths_create Module -->
+                    {% include './admin/_modals_hadiths_create.html' %}
+
+                    <!-- Panel Details: Manage Content: Lifestyle Quran -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">سبک‌زندگی</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalPanelLifestyleQuranCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>افزودن محتوای سبک‌زندگی</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">عنوان محتوا</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if lifestyle_quran|length >= 1 %}
+                                {% for item in lifestyle_quran %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="{% url 'panel_lifestyle_quran' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="{% url 'panel_lifestyle_quran' id=item.id %}" class="w-full py-0.5 cursor-pointer line-clamp-1">{{ item.title }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="{% url 'panel_lifestyle_quran' id=item.id %}"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش محتوای سبک‌زندگی">¶</button></p></a>
+                                            </div>
+                                        </summary>
+                                    </details>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_lifestyle_quran_create Module -->
+                    {% include './admin/_modals_lifestyle_quran_create.html' %}
+
+                    <!-- Panel Details: Manage Content: Categories Ahkam -->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">دسته بندی احکام</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalPanelCategoriesAhkamCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>ایجاد دسته بندی</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">عنوان</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if categories_ahkam|length >= 1 %}
+                                {% for item in categories_ahkam %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="javascript:modal('modalPanelCategoriesAhkamEdit{{ item.id }}');" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="javascript:modal('modalPanelCategoriesAhkamEdit{{ item.id }}');" class="w-full py-0.5 cursor-pointer">
+                                                <div class="flex flex-col gap-0.5">
+                                                    <p class="line-clamp-1">{{ item.title }}</p>
+                                                    <p class="line-clamp-1 text-slate-400">
+                                                        {% if item.description == none or item.description == '' %}
+                                                        {% else %}
+                                                            <span>{{ item.description }}</span>
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                            </a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="javascript:modal('modalPanelCategoriesAhkamEdit{{ item.id }}');"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش دسته بندی">¶</button></p></a>
+                                                <form action="{% url 'panel_categories_ahkam_delete' id=item.id %}" method="post">
+                                                    {% csrf_token %}
+            
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف دسته بندی">×</button></p>
+                                                </form>
+                                            </div>
+                                        </summary>
+                                    </details>
+
+                                    <!-- Include _modals_categories_ahkam Module -->
+                                    {% include './admin/_modals_categories_ahkam.html' %}
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_categories_ahkam_create Module -->
+                    {% include './admin/_modals_categories_ahkam_create.html' %}
+                    <!-- Panel Details: Manage Content: Ahkam-->
+                    <details class="flex flex-col transition-all">
+                        <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                <span class="font-bold text-sm">احکام</span>
+                            </span>
+                            <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                        </summary>
+
+                        <div class="mt-4 mb-5">
+                            <a href="javascript:modal('modalPanelAhkamCreate');">
+                                <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                    <span>افزودن احکام</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                            <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                <p class="py-2.5 font-semibold">شناسه</p>
+                                <p class="py-2.5 font-semibold">عنوان</p>
+                                <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                            </div>
+
+                            {% if ahkam|length >= 1 %}
+                                {% for item in ahkam %}
+                                    <details class="flex flex-col gap-2.5">
+                                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                                            <a href="{% url 'panel_ahkam' id=item.id %}" class="w-full py-0.5 cursor-pointer">{{ item.id }}</a>
+                                            <a href="{% url 'panel_ahkam' id=item.id %}" class="w-full py-0.5 cursor-pointer line-clamp-1">{{ item.question }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="{% url 'panel_ahkam' id=item.id %}"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش احکام">¶</button></p></a>
+                                            </div>
+                                        </summary>
+                                    </details>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    <!-- Include _modals_ahkam_create Module -->
+                    {% include './admin/_modals_ahkam_create.html' %}
+                </div>
+            </details>
+            <!-- Panel Details: Management Halghe -->
+            <details class="bg-red-50 rounded-4xl p-5 flex flex-col overflow-auto transition-all" id="manageHalghe">
+                <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                    <span class="flex items-center gap-2.5">
+                        <span class="bg-red-100 rounded-full size-2.5" style="content: '';"></span>
+                        <span class="font-bold text-sm text-slate-500">مدیریت شبکه اجتماعی «حلقه» <span class="text-xs text-slate-400">(بزودی)</span></span>
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="" onclick="reqFullScreenSectionPanel('manageHalghe');">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5h3m-6.75 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-15a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 4.5v15a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                        </span>
+                        <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                    </div>
+                </summary>
+
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex flex-col gap-2.5 mt-8 w-full" style="filter: blur(2px);">
+                        <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                    </div>
+                </div>
+            </details>
+        </div>
+    {% elif request.user.role == 'cultural_admin' %}
+        {% if univercity.is_verified %}
+            <!-- Panel Details -->
+            <div class="flex flex-col gap-4">
+                <!-- B2B: Pricing -->
+                <div class="bg-card-shortcut p-5 rounded-4xl">
+                    <p class="text-sm text-gray-500 pb-2">ارتقا اشتراک <span class="text-xs text-slate-400">(بزودی)</span></p>
+                    <div class="rounded-4xl">
+                        <div class="flex flex-col gap-1 mb-4 text-sm">
+                            <h4 class="text-slate-600 font-semibold">مدیریت دانشگاهتان را حرفه‌ای‌تر از همیشه تجربه کنید 🎯</h4>
+                            <p class="text-slate-500">اشتراک حرفه ای آیت شامل؛ پنل پیشرفته، گزارش فعالیت دانشجویان، خروجی گزارش، دسترسی به API عمومی و...</p>
+                        </div>
+                        <div class="flex items-center gap-1" style="filter: blur(2px);">
+                            <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-white text-slate-600 text-sm cursor-pointer" onclick="modal('soon')"><span>خرید اشتراک</span></button>
+                            <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 text-gray-500 text-sm cursor-pointer"><span>نیاز ندارم</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel Details: University Information -->
+                <div class="flex flex-col gap-4 p-4 bg-white border-b border-dashed border-slate-200 rounded-4xl text-slate-600 overflow-hidden">
+                    <span class="flex items-center gap-2.5">
+                        <span class="bg-purple-200 rounded-full size-2.5" style="content: '';"></span>
+                        <span class="font-bold text-sm flex items-center gap-2.5"><span>اطلاعات دانشگاه</span></span>
+                    </span>
+                    <div class="flex items-center gap-3 text-sm">
+                        <img src="https://{{ request.get_host }}/media/{{ univercity.university_name.university_icon }}" alt="logo" class="size-14 rounded-full" draggable="false">
+                        <div class="flex flex-col gap-0.5">
+                            <p class="font-bold flex items-center gap-2.5"><span>{{ univercity.university_name.university_name }}</span></p>
+                            <p class="flex items-center gap-2.5"><span>{{ univercity.university_name.city }}</span> — <span>{{ univercity.university_name.user_id.username }}</span></p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2.5 text-sm">
+                        <p>تعداد دانشجویان عضو: <span>{{ count_users_joined }}</span></p>
+                        <p>مجموع امتیازات: <span>{{ total_points_uni }}</span></p>
+                        <p>تاریخ ثبت دانشگاه: <span dir="auto">{{ univercity.university_name.created_at }}</span></p>
+                    </div>
+                </div>
+
+                <!-- Panel Details: Manage System -->
+                <details open class="bg-blue-50 rounded-4xl p-5 flex flex-col overflow-auto transition-all" id="manageSystem">
+                    <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                        <span class="flex items-center gap-2.5">
+                            <span class="bg-amber-200 rounded-full size-2.5" style="content: '';"></span>
+                            <span class="font-bold text-sm text-slate-500">مدیریت</span>
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="" onclick="reqFullScreenSectionPanel('manageSystem');">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5h3m-6.75 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-15a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 4.5v15a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                                </svg>
+                            </span>
+                            <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                        </div>
+                    </summary>
+
+                    <div class="flex flex-col gap-2.5">
+                        <!-- Panel Details: Management Report -->
+                        <details class="mt-2.5 flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm">گزارش مدیریتی <span class="text-xs text-slate-400">(بزودی)</span></span>
+                                </span>
+                                <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5 mt-8 w-full" style="filter: blur(2px);">
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            </div>
+                        </details>
+
+                        <!-- Panel Details: Management Halghe -->
+                        <details class="mt-2.5 flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm">مدیریت شبکه اجتماعی «حلقه» <span class="text-xs text-slate-400">(بزودی)</span></span>
+                                </span>
+                                <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5 mt-8 w-full" style="filter: blur(2px);">
+                                <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                            </div>
+                        </details>
+
+                        <!-- Panel Details: Manage System: Students University -->
+                        <details class="mt-2.5 flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm">دانشجویان واحد شما</span>
+                                </span>
+                                <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                            </summary>
+
+                            <div class="mt-4 mb-5"></div>
+                            <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 mb-6 pb-6 border-b border-slate-200">
+                                <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                    <p class="py-2.5 font-semibold">شناسه</p>
+                                    <p class="py-2.5 font-semibold">نام کاربری</p>
+                                    <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                                </div>
+
+                                {% if users|length >= 1 %}
+                                    {% for item in users %}
+                                        {% if item.role == 'cultural_admin' %}
+                                        {% else %}
+                                            <div class="flex items-center justify-between gap-2.5">
+                                                <a href="javascript:modal('modalUserInfo{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                                <a href="javascript:modal('modalUserInfo{{ item.id }}');" class="w-full py-0.5">{{ item.username }}</a>
+                                                <div class="flex items-center gap-2.5"></div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                                {% endif %}
+                            </div>
+                        </details>
+                        <!-- Include _modals_users Module -->
+                        {% include './admin/_modals_users.html' %}
+
+                        <!-- Panel Details: Manage System: Cultural Events -->
+                        <details class="mt-2.5 flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm text-slate-700">رویدادهای فرهنگی</span>
+                                </span>
+                                <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                            </summary>
+
+                            <div class="mt-4 mb-5">
+                                <a href="javascript:modal('modalCulturalEventsCreate');">
+                                    <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>    
+                                        <span>ایجاد رویداد فرهنگی</span>
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 pb-6 border-b border-slate-200">
+                                <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                    <p class="py-2.5 font-semibold">شناسه</p>
+                                    <p class="py-2.5 font-semibold">عنوان</p>
+                                    <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                                </div>
+
+                                {% if cultural_event|length >= 1 %}
+                                    {% for item in cultural_event %}
+                                        <div class="flex items-center justify-between gap-2.5">
+                                            <a href="javascript:modal('modalModalsCulturalEventInfo{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                            <a href="javascript:modal('modalModalsCulturalEventInfo{{ item.id }}');" class="w-full py-0.5 line-clamp-1">{{ item.title }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <a href="javascript:modal('modalModalsCulturalEventEdit{{ item.id }}');"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش رویداد">¶</button></p></a>
+                                                <form action="{% url 'panel_cultural_event_delete' id=item.id %}" method="post">
+                                                    {% csrf_token %}
+
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف نوتیفیکیشن">×</button></p>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Include _modals_cultural_event_info Module -->
+                                        {% include './cultural_admin/_modals_cultural_event_info.html' %}
+                                        <!-- Include _modals_cultural_events_edit Module -->
+                                        {% include './cultural_admin/_modals_cultural_events_edit.html' %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                                {% endif %}
+                            </div>
+                        </details>
+                        <!-- Include _modals_cultural_events_create Module -->
+                        {% include './cultural_admin/_modals_cultural_events_create.html' %}
+
+                        <!-- Panel Details: Manage System: Notifications -->
+                        <details class="flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm">اطلاعیه</span>
+                                </span>
+                                <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                            </summary>
+
+                            <div class="mt-4 mb-5">
+                                <a href="javascript:modal('modalNotificationCreate');">
+                                    <button class=" flex items-center gap-2 py-1.5 px-3 text-sm text-white bg-blue-300 rounded-full cursor-pointer outline-none">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                                        <span>ایجاد اطلاعیه</span>
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="w-full max-h-100 overflow-auto text-slate-600 text-sm flex flex-col gap-2.5 pb-6">
+                                <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                                    <p class="py-2.5 font-semibold">شناسه</p>
+                                    <p class="py-2.5 font-semibold">عنوان</p>
+                                    <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                                </div>
+
+                                {% if notifications|length >= 1 %}
+                                    {% for item in notifications %}
+                                        <div class="flex items-center justify-between gap-2.5">
+                                            <a href="javascript:modal('modalNotificationInfo{{ item.id }}');" class="w-full py-0.5">{{ item.id }}</a>
+                                            <a href="javascript:modal('modalNotificationInfo{{ item.id }}');" class="w-full py-0.5 line-clamp-1">{{ item.title }}</a>
+                                            <div class="flex items-center gap-2.5">
+                                                <form action="{% url 'panel_notifications_delete' id=item.id %}" method="post">
+                                                    {% csrf_token %}
+
+                                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف نوتیفیکیشن">×</button></p>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-sm text-slate-400 py-2.5">موردی یافت نشده است.</p>
+                                {% endif %}
+                            </div>
+                        </details>
+                        <!-- Include _modals_notifications Module -->
+                        {% include './cultural_admin/_modals_notifications.html' %}
+                    </div>
+                </details>
+            </div>
+        {% else %}
+            <div class="w-full h-full z-50 flex items-center justify-center text-center text-sm font-semibold text-red-600 fixed inset-0 p-5" style="background-color: rgba(255, 255, 255, 0.60); backdrop-filter: blur(5px);">
+                <p class="p-5">{{ univercity.university_name.admin_note }}</p>
+            </div>
+        {% endif %}
+    {% elif request.user.role == 'student' %}
+        <style>
+            .cards-university-notifications .card-university-notifications:last-child hr {border: none;}
+        </style>
+
+        <!-- Panel Details -->
+        <div class="flex flex-col gap-4">
+            <!-- Panel Details: University Information -->
+            <div class="flex flex-col gap-4 p-4 bg-white border-b border-dashed border-slate-200 rounded-4xl text-slate-600 overflow-hidden">
+                <span class="flex items-center gap-2.5">
+                    <span class="bg-purple-200 rounded-full size-2.5" style="content: '';"></span>
+                    <span class="font-bold text-sm flex items-center gap-2.5"><span>اطلاعات دانشگاه</span></span>
+                </span>
+                {% if univercity %}
+                    {% if univercity.is_verified %}
+                        <div class="flex items-center gap-3 text-sm">
+                            <img src="https://{{ request.get_host }}/media/{{ univercity.university_name.university_icon }}" alt="logo" class="size-14 rounded-full" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <p class="font-bold flex items-center gap-2.5"><span>{{ univercity.university_name.university_name }}</span></p>
+                                <p class="flex items-center gap-2.5"><span>{{ univercity.university_name.city }}</span> — <span>{{ univercity.university_name.user_id.username }}</span></p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-sm text-slate-400 py-5">دانشجوی عزیز؛<br /><span class="font-semibold">واحد دانشگاه شما درحالت غیرفعال قرار دارد، لطفا با مسول امور فرهنگی دانشگاه خود ارتباط بگیرید.</span></p>
+                    {% endif %}
+                {% else %}
+                    <p class="text-sm text-slate-400 py-5">دانشجوی عزیز؛<br /><span class="font-semibold">شما عضو واحد دانشگاه خودت نیستی!</span><br />لطفا از بخش ویرایش اطلاعات واحد خودت رو مشخص و یا با امور فرهنگی دانشگاه خودت ارتباط بگیر.</p>
+                {% endif %}
+            </div>
+
+            <!-- Panel Details: University Cultural Events -->
+            <div class="bg-blue-50 text-slate-700 rounded-4xl p-5 flex flex-col overflow-auto transition-all">
+                <details open class="flex flex-col transition-all">
+                    <summary class="list-none outline-none flex items-center justify-between gap-2.5 sticky right-0 cursor-pointer">
+                        <span class="flex items-center gap-2.5">
+                            <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                            <span class="font-bold text-sm">رویدادهای فرهنگی</span>
+                        </span>
+                        <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                    </summary>
+
+                    <div class="flex flex-col gap-2.5 mt-2.5">
+                        {% if cultural_event|length >= 1 %}
+                            {% if univercity.is_verified %}
+                                {% for item in cultural_event %}
+                                    <div class="flex flex-col gap-3 bg-white rounded-4xl p-4 text-sm">
+                                        <p class="font-semibold">{{ item.title }}</p>
+                                        <p class="text-slate-600">{{ item.description }}</p>
+                                        <p>تاریخ برگزاری: <span dir="auto">{{ item.event_date }}</span></p>
+                                        <div class="flex items-center justify-between gap-2.5 mt-2.5">
+                                            <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-3 bg-blue-50 cursor-pointer" onclick="modal('soon')"><span style="filter: blur(2px);">شرکت میکنم</span> <span class="text-xs text-slate-400">(بزودی)</span></button>
+                                            <span title="شرکت با اسکن رمزینه" onclick="modal('soon')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-6 cursor-pointer">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z"/>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                            {% endif %}
+                        {% else %}
+                            <p class="text-sm text-slate-400">رویدادی پیدا نشد دانشجوی عزیز.</p>
+                        {% endif %}
+                    </div>
+                </details>
+            </div>
+            <!-- Panel Details: University Notifications -->
+            <div class="bg-rose-50 text-slate-700 rounded-4xl p-5 flex flex-col overflow-auto transition-all">
+                <details open class="flex flex-col transition-all">
+                    <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                        <span class="flex items-center gap-2.5">
+                            <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                            <span class="font-bold text-sm">اطلاعیه دانشگاه</span>
+                        </span>
+                        <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                    </summary>
+
+                    <div class="cards-university-notifications flex flex-col">
+                        {% if university_notifications|length >= 1 %}
+                            {% if univercity.is_verified %}
+                                {% for item in university_notifications %}
+                                    <div class="card-university-notifications flex flex-col gap-3 rounded-4xl px-4 py-3 text-sm">
+                                        <p class="font-semibold">{{ item.title }}</p>
+                                        <p class="text-slate-600">{{ item.body }}</p>
+                                        <p class="text-slate-400" dir="auto">{{ item.created_at }}</p>
+                                        <hr class="border-slate-200">
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                            {% endif %}
+                        {% else %}
+                            <p class="text-sm text-slate-400">اطلاعیه ای پیدا نشد دانشجوی عزیز.</p>
+                        {% endif %}
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Include _assistant_ayat Module -->
+        {% include 'pages/ai/index.html' %}
+    {% endif %}
+
+    <div class="pb-4"></div>
+</div>

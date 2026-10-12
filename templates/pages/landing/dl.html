@@ -1,0 +1,761 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="robots" content="index, follow">
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101010">
+        <meta name="color-scheme" media="(prefers-color-scheme: light)" content="#ffffff">
+        <meta name="color-scheme" media="(prefers-color-scheme: dark)" content="#101010">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="description" content="وب اپلیکیشن آیت یک پلتفرم هوشمند قرآنی است که با هدف ارائه تجربه‌ای ساختاریافته و فناورانه از دسترسی به منابع قرآن طراحی شده است. این پلتفرم با تمرکز بر فضای دانشگاهی توسعه یافته و علاوه بر استفاده فردی، قابلیت بهره‌برداری در مدیریت امور فرهنگی و قرآنی دانشگاه‌ها را نیز دارد. این پلتفرم با طراحی مینیمال، عملکرد سریع و قابلیت استفاده آنلاین و آفلاین، تلاش دارد مفاهیم قرآنی را در قالبی متناسب با زندگی دیجیتال امروز ارائه دهد.">
+        <meta name="keywords" content="پلتفرم هوشمند انس با قرآن, آیت, اپلیکیشن آیت">
+
+        <!-- Import STYLE & FAVICON & MANIFEST -->
+        <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/globals.min.css' %}">
+        <link rel="shortcut icon" href="{% static 'assets/images/logo/SVG/icon_app.svg' %}" type="image/x-icon">
+        <link rel="manifest" href="{% static 'manifest.json' %}">
+        <link href="https://cdn.mu.chat/fonts/Estedad/font.css" rel="stylesheet">
+
+        <!-- Init TITLE -->
+        <title>دریافت اپلیکیشن - آیت</title>
+
+        <!-- Init Script SERVICE WORKER -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("{% static 'js/service-worker.js' %}")
+                .then(function(reg) {
+                    console.log('Service Worker registered!', reg);
+                })
+                .catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+            }
+
+            if (Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        </script>
+        <style>
+            :target {
+                scroll-margin-top: 100px;
+            }
+            
+            details[open] .api-more-btn {
+                rotate: 180deg;
+            }
+        </style>
+    </head>
+    <body id="app" class="text-slate-700 bg-none!">
+
+        <!-- Main -->
+        <main class="w-[93%] min-[965px]:w-[70%] min-[1300px]:w-[55%]! min-[1400px]:w-[50%]! h-full flex flex-col gap-4 m-auto transition-all">
+            <!-- Navbar -->
+            <nav class="bg-white text-slate-500 rounded-full py-2 px-4 flex items-center justify-between gap-4 fixed top-5 w-[93%] min-[965px]:w-[70%] min-[1300px]:w-[55%]! min-[1400px]:w-[50%]! z-10 overflow-hidden transition-all">
+                <ul class="flex items-center gap-4">
+                    <a href="/" title="پلتفرم هوشمند انس با قرآن" draggable="false">
+                        <img src="{% static 'assets/images/logo/SVG/icon_splash.svg' %}" alt="logo" class="size-12" draggable="false">
+                    </a>
+                </ul>
+                <a href="#download-app" class="bg-gray-100 text-xs py-2.5 px-3.5 rounded-full transition-all flex items-center gap-2.5" draggable="false">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"></path></svg>
+                    <span>دریافت اپلیکیشن</span>
+                </a>
+            </nav>
+
+            <!-- Header -->
+            <header class="mt-40 text-center flex items-center justify-center flex-col gap-2.5">
+                <h1 class="text-[30px] min-[965px]:text-[33px] text-[#1e2a58] transition-all"><span class="font-black">آیت</span> پلتفرم هوشمند انس با قرآن</h1>
+                <p class="text-gray-500 font-normal">تجربه‌ای ساده، سریع و هوشمند از قرآن در دنیای دیجیتال</p>
+                <div class="flex items-center gap-1 my-6">
+                    <a href="#about" draggable="false">
+                        <button class="bg-primary text-white text-sm py-3 px-10 rounded-full flex items-center gap-2.5 cursor-pointer transition-all">
+                            <p class="font-semibold">درباره ما</p>
+                        </button>
+                    </a>
+                    <a href="#pricing" draggable="false">
+                        <button class="text-slate-800 text-sm py-3 px-10 rounded-full flex items-center gap-2.5 cursor-pointer transition-all">
+                            <p class="">تعرفه ها</p>
+                        </button>
+                    </a>
+                </div>
+                <img src="{% static 'assets/hero.svg' %}" alt="hero" class="w-full" loading="eager" draggable="false">
+            </header>
+
+            <!-- Sections -->
+            <section class="pt-26 flex flex-col gap-20">
+                <!-- Section: Features -->
+                <section class="w-full p-4" id="features">
+                    <div class="flex flex-col items-center gap-2.5 text-center mb-12">
+                        <h3 class="font-semibold text-[22px] sm:text-[25px] transition-all flex items-center gap-2.5"><span class="animate-pulse">⚡</span><span>امکاناتی برای رشد فردی و معنوی</span></h3>
+                        <p class="text-sm text-gray-500">هر آنچه برای مطالعه، مدیریت فعالیت‌های فرهنگی و ارتباط بهتر با مفاهیم الهی نیاز دارید، در یک بستر یکپارچه.</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2.5">
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/surahs.svg' %}" alt="surahs" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">قرآن</h4>
+                                <p class="text-sm text-slate-500">شامل فهرست تمام سوره های قرآن کریم.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/duas.svg' %}" alt="duas" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">ادعیه</h4>
+                                <p class="text-sm text-slate-500">شامل فهرست دعاهای مطرح.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/hadiths.svg' %}" alt="hadiths" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">احادیث</h4>
+                                <p class="text-sm text-slate-500">شامل احادیث پیامبران و امامان معصوم.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/salavat.svg' %}" alt="zekar counter" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">ذکرشمار هوشمند</h4>
+                                <p class="text-sm text-slate-500">شامل شمارنده ذکر، قابلیت پخش صوت ذکر، ذخیره سازی ذکر و شامل ذکرهای پیشنهادی.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/lifestyle-quran.svg' %}" alt="lifestyle quran" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">سبک‌زندگی</h4>
+                                <p class="text-sm text-slate-500">با تمرکز بر نیازهای روزمره دانشجو و کاربران، محتوا با دسته بندی متفاوت از منابع؛ نهج‌البلاغه و ... را به کاربر ارائه می‌دهد.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/cultural-events.svg' %}" alt="cultural events" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">رویدادهای فرهنگی</h4>
+                                <p class="text-sm text-slate-500">شامل رویدادهای قرآنی، فرهنگی و ... که از طرف دانشگاه ثبت می شود.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/challenge.svg' %}" alt="challenge" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">چالش‌های روزانه</h4>
+                                <p class="text-sm text-slate-500">شامل چالش‌های قرآنی، فرهنگی و ... که کاربران روزانه میتوانند انجام دهند و امتیاز دریافت کنند.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-5 rounded-4xl flex flex-col gap-4 w-full min-[700px]:w-75 transition-all">
+                            <img src="{% static 'assets/images/icons/islamic-rulings.svg' %}" alt="ahkam" class="drop-shadow-sm size-8" draggable="false">
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-semibold text-slate-600">احکام</h4>
+                                <p class="text-sm text-slate-500">شامل محتواهای شرعی و احکام</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-widget-pack rounded-4xl py-10 px-5 min-[600px]:px-20 mt-10 transition-all">
+                        <div class="rounded-4xl flex items-center flex-col gap-4 text-center w-full transition-all">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="size-15 fill-primary animate-pulse transition-all"><path d="M17.665 10C17.665 10.6877 17.1785 11.2454 16.5488 11.3945L16.4219 11.4189C14.7098 11.6665 13.6129 12.1305 12.877 12.8623C12.1414 13.5938 11.6742 14.6843 11.4238 16.3887C11.3197 17.0973 10.7182 17.665 9.96484 17.665C9.27085 17.665 8.68836 17.1772 8.53613 16.5215C8.12392 14.7459 7.6623 13.619 6.95703 12.8652C6.31314 12.1772 5.39414 11.7268 3.88672 11.4688L3.57715 11.4199C2.88869 11.319 2.33496 10.734 2.33496 10C2.33496 9.26603 2.88869 8.681 3.57715 8.58008L3.88672 8.53125C5.39414 8.27321 6.31314 7.82277 6.95703 7.13477C7.6623 6.38104 8.12392 5.25413 8.53613 3.47852L8.56934 3.35742C8.76133 2.76356 9.31424 2.33496 9.96484 2.33496C10.7182 2.33497 11.3197 2.9027 11.4238 3.61133L11.5283 4.22266C11.7954 5.58295 12.2334 6.49773 12.877 7.1377C13.6129 7.86952 14.7098 8.33351 16.4219 8.58105C17.1119 8.68101 17.665 9.26667 17.665 10Z"></path></svg>
+                            <div class="flex flex-col gap-0.5">
+                                <h4 class="font-bold text-slate-600 text-[18px]">دستیار هوشمند و سیستم تشخیص حال دانشجو آیت</h4>
+                                <p class="mt-4 text-slate-500">ارائه محتوای سبک‌ زندگی متناسب با حال روحی دانشجو و پیشنهاد هوشمندانه محتوا به کاربر با تمرکز بر همراهی و ارائه راه حل قابل اجرا.</p>
+                                <p class="mt-4 text-slate-500">پرسش‌ از حال کاربر و نمایش محتوا بر اون اساس؛ مسئله روزمره دانشجو رو می‌گیره و براساس قرآن، نهج‌البلاغه و منابع  دیگه  محتوا می‌ده و همچنین قابلیت چت محدود رو هم داره.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="font-bold text-gray-700 mt-12 text-center">و با کلی امکانات جذاب دیگه ✨</p>
+                </section>
+
+                <!-- Section: About Us -->
+                <section class="w-full py-12 px-5 min-[600px]:px-20 mt-15 bg-widget-calendar text-white rounded-[80px] transition-all" id="about">
+                    <div class="flex flex-col items-center gap-1">
+                        <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.66 159.05" class="size-22 fill-white" draggable="false">
+                            <path class="cls-1" d="m120.02,115.76c-33,1-67,4-99-7,0-11,2-23,3-34-5-5-14-4-20-7,1-6,1-12,3-18,4,0,7,2,11,3,8,2,16,4,24,4,1,0,3,2,3,4,0,12-1,23-1,35,21,4,43,4,64,2,14,0,28-1,41-5,1-12-5-24-5-36,0-1,1-2,2-2,6,0,12-2,18-2,3,11,3,22,6,34,0,1,1,3,2,3,6,0,12-2,18-3,2-12-5-24-5-37,7-1,13-1,20-2,3,19,8,37,9,56-12,2-24,3-36,4-20,3-39,6-58,8h0Z"/>
+                            <path class="cls-1" d="m131.02,18.76c34-4,68-7,103-10,2,0,5-1,6-3v-2c-1,5,3,9,1,14-45,3-88,12-133,20-16,2-31,3-47,2-11-2-23,0-33-6,1-6,1-12,2-18,33,6,67,8,101,3h0Z"/>
+                            <path class="cls-1" d="m143.02,132.76c18-3,37-4,55-7,5,5,4,13,2,19,0,1-4,2-6,2-37,3-72,8-109,7-5-5,0-12-1-18,20,1,39-1,59-3h0Z"/>
+                            <path class="cls-1" d="m231.02,73.76c-2-8-3-16-5-25,0-1,0-3,1-3,13,0,27-3,40-1,1,6,2,11,3,17-6,3-15-2-20,3,1,11,4,22,6,33,0,2,0,4-1,4-8-1-22,5-21-7,0-7-2-14-3-21h0Z"/>
+                            <path class="cls-1" d="m96.02,79.76c-10-1-22,2-31-2,1-6-1-11,1-17,12-1,24,1,36,0,7-1,14,0,21-2,3,6,2,12,3,18-10,3-20,2-30,3h0Z"/>
+                        </svg>
+                        <p class="text-sm text-white font-vazeh">پلتفرم هوشمند انس با قرآن</p>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center text-center font-extralight gap-8 mt-10">
+                        <p>وب اپلیکیشن آیت یک پلتفرم هوشمند قرآنی است که با هدف ارائه تجربه‌ای ساختاریافته و فناورانه از دسترسی به منابع قرآن طراحی شده است. این پلتفرم با تمرکز بر فضای دانشگاهی توسعه یافته و علاوه بر استفاده فردی، قابلیت بهره‌برداری در مدیریت امور فرهنگی و قرآنی دانشگاه‌ها را نیز دارد.</p>
+                        <p>آیت با بهره‌گیری از معماری ماژولار، سیستم نقش‌بندی کاربران و قابلیت‌های هوشمندسازی، بستری منظم و قابل توسعه برای استفاده مطالعاتی و فرهنگی فراهم کرده است. ارائه قرآن، ادعیه، احادیث و منابع مکمل در کنار ابزارهایی مانند ذکرشمار هوشمند، پیشنهاد محتوای متناسب با نیاز کاربر و پنل‌های مدیریتی، آیت را به یک راهکار دیجیتال جامع در حوزه قرآن تبدیل کرده است.</p>
+                        <p>این پلتفرم با طراحی مینیمال، عملکرد سریع و قابلیت استفاده آنلاین و آفلاین، تلاش دارد مفاهیم قرآنی را در قالبی متناسب با زندگی دیجیتال امروز ارائه دهد.</p>
+                    </div>
+                </section>
+
+                <!-- Section: Download App -->
+                <section class="w-full p-4 pt-20" id="download-app">
+                    <div class="flex flex-col items-center gap-2.5 text-center mb-6">
+                        <h3 class="font-semibold text-[22px] sm:text-[25px] transition-all flex items-center gap-2.5"><span class="animate-bounce">⭐</span><span>دریافت اپلیکیشن</span> <span class="bg-slate-100 text-slate-500 text-xs font-mono rounded-full py-1 px-3 inline">v{{ APP_VERSION }}</span></h3>
+                        <p class="text-sm text-gray-500">با دانلود اپلیکیشن، به آسانی به تمام امکانات آیت دسترسی پیدا کنید و تجربه‌ای بی‌نظیر از مفاهیم قرآنی داشته باشید.</p>
+                    </div>
+
+                    <div class="flex items-center justify-center flex-wrap gap-4 mt-15">
+                        <a href="{% static '/app/ayat_v1.0.1.apk' %}" draggable="false">
+                            <button class="bg-blue-50 text-sm py-3 px-8 rounded-full flex items-center gap-2.5 cursor-pointer transition-all">
+                                <svg class="text-green-600" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" height="26" width="26" xmlns="http://www.w3.org/2000/svg"><path d="M420.55,301.93a24,24,0,1,1,24-24,24,24,0,0,1-24,24m-265.1,0a24,24,0,1,1,24-24,24,24,0,0,1-24,24m273.7-144.48,47.94-83a10,10,0,1,0-17.27-10h0l-48.54,84.07a301.25,301.25,0,0,0-246.56,0L116.18,64.45a10,10,0,1,0-17.27,10h0l47.94,83C64.53,202.22,8.24,285.55,0,384H576c-8.24-98.45-64.54-181.78-146.85-226.55"></path></svg>
+                                <p>نسخه اندروید</p>
+                            </button>
+                        </a>
+                        <a href="{% static '/app/ayat_v1.0.1.exe' %}" draggable="false">
+                            <button class="bg-blue-50 text-sm py-3 px-8 rounded-full flex items-center gap-2.5 cursor-pointer transition-all">
+                                <svg class="fill-[#0078D4]" xmlns="http://www.w3.org/2000/svg" viewBox="1765.2 -4 556.8 552" height="18" width="18"><path class="st0" d="M2030.4,258.7h-253.6V5.1h253.6V258.7z"/><path class="st0" d="M2310.4,258.7h-253.6V5.1h253.6V258.7L2310.4,258.7z"/><path class="st0" d="M2030.4,538.9h-253.6V285.3h253.6V538.9z"/><path class="st0" d="M2310.4,538.9h-253.6V285.3h253.6V538.9L2310.4,538.9z"/></svg>
+                                <p>نسخه ویندوز</p>
+                            </button>
+                        </a>
+                        <a href="/" draggable="false">
+                            <button class="bg-blue-50 text-sm py-3 px-8 rounded-full flex items-center gap-2.5 cursor-pointer transition-all">
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="26" width="26" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
+                                <p>نسخه وب اپ</p>
+                            </button>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Section: Pricing -->
+                <section class="w-full p-4 pt-20" id="pricing">
+                    <div class="flex flex-col items-center gap-2.5 text-center mb-6">
+                        <h3 class="font-semibold text-[22px] sm:text-[25px] transition-all flex items-center gap-2.5">
+                            <span class="animate-pulse">🎯</span>
+                            <span>مدیریت دانشگاهتان را حرفه‌ای‌تر از همیشه تجربه کنید  <span class="text-xs text-slate-400">(بزودی)</span></span>
+                        </h3>
+                        <p class="text-sm text-gray-500">اشتراک حرفه ای آیت شامل؛ پنل پیشرفته، گزارش فعالیت دانشجویان، خروجی گزارش، دسترسی به API عمومی و...</p>
+                    </div>
+
+                    <div class="flex items-center justify-center flex-wrap gap-4 mt-15" style="filter: blur(2px);">
+                        <div class="flex flex-col gap-2.5 p-5 border border-slate-100 rounded-4xl w-full min-[965px]:w-62.5 transition-all">
+                            <h4 class="font-semibold text-slate-600">رایگان</h4>
+                            <h4 class="text-sm text-slate-800">0 تومان</h4>
+                            <p></p>
+                            <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-blue-50 text-sm cursor-pointer"><span>درخواست مشاوره</span></button>
+                            <hr class="border-slate-100">
+                            <ul class="flex flex-col gap-2.5 text-sm text-slate-500">
+                                <li>دارای پنل مدیریت محدود</li>
+                                <li>عدم دسترسی به API عمومی </li>
+                                <li>عدم پشتیبانی اختصاصی</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col gap-2.5 p-5 border border-slate-100 rounded-4xl w-full min-[965px]:w-62.5 transition-all">
+                            <h4 class="font-semibold">حرفه‌ای</h4>
+                            <h4 class="text-sm text-slate-800">10 میلیون تومان</h4>
+                            <p></p>
+                            <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-blue-50 text-sm cursor-pointer"><span>درخواست مشاوره</span></button>
+                            <hr class="border-slate-100">
+                            <ul class="flex flex-col gap-2.5 text-sm text-slate-500">
+                                <li>دارای پنل مدیریت  کامل</li>
+                                <li>دسترسی به API عمومی </li>
+                                <li>پشتیبانی اختصاصی</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col gap-2.5 p-5 border border-slate-100 rounded-4xl w-full min-[965px]:w-62.5 transition-all">
+                            <h4 class="font-semibold">سازمانی</h4>
+                            <h4 class="text-sm text-slate-800">30 میلیون تومان</h4>
+                            <p></p>
+                            <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-blue-50 text-sm cursor-pointer"><span>درخواست مشاوره</span></button>
+                            <hr class="border-slate-100">
+                            <ul class="flex flex-col gap-2.5 text-sm text-slate-500">
+                                <li>دارای پنل مدیریت  کامل</li>
+                                <li>دسترسی به API عمومی </li>
+                                <li>پشتیبانی اختصاصی</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: API -->
+                <section class="w-full p-4 pt-20" id="api">
+                    <div class="flex flex-col items-center gap-2.5 text-center mb-6">
+                        <h3 class="font-semibold text-[22px] sm:text-[25px] transition-all flex items-center gap-2.5"><span class="animate-pulse">🚀</span><span>مستندات وبسرویس آیت</span></h3>
+                        <p class="text-sm text-gray-500">با استفاده از این API می‌توانید به عنوان یک توسعه‌دهنده خارجی به داده‌ها و محتوای آیت دسترسی پیدا کنید.</p>
+                    </div>
+
+                    <div class="flex flex-col gap-3 mt-15">
+                        <details class="flex flex-col gap-2.5 bg-slate-50 rounded-4xl pt-4 pb-2 px-5" id="surahs">
+                            <summary class="flex items-center justify-between gap-2.5 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <a href="#surahs"><span class="">#</span></a>
+                                    <span class="flex flex-col gap-0.5 text-slate-200">
+                                        <span class="text-slate-800 font-semibold">سوره ها (Surahs)</span>
+                                        <span class="text-xs text-gray-500">شامل فهرست تمام سوره های قرآن کریم</span>
+                                    </span>
+                                </span>
+                                <svg class="api-more-btn" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5">
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">لیست سوره ها (Surahs)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/surahs/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "name_fa": "حمد",
+    "name_ar": "الفاتِحَة",
+    "total_ayah": 7,
+    "reciter_name": null,
+    "audio_url": null
+  } ...
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">جزییات سوره (Surah Details)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/surahs/details/1/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 1,
+    "text_ar": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+    "text_fa": "به نام خداوند بخشنده‌ی مهربان."
+  },
+  {
+    "id": 2,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 2,
+    "text_ar": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+    "text_fa": "سپاس و ستایش مخصوص خداوندی است که پروردگار جهانیان است."
+  },
+  {
+    "id": 3,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 3,
+    "text_ar": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+    "text_fa": "[خدایی که] بخشنده و مهربان است."
+  },
+  {
+    "id": 4,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 4,
+    "text_ar": "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
+    "text_fa": "[خدایی که] مالک روز جزاست."
+  },
+  {
+    "id": 5,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 5,
+    "text_ar": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+    "text_fa": "[خدایا!] تنها تو را می‌پرستیم و تنها از تو یاری می‌جوییم."
+  },
+  {
+    "id": 6,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 6,
+    "text_ar": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+    "text_fa": "[خداوندا!] ما را به راه راست هدایت فرما."
+  },
+  {
+    "id": 7,
+    "surah_id": 1,
+    "surah_name": "الفاتِحَة",
+    "ayah_number": 7,
+    "text_ar": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+    "text_fa": "راه کسانی که به آنان نعمت دادی، نه کسانی که مورد غضب واقع شدند و نه گمراهان."
+  }
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                        <details class="flex flex-col gap-2.5 bg-slate-50 rounded-4xl pt-4 pb-2 px-5" id="duas">
+                            <summary class="flex items-center justify-between gap-2.5 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <a href="#duas"><span class="">#</span></a>
+                                    <span class="flex flex-col gap-0.5 text-slate-200">
+                                        <span class="text-slate-800 font-semibold">دعاها (Duas)</span>
+                                        <span class="text-xs text-gray-500">شامل فهرست دعاهای مطرح</span>
+                                    </span>
+                                </span>
+                                <svg class="api-more-btn" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5">
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">لیست دعاها (Duas)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/duas/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "title": "زیارت عاشورا"
+  } ...
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">جزییات دعا (Duas Details)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/duas/details/1/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "title": "زیارت عاشورا",
+    "text_full": ...,
+    "reciter_name": null,
+    "audio_url": null
+  }
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                        <details class="flex flex-col gap-2.5 bg-slate-50 rounded-4xl pt-4 pb-2 px-5" id="hadiths">
+                            <summary class="flex items-center justify-between gap-2.5 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <a href="#hadiths"><span class="">#</span></a>
+                                    <span class="flex flex-col gap-0.5 text-slate-200">
+                                        <span class="text-slate-800 font-semibold">احادیث (Hadiths)</span>
+                                        <span class="text-xs text-gray-500">شامل احادیث پیامبران و امامان معصوم</span>
+                                    </span>
+                                </span>
+                                <svg class="api-more-btn" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5">
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">لیست احادیث (Hadiths)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/hadiths/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "text_ar": "قالَ الصّادقُ علیه السلام: المُؤمِنُ کالجَبَلِ الرّاسِخِ، لا تُحَرِّکُهُ العَواصِفُ",
+    "text_fa": "مومن مانند کوهی استوار است که تندبادها او را تکان نمی‌دهند.",
+    "source": "بحارالانوار، ج۶۴، ص۱۵۵"
+  } ...
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">جزییات حدیث (Hadith Details)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/hadiths/details/1/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "text_ar": "قالَ الصّادقُ علیه السلام: المُؤمِنُ کالجَبَلِ الرّاسِخِ، لا تُحَرِّکُهُ العَواصِفُ",
+    "text_fa": "مومن مانند کوهی استوار است که تندبادها او را تکان نمی‌دهند.",
+    "source": "بحارالانوار، ج۶۴، ص۱۵۵"
+  }
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                        <details class="flex flex-col gap-2.5 bg-slate-50 rounded-4xl pt-4 pb-2 px-5" id="lifestyle_quran">
+                            <summary class="flex items-center justify-between gap-2.5 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <a href="#lifestyle_quran"><span class="">#</span></a>
+                                    <span class="flex flex-col gap-0.5 text-slate-200">
+                                        <span class="text-slate-800 font-semibold">سبک‌زندگی (Lifestyle Quran)</span>
+                                        <span class="text-xs text-gray-500">شامل محتوا از کتابهایی همچون نهج البلاغه و...</span>
+                                    </span>
+                                </span>
+                                <svg class="api-more-btn" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5">
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">لیست سبک‌زندگی (Lifestyle Quran)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/lifestyle-quran/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "title": "نگرانی برای فردا ممنوع",
+    "arabic": "لَا تَحْمِلْ هَمَّ یَوْمِکَ الَّذی لَمْ یَأْتِکَ",
+    "translation": "غم روزی که نیامده را بر دوش مگیر.",
+    "source": "نهج‌البلاغه، نامه ۳۱ به امام حسن",
+    "analysis": "ذهن دانشجو پر از «چه می‌شود اگر...» است: چه می‌شود اگر امتحان را قبول نشوم؟ چه می‌شود اگر آینده شغلی نداشته باشم؟ امام علی (ع) می‌فرماید: هنوز آن روز نیامده، چرا امروز را با غم آن خراب می‌کنی؟ ۹۰٪ نگرانی‌های ما هرگز اتفاق نمی‌افتند.",
+    "challenge_action": "📝 یک کاغذ بردار و بنویس: «امروز فقط سه کار مهم دارم». بقیه را بگذار برای فردا."
+  } ...
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                                <details open class="flex flex-col gap-2.5 pt-4 pr-4" style="border-right: 1px solid #eee;">
+                                    <summary class="flex items-center gap-2.5 cursor-pointer">
+                                        <span class="text-slate-500 font-semibold">جزییات سبک‌زندگی (Lifestyle Quran Details)</span>
+                                    </summary>
+
+                                    <div class="flex flex-col gap-2.5">
+                                        <div>
+                                            <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                            <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/lifestyle-quran/details/1/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                            <p class="my-2.5 text-sm">خروجی:</p>
+                                            <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "title": "نگرانی برای فردا ممنوع",
+    "arabic": "لَا تَحْمِلْ هَمَّ یَوْمِکَ الَّذی لَمْ یَأْتِکَ",
+    "translation": "غم روزی که نیامده را بر دوش مگیر.",
+    "source": "نهج‌البلاغه، نامه ۳۱ به امام حسن",
+    "analysis": "ذهن دانشجو پر از «چه می‌شود اگر...» است: چه می‌شود اگر امتحان را قبول نشوم؟ چه می‌شود اگر آینده شغلی نداشته باشم؟ امام علی (ع) می‌فرماید: هنوز آن روز نیامده، چرا امروز را با غم آن خراب می‌کنی؟ ۹۰٪ نگرانی‌های ما هرگز اتفاق نمی‌افتند.",
+    "challenge_action": "📝 یک کاغذ بردار و بنویس: «امروز فقط سه کار مهم دارم». بقیه را بگذار برای فردا."
+  }
+]</pre>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+                        </details>
+                        <details class="flex flex-col gap-2.5 bg-slate-50 rounded-4xl pt-4 pb-2 px-5" id="ahkam">
+                            <summary class="flex items-center justify-between gap-2.5 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <a href="#ahkam"><span class="">#</span></a>
+                                    <span class="flex flex-col gap-0.5 text-slate-200">
+                                        <span class="text-slate-800 font-semibold">احکام (Ahkam)</span>
+                                        <span class="text-xs text-gray-500">شامل محتواهای شرعی و احکام</span>
+                                    </span>
+                                </span>
+                                <svg class="api-more-btn" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5">
+                                <div>
+                                    <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                    <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/ahkam/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                    <p class="my-2.5 text-sm">خروجی:</p>
+                                    <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "id": 1,
+    "question": "دانشجویی که در شهرستان درس می‌خواند و خانواده‌اش در شهر دیگری هستند، نمازش در شهر محل تحصیل قصر است یا تمام؟",
+    "answer": "\u003Cp\u003Eاگر دانشجو برای تحصیل به شهری رفته و قصد دارد حداقل ۱۰ سال در آنجا بماند (یا واقعاً قصد ماندن طولانی مدت داشته باشد و محل زندگی اصلی او محسوب شود)، نمازش تمام است. اما اگر قصد ماندن کمتر از ۱۰ سال را دارد (مثلاً ۴ تا ۶ سال دوران لیسانس)، در آن شهر مسافر محسوب می&zwnj;شود و باید نمازش را شکسته (دو رکعتی) بخواند و روزه نمی&zwnj;تواند بگیرد مگر اینکه تصمیم بگیرد ۱۰ روز یا بیشتر در آن شهر بماند.\u003C/p\u003E",
+    "source": "استفتائات موجود در پایگاه رهبری",
+    "category_ahkam": "نماز و روزه"
+  },
+  {
+    "id": 2,
+    "question": "آیا درس خواندن در ماه مبارک رمضان مجوزی برای افطار یا ترک روزه است؟",
+    "answer": "\u003Cp\u003Eخیر، صِرفِ سنگینی درس یا مشغله امتحان، مجوز شرعی برای افطار نیست. روزه در ماه رمضان بر هر فرد بالغ و سالم واجب است. اگر روزه گرفتن واقعاً باعث ضعف شدید و غیرقابل تحمل شود که به ضرر بدن برسد، افطار جایز است، ولی باید بعداً قضای آن را بگیرد.\u003C/p\u003E",
+    "source": "استفتائات موجود در پایگاه رهبری",
+    "category_ahkam": "نماز و روزه"
+  } ...
+]</pre>
+                                </div>
+                            </div>
+                        </details>
+                        <details class="flex flex-col gap-2.5 bg-slate-50 rounded-4xl pt-4 pb-2 px-5" id="ai">
+                            <summary class="flex items-center justify-between gap-2.5 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <a href="#ai"><span class="">#</span></a>
+                                    <span class="flex flex-col gap-0.5 text-slate-200">
+                                        <span class="text-slate-800 font-semibold">دستیار آیت (AI)</span>
+                                        <span class="text-xs text-gray-500">پرسش‌ و پاسخ قرآنی</span>
+                                    </span>
+                                </span>
+                                <svg class="api-more-btn" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99994 1.22943C5.15598 1.22943 1.22937 5.15604 1.22937 10C1.22937 11.3437 1.5319 12.6189 2.07359 13.7592L2.40673 14.4596L3.8065 13.7942L3.4743 13.0939L3.31625 12.7371C2.97051 11.8938 2.77962 10.97 2.77962 10C2.77962 6.01243 6.01237 2.77968 9.99994 2.77968C13.9875 2.77968 17.2203 6.01243 17.2203 10C17.2203 13.9876 13.9875 17.2203 9.99994 17.2203C9.18334 17.2203 8.5858 17.1622 8.05597 17.0159C7.53397 16.8717 7.03885 16.6305 6.44609 16.2171C5.57744 15.6112 4.33224 15.3975 3.30584 16.0458L3.28975 16.0562L3.27366 16.0676L2.59034 16.5484L3.10425 18.0825L4.14438 17.35C4.51831 17.1207 5.07296 17.1507 5.55834 17.4891C6.26058 17.9789 6.91499 18.3092 7.64333 18.5103C8.3639 18.7093 9.11779 18.7706 9.99994 18.7706C14.8439 18.7706 18.7705 14.844 18.7705 10C18.7705 5.15604 14.8439 1.22943 9.99994 1.22943ZM9.21913 6.36949V9.22487H6.36943V10.7751H9.21913V13.6305H10.7694V10.7751H13.6304V9.22487H10.7694V6.36949H9.21913Z" fill="currentColor"></path></svg>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5">
+                                <div>
+                                    <p class="mb-4 text-sm">کد نمونه در Python:</p>
+                                    <pre class="bg-white text-slate-700 p-4 rounded-3xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+import requests
+
+url = 'https://{{ request.get_host }}/api/v1/ai/امید و توکل/'
+url__ = 'https://{{ request.get_host }}/api/v1/ai/سلام/'
+req = requests.get(url=url)
+
+print(req.json())</pre>
+                                    <p class="my-2.5 text-sm">خروجی:</p>
+                                    <pre class="text-slate-700 p-4 rounded-4xl overflow-hidden overflow-x-auto overflow-y-auto max-h-100" dir="auto" style="user-select: all;">
+[
+  {
+    "suggestion_ayah": {
+      "surah_id_id": 39,
+      "surah_id_name_fa": "الزُّمَر",
+      "ayah_number": 53,
+      "text_ar": "قُلْ يَـٰعِبَادِىَ ٱلَّذِينَ أَسْرَفُوا۟ عَلَىٰٓ أَنفُسِهِمْ لَا تَقْنَطُوا۟ مِن رَّحْمَةِ ٱللَّهِ ۚ إِنَّ ٱللَّهَ يَغْفِرُ ٱلذُّنُوبَ جَمِيعًا ۚ إِنَّهُۥ هُوَ ٱلْغَفُورُ ٱلرَّحِيمُ",
+      "text_fa": "بگو: ای بندگان من که بر نفس خویش تجاوز [و ستم] کرده‌اید! از رحمت خداوند نومید نشوید. خداوند همه‌ی گناهان را می‌بخشد، زیرا که او بسیار آمرزنده و مهربان است."
+    },
+    "suggestion_hadith": {
+      "text_ar": "قالَ الصّادقُ (ع): لا تَیْأَسْ مِنْ رَوْحِ اللّهِ فَإنَّ أَقْصَى الأَمَلِ راحَةٌ",
+      "text_fa": "از رحمت خدا ناامید مشو، که بلندترین آرزو، آسایش است.",
+      "source": "الکافی، ج۲، ص۶۶"
+    },
+    "suggestion_lifestylequran": {
+      "title": "صبح را با خدا شروع کن",
+      "arabic": "الْحَمْدُ لِلَّهِ الَّذِی رَدَّ إِلَیَّ رُوحِی",
+      "translation": "سپاس خدایی که روحم را به من بازگرداند.",
+      "source": "صحیفه سجادیه، دعای ۶",
+      "analysis": "هر صبح که از خواب بیدار می‌شوی، یعنی خدا دوباره به تو فرصت داده. اولین کاری که می‌کنی، قبل از نگاه به گوشی، یک حمد بگو و شکر کن. این کار انرژی روز را بالا می‌برد.",
+      "challenge_action": "🌅 فردا صبح، قبل از هر کاری، بگو «الحمدلله که دوباره زنده‌ام». بعد برو سراغ گوشی."
+    }
+  }
+]</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="flex flex-col gap-8 mt-15">
+                        <h4 class="font-semibold text-[18px] text-slate-700 mb-8">سوالات متداول</h4>
+                        <div class="flex flex-col gap-2.5">
+                            <p class="text-sm font-semibold text-gray-500">وبسرویس آیت یا API چیست؟</p>
+                            <p class="text-sm">وبسرویس آیت یک ابزار استاندارد برای اتصال به سرویس‌های آیت است که امکان ساخت انواع اپلیکیشن، سرویس و سایر کاربردها را فراهم می‌کند. با استفاده از این API می‌توانید به عنوان یک توسعه‌دهنده خارجی به داده‌ها و خدمات پلتفرم آیت دسترسی پیدا کنید.</p>
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <p class="text-sm font-semibold text-gray-500">چه سرویس‌هایی در آیت API در دسترس هستند؟</p>
+                            <p class="text-sm">بیشتر سرویسها شامل داده‌های محتوای اپلیکیشن آیت می باشد و در کنار آن ابزار (دستیار هوشمند آیت) نیز وجود دارد.</p>
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <p class="text-sm font-semibold text-gray-500">محدودیت درخواست‌ها (Rate Limiting) در آیت API چگونه است؟</p>
+                            <p class="text-sm">بطور معمول برای تمام سرویسها محدودیت تعداد درخواست‌ اعمال شده است؛ <span class="font-semibold">در هر دقیقه 20 درخواست‌</span>.<br />درصورتی که تعداد درخواست‌های شما بیشتر از این تعداد است با پشتیبانی ارتباط بگیرید.</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="mt-40 mb-10 p-5 text-center rounded-4xl">
+                <div class="flex flex-col items-center justify-center gap-8">
+                    <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.66 159.05" class="size-18 fill-slate-900" draggable="false">
+                        <path class="cls-1" d="m120.02,115.76c-33,1-67,4-99-7,0-11,2-23,3-34-5-5-14-4-20-7,1-6,1-12,3-18,4,0,7,2,11,3,8,2,16,4,24,4,1,0,3,2,3,4,0,12-1,23-1,35,21,4,43,4,64,2,14,0,28-1,41-5,1-12-5-24-5-36,0-1,1-2,2-2,6,0,12-2,18-2,3,11,3,22,6,34,0,1,1,3,2,3,6,0,12-2,18-3,2-12-5-24-5-37,7-1,13-1,20-2,3,19,8,37,9,56-12,2-24,3-36,4-20,3-39,6-58,8h0Z"/>
+                        <path class="cls-1" d="m131.02,18.76c34-4,68-7,103-10,2,0,5-1,6-3v-2c-1,5,3,9,1,14-45,3-88,12-133,20-16,2-31,3-47,2-11-2-23,0-33-6,1-6,1-12,2-18,33,6,67,8,101,3h0Z"/>
+                        <path class="cls-1" d="m143.02,132.76c18-3,37-4,55-7,5,5,4,13,2,19,0,1-4,2-6,2-37,3-72,8-109,7-5-5,0-12-1-18,20,1,39-1,59-3h0Z"/>
+                        <path class="cls-1" d="m231.02,73.76c-2-8-3-16-5-25,0-1,0-3,1-3,13,0,27-3,40-1,1,6,2,11,3,17-6,3-15-2-20,3,1,11,4,22,6,33,0,2,0,4-1,4-8-1-22,5-21-7,0-7-2-14-3-21h0Z"/>
+                        <path class="cls-1" d="m96.02,79.76c-10-1-22,2-31-2,1-6-1-11,1-17,12-1,24,1,36,0,7-1,14,0,21-2,3,6,2,12,3,18-10,3-20,2-30,3h0Z"/>
+                    </svg>
+                    <div class="flex items-center flex-wrap justify-center gap-4 text-sm text-slate-800">
+                        <a href="#api">وبسرویس آیت</a>
+                        <a href="#about">درباره ما</a>
+                        <a href="https://eitaa.com/Mahdirabiee">ارتباط با ما</a>
+                    </div>
+                </div>
+                <p class="mt-10 text-sm text-gray-500">کپی رایت © <span id="copyrightYear"></span> اپلیکیشن آیت، تمامی حقوق محفوظ است.</p>
+            </footer>
+        </main>
+
+
+        <!-- Script -->
+        <script>
+            const date = new Date();
+            document.getElementById('copyrightYear').innerHTML = date.getFullYear();
+        </script>
+
+    </body>
+</html>

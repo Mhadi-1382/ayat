@@ -1,0 +1,31 @@
+{% extends 'core/_base.html' %}
+{% load static %}
+
+{% block title %}پلتفرم هوشمند انس با قرآن{% endblock title %}
+{% block body %}
+
+    <!-- Include _splash Module -->
+    {% include 'core/_splash.html' %}
+    
+    <!-- Include _navbar Module -->
+    {% include 'core/_navbar.html' %}
+    <!-- Include _sidebar Module -->
+    {% include 'core/_sidebar.html' %}
+    <!-- Include _content Module -->
+    {% include 'core/_content.html' %}
+
+
+    <!-- Import Script widgets.js & splash.js -->
+    <script src="{% static 'js/lib/widgets.min.js' %}"></script>
+    <script src="{% static 'js/lib/splash.js' %}"></script>
+
+    <!-- Script update_user_point fetch -->
+    {% if request.user.is_authenticated and request.user.university_id and request.user.role == 'student' %}
+        <script>
+            setTimeout(() => {
+                fetch(`https://{{ request.META.HTTP_HOST }}/panel/user_point/update/main/`, { method: 'POST', headers: {'Content-Type': 'application/json'} });
+            }, 5000);
+        </script>
+    {% endif %}
+
+{% endblock body %}

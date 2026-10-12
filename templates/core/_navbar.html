@@ -1,0 +1,58 @@
+{% load static %}
+<nav class="bg-white rounded-full py-2 px-5 flex items-center justify-between gap-4 fixed top-3 w-[93%] min-[965px]:w-[75%] min-[1300px]:w-[70%]! min-[1400px]:w-[60%]! z-10 overflow-hidden transition-all">
+    <ul class="flex items-center justify-between gap-2.5 w-full">
+        <div class="flex items-center min-[965px]:hidden">
+            <button class="nav-btn-icon flex items-center gap-2.5 transition-all" title="منو" onclick="navToggle(0);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 text-gray-800 p-2 rounded-full hover:bg-gray-50 cursor-pointer transition-all">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="/" title="پلتفرم هوشمند انس با قرآن" draggable="false">
+                <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.66 159.05" class="size-12 min-[965px]:hidden fill-slate-900" draggable="false">
+                    <defs><style>.cls-1 {stroke-width: 0px;}</style></defs>
+                    <path class="cls-1" d="m120.02,115.76c-33,1-67,4-99-7,0-11,2-23,3-34-5-5-14-4-20-7,1-6,1-12,3-18,4,0,7,2,11,3,8,2,16,4,24,4,1,0,3,2,3,4,0,12-1,23-1,35,21,4,43,4,64,2,14,0,28-1,41-5,1-12-5-24-5-36,0-1,1-2,2-2,6,0,12-2,18-2,3,11,3,22,6,34,0,1,1,3,2,3,6,0,12-2,18-3,2-12-5-24-5-37,7-1,13-1,20-2,3,19,8,37,9,56-12,2-24,3-36,4-20,3-39,6-58,8h0Z"/>
+                    <path class="cls-1" d="m131.02,18.76c34-4,68-7,103-10,2,0,5-1,6-3v-2c-1,5,3,9,1,14-45,3-88,12-133,20-16,2-31,3-47,2-11-2-23,0-33-6,1-6,1-12,2-18,33,6,67,8,101,3h0Z"/>
+                    <path class="cls-1" d="m143.02,132.76c18-3,37-4,55-7,5,5,4,13,2,19,0,1-4,2-6,2-37,3-72,8-109,7-5-5,0-12-1-18,20,1,39-1,59-3h0Z"/>
+                    <path class="cls-1" d="m231.02,73.76c-2-8-3-16-5-25,0-1,0-3,1-3,13,0,27-3,40-1,1,6,2,11,3,17-6,3-15-2-20,3,1,11,4,22,6,33,0,2,0,4-1,4-8-1-22,5-21-7,0-7-2-14-3-21h0Z"/>
+                    <path class="cls-1" d="m96.02,79.76c-10-1-22,2-31-2,1-6-1-11,1-17,12-1,24,1,36,0,7-1,14,0,21-2,3,6,2,12,3,18-10,3-20,2-30,3h0Z"/>
+                </svg>
+                <img src="{% static 'assets/images/logo/SVG/icon_splash.svg' %}" alt="logo" class="size-12.75 max-[965px]:hidden" draggable="false">
+            </a>
+            <p class="max-[965px]:hidden text-sm text-slate-600 font-vazeh transition-all">پلتفرم هوشمند انس با قرآن</p>
+        </div>
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+                <button class="nav-btn-icon" title="اعلانات" onclick="modal('notificationsAdmin');" draggable="false">
+                    <svg class="notify-icon size-10 p-2 rounded-full hover:bg-gray-50 cursor-pointer transition-all" fill="none" viewBox="0 0 24 24"><path fill="#1e2939" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                </button>
+            {% else %}
+                <span class="flex items-center gap-1 min-[965px]:gap-2.5 transition-all">
+                    <div class="hidden min-[956px]:flex">
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/panel" class="flex items-center gap-1" title="امتیاز دانشگاه شما" draggable="false">
+                                <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all"><span class="ml-1 text-[13px] text-gray-700">{{ total_points_uni }}</span> ✨</li>
+                            </a>
+                        {% elif request.user.university_id and request.user.role == 'student' %}
+                            <a href="/challenge" class="flex items-center gap-1" title="امتیاز شما" draggable="false">
+                                <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all"><span class="ml-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span> ✨</li>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <button class="nav-btn-icon" title="اعلانات" onclick="modal('notifications');" draggable="false">
+                        <svg class="notify-icon size-10 p-2 rounded-full hover:bg-gray-50 cursor-pointer transition-all" fill="none" viewBox="0 0 24 24"><path fill="#1e2939" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                    </button>
+                </span>
+            {% endif %}
+        {% else %}
+            <span class="flex items-center gap-2.5">
+                <button class="nav-btn-icon flex items-center cursor-pointer gap-1" title="حساب کاربری" onclick="modal('signin');" draggable="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 text-gray-800 p-2 rounded-full hover:bg-gray-50 transition-all">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </button>
+            </span>
+        {% endif %}
+    </ul>
+</nav>

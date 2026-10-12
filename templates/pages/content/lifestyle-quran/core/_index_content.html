@@ -1,0 +1,55 @@
+{% load static %}
+<style>
+    .lifestyle-quran .border-slate-100:last-child {border: none !important;}
+    .lifestyle-quran :target {
+        scroll-margin-top: 150px;
+        animation: animate-anchor-link 3s ease;
+    }
+
+    @keyframes animate-anchor-link {
+        100% {
+            color: #1d9d9e;
+            transition: color 0.4s ease;
+        }
+        0% {
+            color: inherit;
+            transition: color 0.4s ease;    
+        }
+        
+    }
+</style>
+
+<div class="content-nav-minimize flex flex-col gap-2.5 pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    <!-- Slider: Categories Content -->
+    <div class="slider-categories-content flex items-center gap-2.5 overflow-hidden overflow-x-auto w-full sticky top-20 p-2.5 pb-0 rounded-full backdrop-blur-xs bg-white">
+        {% for item in categories_content %}
+            <a href="#category-{{ item.id }}" draggable="false">
+                <div class="flex items-center text-center text-sm text-slate-500 border border-slate-100 rounded-full whitespace-nowrap py-1 px-2.5 mb-2.5 cursor-pointer">{{ item.title }}</div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- Lifestyle Quran -->
+    <div class="lifestyle-quran flex flex-col gap-2 mt-4 mb-4">
+        {% for item in lifestyle_quran %}
+            <div class="flex flex-col gap-3 py-5 text-sm text-slate-800 border-b border-slate-100" id="category-{{ item.category_content_id.id }}">
+                <p class="font-semibold mb-4">{{ item.category_content_id.title }} ({{ item.title }})</p>
+                <p class="font-nabi text-[18px] text-slate-600">{{ item.arabic }}</p>
+                <p class="text-slate-600">{{ item.translation }}</p>
+                <p class="text-slate-400 text-sm">{{ item.source }}</p>
+                <p class="flex flex-col gap-2.5 mt-2.5"><span class="font-semibold">تحلیل مفهومی:</span><span>{{ item.analysis }}</span></p>
+                <p class="flex flex-col gap-2.5 mt-2.5"><span class="font-semibold">چالش امروز تو:</span><span>{{ item.challenge_action }}</span></p>
+                <div class="flex items-center justify-between gap-2.5">
+                    <span></span>
+                    <div class="flex items-center justify-between gap-2">
+                        <a href="javascript:dataShare('{{ item.title }}', '{{ item.arabic }} {{ item.translation }} {{ item.source }} {{ item.analysis }} {{ item.challenge_action }}', '#category-{{ item.category_content_id.id }}');" class="text-gray-500" draggable="false" title="اشتراک گذاری">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 p-2.5 hover:bg-gray-50 rounded-full overflow-visible transition-all">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

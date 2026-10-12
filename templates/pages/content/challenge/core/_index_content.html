@@ -1,0 +1,47 @@
+{% load static %}
+<div class="challenge content-nav-minimize flex flex-col gap-2.5 pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    <!-- Challenge -->
+    <div class="flex flex-col gap-10">
+        <div class="flex items-center max-[565px]:flex-wrap gap-4 transition-all">
+            <div class="flex flex-col gap-2.5 max-[565px]:w-full transition-all">
+                <div class="flex flex-col gap-6 p-5 rounded-4xl bg-green-100">
+                    <p class="text-sm text-slate-600">🏅 رتبه‌ی شما در دانشگاه <span class="font-semibold">{{ request.user.university_id.university_name.university_name }}</span></p>
+                    <p class="font-bold p-2.5 bg-white rounded-4xl">{{ university_rank }} از {{ university_total }} دانشجو</p>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2.5 max-[565px]:w-full transition-all">
+                <div class="flex flex-col gap-6 p-5 rounded-4xl bg-blue-100">
+                    <p class="text-sm text-slate-600">🌍 رتبه در بین <span class="font-semibold">تمام دانشجویان</span></span></p>
+                    <p class="font-bold p-2.5 bg-white rounded-4xl">{{ overall_rank }} از {{ overall_total }} دانشجو</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-3">
+            <h3 class="font-semibold text-slate-600">🎯 چالش‌های امروز </h3>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-slate-800">باز کردن اپ هر روز</p>
+                <span class="text-xs text-slate-400">+1 امتیاز</span>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-slate-800">خواندن یک سوره بمدت 5 دقیقه</p>
+                <span class="text-xs text-slate-400">+10 امتیاز</span>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-slate-800">خواندن یک دعا بمدت 5 دقیقه</p>
+                <span class="text-xs text-slate-400">+10 امتیاز</span>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-slate-800">ثبت 100 ذکر با ذکرشمار</p>
+                <span class="text-xs text-slate-400">+10 امتیاز</span>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-slate-800">ثبت 500 ذکر با ذکرشمار</p>
+                <span class="text-xs text-slate-400">+50 امتیاز</span>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-slate-800">ثبت 1000 ذکر با ذکرشمار</p>
+                <span class="text-xs text-slate-400">+100 امتیاز</span>
+            </div>
+        </div>
+    </div>
+</div>

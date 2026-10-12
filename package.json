@@ -1,0 +1,20 @@
+{
+  "name": "ayat",
+  "version": "1.0.1",
+  "description": "",
+  "scripts": {
+    "build": "postcss static/css/input.css -o static/css/app.css --watch"
+  },
+  "keywords": [],
+  "author": "Mohammad Mahdi Rabiei",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1"
+  }
+}

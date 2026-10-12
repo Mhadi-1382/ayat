@@ -1,0 +1,90 @@
+{% load static %}
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="modalUserCreate">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('modalUserCreate');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            <p class="">ایجاد کاربر</p>
+        </div>
+        <div class="flex flex-col gap-4 text-slate-800 text-sm transition-all">
+            <form action="/panel/admin/user/create/" method="post" class="w-full flex flex-col transition-all">
+                {% csrf_token %}
+
+                <input type="text" placeholder="نام کاربری" name="username" maxlength="200" class="w-full bg-gray-100 py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                <input type="tel" placeholder="شماره تماس" name="phone" maxlength="11" class="w-full bg-gray-100 py-3 px-6 outline-none border-none" required>
+                <input type="password" placeholder="رمز عبور" name="password" maxlength="128" class="w-full bg-gray-100 py-3 px-6 outline-none border-none" required>
+                <select name="role" class="w-full bg-gray-100 py-3 px-6 rounded-b-[20px] outline-none border-none text-slate-500">
+                    <option value="">نقش کاربر...</option>
+                    <option value="admin">مدیرکل</option>
+                    <option value="cultural_admin">مدیر امور فرهنگی</option>
+                    <option value="student" selected>دانشجو</option>
+                </select>
+
+                <details>
+                    <summary class="my-3 cursor-pointer flex items-center gap-2.5"><li class="pl-2 whitespace-nowrap rotate-0!">اطلاعات تکمیلی</li><span class="border-b border-slate-200 w-full"></span></summary>
+
+                    <input type="email" placeholder="ایمیل" name="email" maxlength="254" class="w-full bg-gray-100 py-3 px-6 rounded-t-[20px] outline-none border-none">
+                    <input type="tel" placeholder="کدملی" name="national_code" maxlength="10" class="w-full bg-gray-100 py-3 px-6 outline-none border-none">
+                    <input type="tel" placeholder="کد دانشجویی" name="student_code" maxlength="14" class="w-full bg-gray-100 py-3 px-6 outline-none border-none">
+                    <input type="text" placeholder="رشته تحصیلی" name="field_student" maxlength="50" class="w-full bg-gray-100 py-3 px-6 outline-none border-none">
+                    <select name="educational_level" class="w-full bg-gray-100 py-3 px-6 outline-none border-none text-slate-500">
+                        <option value="">مقطع تحصیلی...</option>
+                        <option value="دیپلم">دیپلم</option>
+                        <option value="فوق دیپلم">فوق دیپلم</option>
+                        <option value="لیسانس">لیسانس</option>
+                        <option value="فوق لیسانس">فوق لیسانس</option>
+                        <option value="دکترا">دکترا</option>
+                        <option value="سایر">سایر</option>
+                    </select>
+                    <select name="university_id" class="w-full bg-gray-100 py-3 px-6 rounded-b-[20px] outline-none border-none text-slate-500">
+                        <option value="">دانشگاه (واحد)...</option>
+                        {% for uni in university_list %}
+                            <option value="{{ uni }}">{{ uni }}</option>
+                        {% endfor %}
+                    </select>
+                </details>
+                <input type="submit" value="ایجاد" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+            </form>
+        </div>
+    </div>
+</div>
+{% if users|length >= 1 %}
+    {% for item in users %}
+        {% if item.is_superuser %}
+        {% else %}
+            <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="modalUserInfo{{ item.id }}">
+                <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('modalUserInfo{{ item.id }}');"></i>
+                <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                    <div class="flex flex-col items-center mx-auto text-center">
+                        <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                        <p class="">جزییات کاربر: {{ item.id }}</p>
+                    </div>
+                    <div class="flex flex-col gap-4 text-slate-800 text-sm transition-all">
+                        <div class="flex items-center gap-2.5 mb-1.5">
+                            <li class="w-10 h-11 px-2 bg-blue-100 rounded-full flex items-center justify-center list-none">{{ item.username | slice:1 }}</li>
+                            <div class="flex flex-col gap-2">
+                                <p class="font-semibold">{{ item.username }}</p>
+                                <a href="tel:{{ item.phone }}">{{ item.phone }}</a>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-4xl flex flex-col gap-4">
+                            <p class="flex flex-col gap-2"><span class="font-semibold">ایمیل:</span> <span><a href="mail:{{ item.email }}">{{ item.email }}</a></span></p>
+                            <p class="flex flex-col gap-2"><span class="font-semibold">کدملی:</span> <span>{{ item.national_code }}</span></p>
+                            <p class="flex flex-col gap-2"><span class="font-semibold">دانشگاه (واحد):</span> <span>{{ item.university_id.university_name.university_name }}</span></p>
+                            <p class="flex flex-col gap-2"><span class="font-semibold">کد دانشجویی:</span> <span>{{ item.student_code }}</span></p>
+                            <p class="flex flex-col gap-2"><span class="font-semibold">رشته تحصیلی:</span> <span>{{ item.field_student }}</span></p>
+                            <p class="flex flex-col gap-2"><span class="font-semibold">مقطع تحصیلی:</span> <span>{{ item.educational_level }}</span></p>
+                            {% if item.role == 'cultural_admin' %}
+                                <p class="flex flex-col gap-2"><span class="font-semibold">نقش کاربر:</span> <span>امور فرهنگی</span></p>
+                            {% elif item.role == 'student' %}
+                                <p class="flex flex-col gap-2"><span class="font-semibold">نقش کاربر:</span> <span>دانشجو</span></p>
+                            {% endif %}
+                            <p class="flex flex-col gap-2"><span class="font-semibold">تاریخ عضویت:</span> <span dir="auto">{{ item.created_at }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+{% endif %}
