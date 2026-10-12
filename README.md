@@ -15,7 +15,7 @@ Built on a modular architecture, with a user role management system and intellig
 
 [Download App *(APK, EXE)*](https://github.com/Mhadi-1382/ayat/releases/tag/1.0.1)
 
-<br />
+<br /> 
 
 ## Documentation
 
