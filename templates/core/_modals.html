@@ -1,0 +1,636 @@
+{% load static %}
+{% if request.user.is_authenticated %}
+    {% if request.user.role == 'student' or request.user.role == 'cultural_admin' %}
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="profileEdit">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('profileEdit');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <p class="">ویرایش اطلاعات</p>
+                </div>
+                <div class="flex flex-col gap-2.5 text-slate-800 text-sm transition-all">
+                    <!-- Information User -->
+                    <div class="bg-blue-50 text-slate-700 rounded-4xl p-4 flex flex-col overflow-auto transition-all">
+                        <details class="flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-green-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm">اطلاعات کاربری</span>
+                                </span>
+                                <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5 mt-2.5">
+                                <form action="/profile/edit/info/" method="post" class="w-full flex flex-col transition-all">
+                                    {% csrf_token %}
+
+                                    {% if request.user.role == 'student' %}
+                                        <input type="text" placeholder="نام کاربری" name="username" maxlength="200" value="{{ request.user.username }}" class="w-full bg-white py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                                        <input type="email" placeholder="ایمیل" name="email" maxlength="254" value="{{ request.user.email }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <input type="tel" placeholder="کدملی" name="national_code" maxlength="10" value="{{ request.user.national_code }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <input type="tel" placeholder="کد دانشجویی" name="student_code" maxlength="14" value="{{ request.user.student_code }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <input type="text" placeholder="رشته تحصیلی" name="field_student" maxlength="50" value="{{ request.user.field_student }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <select name="educational_level" class="w-full bg-white py-3 px-6 rounded-b-[20px] outline-none border-none text-slate-500">
+                                            <option value="">مقطع تحصیلی...</option>
+                                            <option value="دیپلم" {% if request.user.educational_level == 'دیپلم' %}selected{% endif %}>دیپلم</option>
+                                            <option value="فوق دیپلم" {% if request.user.educational_level == 'فوق دیپلم' %}selected{% endif %}>فوق دیپلم</option>
+                                            <option value="لیسانس" {% if request.user.educational_level == 'لیسانس' %}selected{% endif %}>لیسانس</option>
+                                            <option value="فوق لیسانس" {% if request.user.educational_level == 'فوق لیسانس' %}selected{% endif %}>فوق لیسانس</option>
+                                            <option value="دکترا" {% if request.user.educational_level == 'دکترا' %}selected{% endif %}>دکترا</option>
+                                            <option value="سایر" {% if request.user.educational_level == 'سایر' %}selected{% endif %}>سایر</option>
+                                        </select>
+                                        {% if not request.user.university_id %}
+                                            <select name="university_id" class="w-full bg-white py-2 px-6 rounded-[20px] outline-none border-none text-slate-500 mt-2.5">
+                                                <option value="">دانشگاه (واحد)...</option>
+                                                {% for uni in university_list %}
+                                                    <option value="{{ uni.id }}" {% if request.user.university_id == uni %}selected{% endif %}>{{ uni.university_name.university_name }} - {{ uni.university_name.city }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endif %}
+                                    {% else %}
+                                        <input type="text" placeholder="نام کاربری" name="username" maxlength="200" value="{{ request.user.username }}" class="w-full bg-white py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                                        <input type="email" placeholder="ایمیل" name="email" maxlength="254" value="{{ request.user.email }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <input type="tel" placeholder="کدملی" name="national_code" maxlength="10" value="{{ request.user.national_code }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <input type="text" placeholder="رشته تحصیلی" name="field_student" maxlength="50" value="{{ request.user.field_student }}" class="w-full bg-white py-3 px-6 outline-none border-none">
+                                        <select name="educational_level" class="w-full bg-white py-3 px-6 rounded-b-[20px] outline-none border-none text-slate-500">
+                                            <option value="">مقطع تحصیلی...</option>
+                                            <option value="دیپلم" {% if request.user.educational_level == 'دیپلم' %}selected{% endif %}>دیپلم</option>
+                                            <option value="فوق دیپلم" {% if request.user.educational_level == 'فوق دیپلم' %}selected{% endif %}>فوق دیپلم</option>
+                                            <option value="لیسانس" {% if request.user.educational_level == 'لیسانس' %}selected{% endif %}>لیسانس</option>
+                                            <option value="فوق لیسانس" {% if request.user.educational_level == 'فوق لیسانس' %}selected{% endif %}>فوق لیسانس</option>
+                                            <option value="دکترا" {% if request.user.educational_level == 'دکترا' %}selected{% endif %}>دکترا</option>
+                                            <option value="سایر" {% if request.user.educational_level == 'سایر' %}selected{% endif %}>سایر</option>
+                                        </select>
+                                    {% endif %}
+                                    <input type="submit" value="ثبت ویرایش" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+                                </form>
+                            </div>
+                        </details>
+                    </div>
+                    <!-- Change Password -->
+                    <div class="bg-rose-50 text-slate-700 rounded-4xl p-4 flex flex-col overflow-auto transition-all">
+                        <details class="flex flex-col transition-all">
+                            <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                                    <span class="font-bold text-sm">تغییر رمز عبور</span>
+                                </span>
+                                <li class="bg-white text-gray-600 rounded-full flex items-center justify-center size-8 pt-1">+</li>
+                            </summary>
+
+                            <div class="flex flex-col gap-2.5 mt-2.5">
+                                <form action="/profile/edit/password/" method="post" class="w-full flex flex-col transition-all">
+                                    {% csrf_token %}
+
+                                    <input type="password" placeholder="رمز عبور فعلی" name="password_current" maxlength="128" class="w-full bg-white py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                                    <input type="password" placeholder="رمز عبور جدید" name="password_new" maxlength="128" class="w-full bg-white py-3 px-6 rounded-b-[20px] outline-none border-none" required>
+                                    <input type="submit" value="تایید" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+                                </form>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="notifications">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('notifications');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <div class="border border-slate-100 rounded-full p-1 my-2.5 flex items-center gap-2 overflow-hidden text-sm text-slate-700">
+                        <button class="rounded-full py-1 px-4 outline-none cursor-pointer tab-btn-active transition-all" id="tabNotificationsButton1" onclick="tabContent('2', '1', 'tabNotificationsButton1', 'tabNotificationsButton2', 'tabNotificationsButton3', 'tabNotificationsContent1', 'tabNotificationsContent2', 'tabNotificationsContent3');">دانشگاه</button>
+                        <button class="rounded-full py-1 px-4 outline-none cursor-pointer transition-all" id="tabNotificationsButton2" onclick="tabContent('2', '2', 'tabNotificationsButton2', 'tabNotificationsButton1', 'tabNotificationsButton3', 'tabNotificationsContent1', 'tabNotificationsContent2', 'tabNotificationsContent3');">سیستم</button>
+                        <button class="rounded-full py-1 px-4 outline-none cursor-pointer transition-all" id="tabNotificationsButton3" onclick="tabContent('2', '3', 'tabNotificationsButton3', 'tabNotificationsButton2', 'tabNotificationsButton1', 'tabNotificationsContent1', 'tabNotificationsContent2', 'tabNotificationsContent3');">شخصی</button>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 text-slate-800 text-sm">
+                    <style>
+                        .tab-content-notifications div a:last-child {border: none;}
+                    </style>
+
+                    <div class="tab-content-notifications tab-content-active transition-all" id="tabNotificationsContent1">
+                        {% if not request.user.university_id %}
+                            <p>دانشجوی عزیز؛<br /><span class="font-semibold">شما عضو واحد دانشگاه خودت نیستی!</span><br />لطفا از بخش ویرایش اطلاعات واحد خودت رو مشخص و یا با امور فرهنگی دانشگاه خودت ارتباط بگیر.</p>
+                        {% else %}
+                            {% if notifications_list_uni|length >= 1 %}
+                                <div class="flex flex-col gap-2.5 w-full">
+                                    {% for item in notifications_list_uni %}
+                                        <a href="{{ item.url_action }}" draggable="false" class="w-full flex items-center gap-2.5 p-2.5 text-sm text-slate-700 border-b border-slate-100">
+                                            <div class="flex flex-col gap-2.5 w-full">
+                                                <span class="flex items-center gap-2.5 mb-2.5">
+                                                    <svg class="notify-icon size-6" fill="none" viewBox="0 0 24 24"><path fill="#1e2939" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                                                    <p class="font-semibold">{{ item.title }}</p>
+                                                </span>
+                                                <p class="">{{ item.body }}</p>
+                                                <p class="text-xs text-slate-400">{{ item.created_at }}</p>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="flex items-center justify-center m-auto text-slate-400 py-2.5">اعلانی در دانشگاه شما پیدا نشده است.</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="tab-content-notifications hidden transition-all" id="tabNotificationsContent2">
+                        {% if notifications_list_system|length >= 1 %}
+                            <div class="flex flex-col gap-2.5 w-full">
+                                {% for item in notifications_list_system %}
+                                    <a href="{{ item.url_action }}" draggable="false" class="w-full flex items-center gap-2.5 p-2.5 text-sm text-slate-700 border-b border-slate-100">
+                                        <div class="flex flex-col gap-2.5 w-full">
+                                            <span class="flex items-center gap-2.5 mb-2.5">
+                                                <svg class="notify-icon size-6" fill="none" viewBox="0 0 24 24"><path fill="#1e2939" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                                                <p class="font-semibold">{{ item.title }}</p>
+                                            </span>
+                                            <p class="">{{ item.body }}</p>
+                                            <p class="text-xs text-slate-400">{{ item.created_at }}</p>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="flex items-center justify-center m-auto text-slate-400 py-2.5">اعلانی پیدا نشده است.</p>
+                        {% endif %}
+                    </div>
+                    <div class="tab-content-notifications hidden transition-all" id="tabNotificationsContent3">
+                        {% if notifications_list_system_user|length >= 1 %}
+                            <div class="flex flex-col gap-2.5 w-full">
+                                {% for item in notifications_list_system_user %}
+                                    <a href="{{ item.url_action }}" draggable="false" class="w-full flex flex-col gap-4 p-2.5 text-sm text-slate-700 border-b border-slate-100">
+                                        <div class="flex flex-col gap-2.5 w-full">
+                                            <span class="flex items-center gap-2.5">
+                                                <svg class="notify-icon size-6" fill="none" viewBox="0 0 24 24"><path fill="#1e2939" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                                                <p class="font-semibold">{{ item.title }}</p>
+                                            </span>
+                                            <div class="mb-2.5 flex flex-col gap-2.5">{{ item.body | safe }}</div>
+                                            <p class="text-xs text-slate-400">{{ item.created_at }}</p>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="flex items-center justify-center m-auto text-slate-400 py-2.5">اعلانی پیدا نشده است.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="sectionDisabledCulturalAdmin">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('sectionDisabledCulturalAdmin');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                </div>
+                <div class="flex flex-col gap-2 text-slate-800 text-sm">
+                    {% if request.user.is_authenticated %}
+                        <p>{{ request.user.username }} عزیز؛<br />این بخش مختص دانشجویان می باشد.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% elif request.user.role == 'admin' %}
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="notificationsAdmin">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('notificationsAdmin');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                </div>
+                <div class="flex flex-col gap-2 text-slate-800 text-sm">
+                    <style>
+                        #notificationsAdmin .card a:last-child {border: none;}
+                    </style>
+                    
+                    {% if notifications_list_system_admin|length >= 1 %}
+                        <div class="card flex flex-col gap-2.5 w-full">
+                            {% for item in notifications_list_system_admin %}
+                                <a href="{{ item.url_action }}" draggable="false" class="w-full flex items-center gap-2.5 p-2.5 text-sm text-slate-700 border-b border-slate-100">
+                                    <div class="flex flex-col gap-2.5 w-full">
+                                        <span class="flex items-center gap-2.5 mb-2.5">
+                                            <svg class="notify-icon size-6" fill="none" viewBox="0 0 24 24"><path fill="#1e2939" fill-rule="evenodd" d="M6.1 7.495c-.054.627-.054 1.27-.054 1.941a.75.75 0 0 1-.016.152 5.619 5.619 0 0 1-1.333 2.623 2.85 2.85 0 0 0-.446 1.377V13.803a2.853 2.853 0 0 0 .644 1.864 3.806 3.806 0 0 0 2.364 1.125h.009c3.142.338 6.312.338 9.454 0h.012a3.756 3.756 0 0 0 2.362-1.126c.44-.528.67-1.192.653-1.87v-.21a2.756 2.756 0 0 0-.445-1.365A5.704 5.704 0 0 1 17.97 9.59a.743.743 0 0 1-.014-.1c-.025-.348-.024-.695-.023-1.01V8.43c.002-.338.001-.64-.024-.933-.266-2.727-3.02-4.746-5.87-4.746h-.078c-2.852 0-5.603 2.02-5.86 4.745m-1.493-.138c.346-3.69 3.939-6.107 7.354-6.107h.078c3.416 0 7.006 2.416 7.363 6.105v.007c.033.372.033.74.031 1.072v.033c0 .31-.002.59.016.864a4.206 4.206 0 0 0 1.002 1.922.754.754 0 0 1 .067.085 4.255 4.255 0 0 1 .73 2.23v.2a4.317 4.317 0 0 1-1.05 2.917 5.255 5.255 0 0 1-3.321 1.6c-3.246.348-6.52.347-9.765 0a5.305 5.305 0 0 1-3.354-1.639 4.354 4.354 0 0 1-1.007-2.867v-.21a4.35 4.35 0 0 1 .727-2.234.753.753 0 0 1 .073-.094 4.122 4.122 0 0 0 .995-1.885c0-.638.002-1.318.06-1.994l.001-.005M9.087 20.265a.75.75 0 0 1 1.054.12 2.338 2.338 0 0 0 3.242.38l.012-.01c.145-.108.275-.234.388-.373a.75.75 0 1 1 1.168.94c-.19.237-.41.449-.654.631a3.839 3.839 0 0 1-5.329-.634.75.75 0 0 1 .12-1.054" clip-rule="evenodd"></path></svg>
+                                            <p class="font-semibold">{{ item.title }}</p>
+                                        </span>
+                                        <p class="">{{ item.body | safe }}</p>
+                                        <p class="text-xs text-slate-400">{{ item.created_at }}</p>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="flex items-center justify-center m-auto text-slate-400 py-2.5">اعلانی پیدا نشده است.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+    {% endif %}
+
+    {% if request.user.role == 'student' %}
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="upgradeAccountRequest">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('upgradeAccountRequest');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <p class="">درخواست ارتقا حساب (مسئول امور فرهنگی)</p>
+                </div>
+                <div class="flex flex-col gap-2.5 text-slate-800 text-sm transition-all">
+                    <p class="my-2.5"><p>{{ request.user.username }} عزیز؛</p>در صورت ثبت درخواست، درخواست شما طی 72 ساعت آینده بررسی و در صورت لزوم کارشناسان ما با شما تماس خواهند گرفت، همچنین جهت پیگیری وضعیت درخواست خود می‌توانید در بخش اعلانات آنرا مشاهده کنید. <span class="font-semibold">این فرم جهت ثبت دانشگاه طراحی شده، مسئول گرامی لطفا اطلاعات معتبر وارد کنید.</span></p>
+                    <form action="/panel/cultural_manager/request/" method="post" enctype="multipart/form-data" class="w-full flex flex-col transition-all">
+                        {% csrf_token %}
+
+                        <input type="text" placeholder="نام دانشگاه (واحد)" name="university_name" maxlength="200" class="w-full bg-gray-100 py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                        <input type="text" placeholder="نام شهرستان" name="city" maxlength="50" class="w-full bg-gray-100 py-3 px-6 rounded-b-[20px] outline-none border-none" required>
+
+                        <div class="flex flex-col gap-2.5 py-4">
+                            <span class="flex flex-col gap-1">
+                                <label for="university_icon">لوگو دانشگاه</label>
+                                <input type="file" id="university_icon" placeholder="لوگو دانشگاه" name="university_icon" accept=".jpg, .jpeg, .png" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>
+                            </span>
+                            <span class="flex flex-col gap-1">
+                                <label for="document_file">مدارک رسمی و هویتی جهت احراز هویت <span class="text-xs text-slate-500">(بصورت فایل PDF, JPG یا ZIP)</span></label>
+                                <input type="file" id="document_file" placeholder="مدارک رسمی" name="document_file" accept=".pdf, .jpg, .zip" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>
+                            </span>
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <span>
+                                <input type="tel" placeholder="شماره تماس امور فرهنگی" name="phone_cultural_admin" value="{{ request.user.phone }}" maxlength="11" class="w-full bg-gray-100 py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                                <input type="tel" placeholder="شماره تماس دانشگاه" name="phone_university" maxlength="11" class="w-full bg-gray-100 py-3 px-6 rounded-b-[20px] outline-none border-none" required>
+                            </span>
+                            <textarea name="description" rows="6" placeholder="توضیحات" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required></textarea>
+                        </div>
+
+                        <input type="submit" value="ثبت درخواست" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if not request.user.university_id %}
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="userUnuniversityId">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('userUnuniversityId');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <p class=""></p>
+                </div>
+                <div class="flex flex-col gap-2.5 text-slate-800 text-sm text-justify">
+                    <p>دانشجوی عزیز؛<br /><span class="font-semibold">شما عضو واحد دانشگاه خودت نیستی!</span><br />لطفا از بخش ویرایش اطلاعات واحد خودت رو مشخص و یا با امور فرهنگی دانشگاه خودت ارتباط بگیر.</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="signin">
+        <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('signin');"></i>
+        <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+            <div class="flex flex-col items-center mx-auto text-center">
+                <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                <div class="border border-slate-100 rounded-full p-1 my-1 flex items-center gap-2 overflow-hidden text-sm text-slate-700">
+                    <button class="rounded-full py-1 px-4 outline-none cursor-pointer tab-btn-active transition-all" id="tabButton1" onclick="tabContent('1', '1', 'tabButton1', 'tabButton2', '', 'tabContent1', 'tabContent2', '');">ورود</button>
+                    <button class="rounded-full py-1 px-4 outline-none cursor-pointer transition-all" id="tabButton2" onclick="tabContent('1', '2', 'tabButton2', 'tabButton1', '', 'tabContent1', 'tabContent2', '');">ثبت نام</button>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2.5 text-slate-800 text-sm transition-all">
+                <div class="tab-content-active transition-all" id="tabContent1">
+                    <form action="/signin/" method="post" class="w-full flex flex-col transition-all" id="signinEvent">
+                        {% csrf_token %}
+
+                        <input type="tel" placeholder="شماره تماس" name="tel" maxlength="11" class="w-full bg-gray-100 py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                        <input type="password" placeholder="رمز عبور" name="password" maxlength="128" class="w-full bg-gray-100 py-3 px-6 rounded-b-[20px] outline-none border-none" required>
+                        <button type="submit" id="signinEventLoading" value="ورود به حساب" class="w-full bg-primary text-white text-center flex items-center justify-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">ورود به حساب</button>
+                        
+                        <script>
+                            const signinEventId = document.getElementById('signinEvent');
+                            const signinEventLoadingId = document.getElementById('signinEventLoading');
+                            signinEventId.onsubmit = function() {
+                                signinEventLoadingId.classList.remove('py-3');
+                                signinEventLoadingId.classList.add('py-0.5');
+                                signinEventLoadingId.innerHTML = `<svg fill="currentColor" width="40px" height="40px" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" fill-opacity=".3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from=".5" to=".5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>`;
+                            }
+                        </script>
+                    </form>
+                </div>
+                <div class="hidden transition-all" id="tabContent2">
+                    <form action="/signup/" method="post" class="w-full flex flex-col transition-all" id="signupEvent">
+                        {% csrf_token %}
+
+                        <input type="text" placeholder="نام کاربری" name="username" maxlength="200" class="w-full bg-gray-100 py-3 px-6 rounded-t-[20px] outline-none border-none" required>
+                        <input type="tel" placeholder="شماره تماس" name="tel" maxlength="11" class="w-full bg-gray-100 py-3 px-6 outline-none border-none" required>
+                        <input type="password" placeholder="رمز عبور" name="password" maxlength="128" class="w-full bg-gray-100 py-3 px-6 rounded-b-[20px] outline-none border-none" required>
+                        <button type="submit" id="signupEventLoading" value="ایجاد حساب" class="w-full bg-primary text-white text-center flex items-center justify-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">ایجاد حساب</button>
+
+                        <script>
+                            const signupEventId = document.getElementById('signupEvent');
+                            const signupEventLoadingId = document.getElementById('signupEventLoading');
+                            signupEventId.onsubmit = function() {
+                                signupEventLoadingId.classList.remove('py-3');
+                                signupEventLoadingId.classList.add('py-0.5');
+                                signupEventLoadingId.innerHTML = `<svg fill="currentColor" width="40px" height="40px" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" fill-opacity=".3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from=".5" to=".5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>`;
+                            }
+                        </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="userUnauthenticated">
+        <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('userUnauthenticated');"></i>
+        <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+            <div class="flex flex-col items-center mx-auto text-center">
+                <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                <p class=""></p>
+            </div>
+            <div class="flex flex-col gap-2.5 text-slate-800 text-sm">
+                <p>کاربر عزیز؛<br /> برای بهرمندی از امکانات بیشتر، لطفا وارد حساب کاربری شوید.</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="about">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('about');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            <p class="">درباره ما</p>
+        </div>
+        <div class="flex flex-col gap-2.5 text-slate-800 text-sm text-justify">
+            <div class="flex flex-col items-center gap-3 my-2.5">
+                <img src="{% static 'assets/images/logo/SVG/icon_splash.svg' %}" alt="logo" class="size-40 rounded-full m-auto" draggable="false">
+                <span class="bg-slate-100 text-slate-500 text-xs font-mono rounded-full py-1 px-3 inline">version {{ APP_VERSION }}</span>
+            </div>
+            <p>بنام خداوند نور</p>
+            <p>وب اپلیکیشن <span class="font-semibold">آیت</span> یک پلتفرم هوشمند قرآنی است که با هدف ارائه تجربه‌ای ساختاریافته و فناورانه از دسترسی به منابع قرآن طراحی شده است. این پلتفرم با تمرکز بر فضای دانشگاهی توسعه یافته و علاوه بر استفاده فردی، قابلیت بهره‌برداری در مدیریت امور فرهنگی و قرآنی دانشگاه‌ها را نیز دارد.</p>
+            <p>آیت با بهره‌گیری از معماری ماژولار، سیستم نقش‌بندی کاربران و قابلیت‌های هوشمندسازی، بستری منظم و قابل توسعه برای استفاده مطالعاتی و فرهنگی فراهم کرده است. ارائه قرآن، ادعیه، احادیث و منابع مکمل در کنار ابزارهایی مانند ذکرشمار هوشمند، پیشنهاد محتوای متناسب با نیاز کاربر و پنل‌های مدیریتی، آیت را به یک راهکار دیجیتال جامع در حوزه قرآن تبدیل کرده است.</p>
+            <p class="mb-2.5">این پلتفرم با طراحی مینیمال، عملکرد سریع و قابلیت استفاده آنلاین و آفلاین، تلاش دارد مفاهیم قرآنی را در قالبی متناسب با زندگی دیجیتال امروز ارائه دهد.</p>
+            <p class="flex flex-col gap-1"><span class="font-semibold">مخاطبان</span><span>دانشجویان و عموم</span></p>
+            <p class="flex flex-col gap-1"><span class="font-semibold">اسلوگان</span><span>پلتفرم هوشمند انس با قرآن</span></p>
+            <p class="flex flex-col gap-1"><span class="font-semibold">نام ناشر</span><span>محمدمهدی ربیعی</span></p>
+            <p class="flex flex-col gap-1"><span class="font-semibold">رشته تحصیلی</span><span>کامپیوتر نرم افزار کارشناسی ناپیوسته، دانشکده ملی مهارت محمودآباد</span></p>
+            <p class="flex flex-col gap-1"><span class="font-semibold">شماره تماس</span><span><a href="tel:+9809031265448">09031265448</a></span></p>
+        </div>
+    </div>
+</div>
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="settings">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('settings');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            <p class="">تنظیمات</p>
+        </div>
+        <div class="flex flex-col gap-2.5">
+            <!-- Special Mode Settings -->
+            <div class="flex flex-col gap-2.5">
+                <p class="font-semibold text-slate-800">تنظیمات حالت ویژه <span class="text-xs text-slate-400">(بزودی)</span></p>
+                
+                <div class="flex flex-col gap-2.5">
+                    <p class="text-sm text-gray-500 mb-2.5">با فعالسازی حالت امتحان (امتحان‌یار) یا رمضان (رمضان‌یار) یک بخش ویژه در صفحه اصلی اضافه و قابلیت‌های آن بخش، قابل دسترس می باشد.</p>
+                    <div class="tab bg-slate-100 rounded-full p-1.5 my-1 flex items-center gap-2 overflow-hidden text-sm text-slate-700 w-full" style="filter: blur(2px);">
+                        <button class="rounded-full p-2.5 outline-none cursor-pointer w-full flex items-center gap-2.5 justify-center tab-none-content-btn-active transition-all" id="tabSettingsModeSpecial1" onclick="tabNoneContentType2('tabSettingsModeSpecial1', 'tabSettingsModeSpecial2', 'tabSettingsModeSpecial3');">
+                            <span>امتحان</span>
+                        </button>
+                        <button class="rounded-full p-2.5 outline-none cursor-pointer w-full flex items-center gap-2.5 justify-center transition-all" id="tabSettingsModeSpecial2" onclick="tabNoneContentType2('tabSettingsModeSpecial2', 'tabSettingsModeSpecial1', 'tabSettingsModeSpecial3');">
+                            <span>رمضان</span>
+                        </button>
+                        <button class="rounded-full p-2.5 outline-none cursor-pointer w-full flex items-center gap-2.5 justify-center transition-all" id="tabSettingsModeSpecial3" onclick="tabNoneContentType2('tabSettingsModeSpecial3', 'tabSettingsModeSpecial1', 'tabSettingsModeSpecial2');">
+                            <span>خاموش</span>
+                        </button>
+                    </div>
+
+                    <div class="pb-1"></div>
+                    <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxSettingsModeSpecialShowWidgetDisablePage" style="filter: blur(2px);">
+                        <span class="text-gray-800">نمایش بعنوان ویجت و غیرفعالسازی صفحه</span>
+                        <span class="flex items-center">
+                            <div class="slider relative inline-block w-12 h-7 transition-all">
+                                <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxSettingsModeSpecialShowWidgetDisablePage" onclick="settingsModeSpecialShowWidgetDisablePageToggle('checkboxSettingsModeSpecialShowWidgetDisablePage');">
+                                <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                            </div>
+                        </span>
+                    </label>
+                    <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxSettingsModeSpecialDisableEffect" style="filter: blur(2px);">
+                        <span class="text-gray-800">غیرفعالسازی افکت تغییر ظاهر</span>
+                        <span class="flex items-center">
+                            <div class="slider relative inline-block w-12 h-7 transition-all">
+                                <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxSettingsModeSpecialDisableEffect" onclick="settingsModeSpecialDisableEffectToggle('checkboxSettingsModeSpecialDisableEffect');">
+                                <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                            </div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="border-slate-100 my-2.5">
+
+            <!-- Bale Bot Settings -->
+            <div class="flex flex-col gap-2.5">
+                <p class="font-semibold text-slate-800">اتصال به ربات بله</p>
+                
+                <div class="flex flex-col gap-2.5">
+                    <p class="text-sm text-gray-500 mb-2.5">با فعالسازی بازوی بله (آیت | پلتفرم هوشمند انس با قرآن) از قابلیت‌های اطلاع رسانی و خدمات محدود بهره مند شوید.</p>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.bale_chat_id == none %}
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center gap-6">
+                                    <img src="{% static 'assets/images/logo/SVG/icon_splash.svg' %}" alt="logo" class="size-12.75" draggable="false">
+                                    <a href="https://web.bale.ai/@ayatapp_bot" draggable="false">
+                                        <button type="submit" class="flex items-center gap-2.5 rounded-4xl px-4 py-2 bg-blue-50 text-slate-500 cursor-pointer text-xs" onclick="modal('soon')">
+                                            <span class="flex items-center gap-2.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" />
+                                                </svg>
+                                                <span>متصل سازی</span>
+                                            </span>
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <button type="submit" class="flex items-center gap-2.5 rounded-4xl px-4 py-1.5 bg-blue-50 text-slate-500 cursor-pointer text-xs">
+                                        <span class="flex items-center gap-2.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v8.25A2.25 2.25 0 0 0 6 16.5h2.25m8.25-8.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-7.5A2.25 2.25 0 0 1 8.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 0 0-2.25 2.25v6" />
+                                            </svg>
+                                            <pre style="user-select: all;">{{ request.user.id }}</pre>
+                                        </span>
+                                    </button>
+                                    <span class="text-slate-500 text-xs">کد مورد نظر را به بازوی بله ارسال کنید.</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="text-sm text-green-500 font-semibold">شما به بازوی بله متصل هستید.</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-sm">برای فعالسازی این قابلیت ابتدا وارد حساب کاربری خود شوید.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <hr class="border-slate-100 my-2.5">
+
+            <!-- Appearance Settings -->
+            <div class="flex flex-col gap-2.5">
+                <p class="font-semibold text-slate-800">تنظیمات ظاهری</p>
+                
+                <div class="flex flex-col gap-2.5">
+                    <p class="text-sm text-slate-800">حالت نمایش</p>
+                    <p class="text-sm text-gray-500 mb-2.5">در این بخش می‌توانید حالت نمایش اپلیکیشن را تغییر دهید. این گزینه به شما کمک می‌کند تا بر اساس نور محیط و راحتی چشمانتان، بهترین تجربه کاربری را داشته باشید، همچنین با فعالسازی حالت تاریک در مصرف باطری صرفه جویی کنید.</p>
+                    <div class="tab bg-slate-100 rounded-full p-1.5 my-1 flex items-center gap-2 overflow-hidden text-sm text-slate-700 w-full">
+                        <button class="rounded-full p-2.5 outline-none cursor-pointer w-full flex items-center gap-2.5 justify-center tab-none-content-btn-active transition-all" id="tabSettingsModeDark1" onclick="tabNoneContent('tabSettingsModeDark1', 'tabSettingsModeDark2'), darkModeToggle('light');">
+                            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"><path d="M23.3958 15.806C23.3958 19.7848 20.1704 23.0102 16.1916 23.0102C12.2128 23.0102 8.98738 19.7848 8.98738 15.806C8.98738 11.8272 12.2128 8.60178 16.1916 8.60178C20.1704 8.60178 23.3958 11.8272 23.3958 15.806Z" fill="#83888F"></path><path d="M15.2181 3.34464C15.2181 2.80696 15.6539 2.37109 16.1916 2.37109C16.7293 2.37109 17.1652 2.80696 17.1652 3.34464V4.51289C17.1652 5.05057 16.7293 5.48644 16.1916 5.48644C15.6539 5.48644 15.2181 5.05057 15.2181 4.51289V3.34464Z" fill="#83888F"></path><path d="M15.2181 27.4886C15.2181 26.9509 15.6539 26.515 16.1916 26.515C16.7293 26.515 17.1652 26.9509 17.1652 27.4886V28.6568C17.1652 29.1945 16.7293 29.6304 16.1916 29.6304C15.6539 29.6304 15.2181 29.1945 15.2181 28.6568V27.4886Z" fill="#83888F"></path><path d="M6.39501 7.59483C6.01482 7.21464 6.01482 6.59822 6.39501 6.21803C6.77521 5.83784 7.39162 5.83784 7.77181 6.21803L8.59789 7.04411C8.97809 7.4243 8.97809 8.04072 8.59789 8.42091C8.2177 8.8011 7.60129 8.8011 7.22109 8.42091L6.39501 7.59483Z" fill="#83888F"></path><path d="M23.7713 24.9712C23.3911 24.591 23.3911 23.9746 23.7713 23.5944C24.1515 23.2142 24.7679 23.2142 25.1481 23.5944L25.9742 24.4205C26.3544 24.8006 26.3544 25.4171 25.9742 25.7973C25.594 26.1774 24.9776 26.1774 24.5974 25.7973L23.7713 24.9712Z" fill="#83888F"></path><path d="M8.79258 24.9712C9.17278 24.591 9.17278 23.9746 8.79258 23.5944C8.41239 23.2142 7.79598 23.2142 7.41578 23.5944L6.5897 24.4205C6.20951 24.8006 6.20951 25.4171 6.5897 25.7973C6.9699 26.1774 7.58631 26.1774 7.9665 25.7973L8.79258 24.9712Z" fill="#83888F"></path><path d="M25.9742 7.59483C26.3544 7.21464 26.3544 6.59822 25.9742 6.21803C25.594 5.83784 24.9776 5.83784 24.5974 6.21803L23.7713 7.04411C23.3911 7.4243 23.3911 8.04072 23.7713 8.42091C24.1515 8.8011 24.7679 8.8011 25.1481 8.42091L25.9742 7.59483Z" fill="#83888F"></path><path d="M3.34073 16.7796C2.80306 16.7796 2.36719 16.3437 2.36719 15.806C2.36719 15.2683 2.80306 14.8325 3.34073 14.8325H4.50899C5.04666 14.8325 5.48253 15.2683 5.48253 15.806C5.48253 16.3437 5.04666 16.7796 4.50899 16.7796H3.34073Z" fill="#83888F"></path><path d="M27.4846 16.7796C26.947 16.7796 26.5111 16.3437 26.5111 15.806C26.5111 15.2683 26.947 14.8325 27.4846 14.8325H28.6529C29.1906 14.8325 29.6264 15.2683 29.6264 15.806C29.6264 16.3437 29.1906 16.7796 28.6529 16.7796H27.4846Z" fill="#83888F"></path></svg>
+                            <span>روشن</span>
+                        </button>
+                        <button class="rounded-full p-2.5 outline-none cursor-pointer w-full flex items-center gap-2.5 justify-center transition-all" id="tabSettingsModeDark2" onclick="tabNoneContent('tabSettingsModeDark2', 'tabSettingsModeDark1'), darkModeToggle('dark');">
+                            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"><path d="M19.2827 7.10938C20.0675 8.81309 20.3114 10.7164 19.9814 12.563C19.6513 14.4095 18.7633 16.1105 17.4369 17.4369C16.1105 18.7633 14.4095 19.6513 12.563 19.9814C10.7164 20.3114 8.81309 20.0675 7.10938 19.2827C8.1228 23.8461 12.1938 27.2575 17.0621 27.2575C22.693 27.2575 27.2575 22.693 27.2575 17.0621C27.2575 12.1938 23.8461 8.1228 19.2827 7.10938Z" fill="#5E6C84"></path><path d="M7.90268 5.11929C7.90268 4.99359 7.82367 4.74219 7.50762 4.74219C7.19157 4.74219 7.11256 4.99359 7.11256 5.11929C7.11256 5.7478 6.7175 7.00481 5.13725 7.00481C5.00556 7.00481 4.74219 7.08023 4.74219 7.38192C4.74219 7.6836 5.00556 7.75902 5.13725 7.75902C5.79569 7.82187 7.11256 8.28697 7.11256 9.64454C7.11256 9.77025 7.19157 10.0216 7.50762 10.0216C7.82367 10.0216 7.90268 9.77025 7.90268 9.64454C7.90268 8.13613 9.35124 7.75902 9.87799 7.75902C10.0097 7.75902 10.2731 7.6836 10.2731 7.38192C10.2731 7.08023 10.0097 7.00481 9.87799 7.00481C8.29774 7.00481 7.90268 5.7478 7.90268 5.11929Z" fill="#5E6C84"></path><path d="M13.0385 9.64454C13.0385 9.51884 13.1175 9.26744 13.4335 9.26744C13.7496 9.26744 13.8286 9.51884 13.8286 9.64454C13.8286 10.0216 14.0656 10.7759 15.0138 10.7759C15.1455 10.7759 15.4089 10.8513 15.4089 11.153C15.4089 11.4546 15.1455 11.5301 15.0138 11.5301C14.6187 11.5301 13.8286 11.7563 13.8286 12.6614C13.8286 12.7871 13.7496 13.0385 13.4335 13.0385C13.1175 13.0385 13.0385 12.7871 13.0385 12.6614C13.0385 12.2843 12.8014 11.5301 11.8533 11.5301C11.7216 11.5301 11.4582 11.4546 11.4582 11.153C11.4582 10.8513 11.7216 10.7759 11.8533 10.7759C12.2484 10.7759 13.0385 10.5496 13.0385 9.64454Z" fill="#5E6C84"></path></svg>
+                            <span>تاریک</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="pb-2.5"></div>
+                <div class="flex flex-col gap-2.5">
+                    <p class="text-sm text-slate-800">پوسته رنگی</p>
+                    <p class="text-sm text-gray-500 mb-2.5">در این بخش می‌توانید پوسته اپلیکیشن را تغییر دهید. این گزینه امکان سفارشی سازی رنگ پوسته براساس چندین رنگ برگزیده را دارید.</p>
+                    <div class="flex items-center gap-4">
+                        <button class="size-10 bg-green-300 rounded-full cursor-pointer outline-none color-shell-active" id="colorShellGreen" onclick="colorShell('colorShellGreen');"></button>
+                        <button class="size-10 bg-blue-300 rounded-full cursor-pointer outline-none" id="colorShellBlue" onclick="colorShell('colorShellBlue');"></button>
+                        <button class="size-10 bg-orange-300 rounded-full cursor-pointer outline-none" id="colorShellOrange" onclick="colorShell('colorShellOrange');"></button>
+                        <button class="size-10 bg-red-300 rounded-full cursor-pointer outline-none" id="colorShellRed" onclick="colorShell('colorShellRed');"></button>
+                    </div>
+                </div>
+                <div class="pb-2.5"></div>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxActiveGlassMode">
+                    <span class="text-gray-800">فعالسازی حالت شیشه ای</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxActiveGlassMode" onclick="glassModeToggle('checkboxActiveGlassMode');">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxActiveFullMenuMode">
+                    <span class="text-gray-800">فعالسازی حالت نمایش کامل منو در موبایل</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxActiveFullMenuMode" onclick="activeFullMenuModeToggle('checkboxActiveFullMenuMode');">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxActiveShortcutRoundedMode">
+                    <span class="text-gray-800">فعالسازی نمایش آیکون گوشه گرد صفحه اصلی</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxActiveShortcutRoundedMode" onclick="activeShortcutRoundedModeToggle('checkboxActiveShortcutRoundedMode');">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+            </div>
+
+            <hr class="border-slate-100 my-2.5">
+            
+            <!-- Display Settings -->
+            <div class="flex flex-col gap-2.5">
+                <p class="font-semibold text-slate-800">تنظیمات صفحه نمایش</p>
+                
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxKeepingPageOn">
+                    <span class="text-gray-800">عدم خاموش شدن صفحه</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxKeepingPageOn" onclick="requestKeepingPageOn('checkboxKeepingPageOn');">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxActiveEyeProtectionMode">
+                    <span class="text-gray-800">فعالسازی حالت محافظ چشم</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxActiveEyeProtectionMode" onclick="activeEyeProtectionModeToggle('checkboxActiveEyeProtectionMode');">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+            </div>
+
+            <hr class="border-slate-100 my-2.5">
+
+            <!-- Widgets Settings -->
+            <div class="flex flex-col gap-2.5">
+                <p class="font-semibold text-slate-800">تنظیمات ویجت</p>
+                
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxWidgetAssistantAyat">
+                    <span class="text-gray-800">عدم نمایش ویجت شناور دستیار آیت <span class="text-xs">(حال من)</span></span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxWidgetAssistantAyat" onclick="widgetAssistantAyatPollToggle('checkboxWidgetAssistantAyat');">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+            </div>
+
+            <hr class="border-slate-100 my-2.5">
+
+            <!-- Update Application -->
+            <div class="flex flex-col gap-2.5">
+                <div class="flex flex-col gap-2.5">
+                    <p class="font-semibold text-slate-800">دریافت بروزرسانی</p>
+                    <p class="text-sm text-gray-500 mb-2.5">با استفاده از این گزینه، می‌توانید اپلیکیشن را بدون استفاده از کش مجدداً بارگیری کنید. این کار باعث دریافت آخرین تغییرات و بروزرسانی‌های اعمال‌شده در اپلیکیشن می‌شود.</p>
+                    <button type="button" class="rounded-full bg-primary text-white text-sm py-2 px-5 outline-none cursor-pointer w-fit flex items-center justify-center transition-all" id="updateAppBtn" onclick="updateApp('updateAppBtn');"><span>بروزرسانی</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="inviteFriends">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('inviteFriends');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            <p class="">دعوت از دوستان</p>
+        </div>
+        <div class="flex flex-col gap-4 text-slate-800 text-sm">
+            <div class="p-5 bg-green-50 rounded-4xl flex flex-col gap-4">
+                <p>دوست عزیز؛<br />از شما ممنونیم که با انتشار پلتفرم آیت از ما حمایت می کنید 🙏</p>
+                <button class="w-full bg-green-100 rounded-full py-2 px-4 cursor-pointer" onclick="dataShare('آیت؛ پلتفرم هوشمند انس با قرآن', '', '/');">اشتراک گذاری</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="sources">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('sources');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            <p class="">منابع</p>
+        </div>
+        <div class="flex flex-col gap-3 text-slate-800 text-sm">
+            <p><a href="https://meshkatsound.com/">مشکات (مرجع دانلود تلاوت قرآن کریم)</a></p>
+            <p><a href="https://erfan.ir/">پایگاه اطلاع رسانی استاد حسین انصاریان</a></p>
+            <p><a href="https://tanzil.net/">قرآن کریم تنزیل</a></p>
+            <p><a href="https://farsi.khamenei.ir/">پايگاه اطلاع‌رسانی دفتر شهید حضرت آيت‌الله‌العظمی سيدعلی خامنه‌ای</a></p>
+            <p><a href="https://hawzah.net/fa/">پايگاه اطلاع رسانی حوزه</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="soon">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('soon');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+        </div>
+        <div class="flex flex-col gap-2 text-slate-800 text-sm">
+            {% if request.user.is_authenticated %}
+                <p>{{ request.user.username }} عزیز؛<br />این بخش بزودی اضافه میشه، فعلا منتظر باش 🤝</p>
+            {% else %}
+                <p>دوست عزیز؛<br />این بخش بزودی اضافه میشه، فعلا منتظر باش 🤝</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

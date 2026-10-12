@@ -1,0 +1,106 @@
+{% load static %}
+<style>
+    .zekar-active {
+        background-color: rgba(255, 255, 255, 0.60);
+        padding: 0 0.8rem;
+    }
+    .audio-player-zekar-pause-btn-active {display: flex;}
+</style>
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="zekarCounter">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('zekarCounter'), zekarAudioPause('btn');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+        </div>
+        <div class="flex flex-col items-center gap-10 text-slate-800">
+            <div class="w-full p-5 bg-green-100 text-sm rounded-4xl">
+                <p class="mb-2.5">فهرست ذکر:</p>
+                <div class="font-indopak text-slate-600 text-[1.375rem] leading-10! w-full flex items-center gap-6 overflow-hidden overflow-x-auto! rounded-full" style="scroll-snap-type: x mandatory;">
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-1">
+                        <audio src="{% static 'assets/audios/zekar/1.mp3' %}" controls preload="none" loop id="audioPlayerZekar-1" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-1');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>یا رَبِّ الْعالَمِین</span>
+                    </div>
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-2">
+                        <audio src="{% static 'assets/audios/zekar/2.mp3' %}" controls preload="none" loop id="audioPlayerZekar-2" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-2');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>یا ذَالجَلالِ وَ اْلاِکْرام</span>
+                    </div>
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-3">
+                        <audio src="{% static 'assets/audios/zekar/3.mp3' %}" controls preload="none" loop id="audioPlayerZekar-3" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-3');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>یا قاضیَ الحاجات</span>
+                    </div>
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-4">
+                        <audio src="{% static 'assets/audios/zekar/4.mp3' %}" controls preload="none" loop id="audioPlayerZekar-4" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-4');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>یا أَرْحَمَ الرَّاحِمِین</span>
+                    </div>
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-5">
+                        <audio src="{% static 'assets/audios/zekar/5.mp3' %}" controls preload="none" loop id="audioPlayerZekar-5" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-5');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>یا حَیُّ یا قَیّومُ</span>
+                    </div>
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-6">
+                        <audio src="{% static 'assets/audios/zekar/6.mp3' %}" controls preload="none" loop id="audioPlayerZekar-6" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-6');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>لا إِلهَ إِلَّا اللَّهُ المَلِک الحقّ المُبین</span>
+                    </div>
+                    <div class="w-full whitespace-nowrap rounded-full flex items-center gap-2.5" style="scroll-snap-stop: always;" id="zekar-7">
+                        <audio src="{% static 'assets/audios/zekar/7.mp3' %}" controls preload="none" loop id="audioPlayerZekar-7" hidden></audio>
+                        <button class="size-7 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarAudioPlay('#audioPlayerZekar-7');" title="پخش صوت">
+                            <svg class="size-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 5.65273C5.25 4.79705 6.1674 4.25462 6.91716 4.66698L18.4577 11.0143C19.2349 11.4417 19.2349 12.5584 18.4577 12.9858L6.91716 19.3331C6.1674 19.7455 5.25 19.203 5.25 18.3474V5.65273Z" stroke="#45556c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <span>الّلهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَآلِ مُحَمَّدٍ و عجل فرجهم</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <button class="size-10 bg-slate-50 rounded-full hidden items-center justify-center cursor-pointer transition-all" id="audioPlayerZekarPauseBtn" onclick="zekarAudioPause('btn');" title="توقف صوت">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                            <path d="M15.75 5.25L15.75 18.75M8.25 5.25V18.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="size-10 bg-slate-50 rounded-full flex items-center justify-center cursor-pointer transition-all" onclick="zekarCounterReset(0);" title="بازنشانی شمارنده">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                    </button>
+                </div>
+                <button type="button" class="size-40 bg-primary rounded-full text-white text-2xl flex items-center justify-center cursor-pointer overflow-hidden transition-all" id="zekarCounterBtn" onclick="zekarCounter(0);" title="شمارنده">0</button>
+            </div>
+        </div>
+    </div>
+
+    <span id="showModalGetPoints"></span>
+</div>
+
+<script src="{% static 'js/lib/zekar-counter.min.js' %}"></script>

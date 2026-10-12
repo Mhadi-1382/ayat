@@ -1,0 +1,122 @@
+{% load static %}
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="assistantAyat">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('assistantAyat');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+        </div>
+        <div class="flex flex-col gap-2.5 text-slate-800">
+            <div class="flex flex-col gap-2.5">
+                <div class="flex items-center gap-2.5">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="size-10 text-[#1d9d9e]"><path d="M17.665 10C17.665 10.6877 17.1785 11.2454 16.5488 11.3945L16.4219 11.4189C14.7098 11.6665 13.6129 12.1305 12.877 12.8623C12.1414 13.5938 11.6742 14.6843 11.4238 16.3887C11.3197 17.0973 10.7182 17.665 9.96484 17.665C9.27085 17.665 8.68836 17.1772 8.53613 16.5215C8.12392 14.7459 7.6623 13.619 6.95703 12.8652C6.31314 12.1772 5.39414 11.7268 3.88672 11.4688L3.57715 11.4199C2.88869 11.319 2.33496 10.734 2.33496 10C2.33496 9.26603 2.88869 8.681 3.57715 8.58008L3.88672 8.53125C5.39414 8.27321 6.31314 7.82277 6.95703 7.13477C7.6623 6.38104 8.12392 5.25413 8.53613 3.47852L8.56934 3.35742C8.76133 2.76356 9.31424 2.33496 9.96484 2.33496C10.7182 2.33497 11.3197 2.9027 11.4238 3.61133L11.5283 4.22266C11.7954 5.58295 12.2334 6.49773 12.877 7.1377C13.6129 7.86952 14.7098 8.33351 16.4219 8.58105C17.1119 8.68101 17.665 9.26667 17.665 10Z"></path></svg>
+                    <p class="text-sm flex items-center gap-2">دستیار آیت <span class="font-semibold text-xs text-slate-500 font-mono py-1 px-2 bg-green-200 rounded-full">beta</span></p>
+                </div>
+            </div>
+            <div class="max-h-100 pb-4 text-[15px] flex flex-col gap-2.5 overflow-hidden overflow-y-auto transition-all">
+                {% if request.user.is_authenticated %}
+                    <div class="flex flex-col gap-2.5 text-slate-800 transition-all" id="assistantAyatContentRecommendation">
+                        <p class="text-base font-semibold">سلام {{ request.user.username }} عزیز 👋</p>
+                        <p class="text-sm text-slate-600">من یه دستیار هوشمند هستم،<br />فعلا فقط میتونم سوالات معین شده زیر رو پاسخ بدم.</p>
+                    </div>
+                {% else %}
+                    <div class="flex flex-col gap-2.5 text-slate-800 transition-all" id="assistantAyatContentRecommendation">
+                        <p class="text-base font-semibold">سلام کاربر عزیز 👋</p>
+                        <p class="text-sm text-slate-600">من یه دستیار هوشمند هستم،<br />فعلا فقط میتونم سوالات معین شده زیر رو پاسخ بدم.</p>
+                    </div>
+                {% endif %}
+
+                <div class="hidden items-center transition-all" id="assistantAyatContentRecommendationToolbox">
+                    <button class="nav-btn-icon" title="اشتراک گذاری" onclick="dataShare('', document.getElementById('assistantAyatContentRecommendation').textContent, '');" draggable="false">
+                        <svg class="size-9 p-2 rounded-full hover:bg-gray-50 text-slate-600 cursor-pointer overflow-visible transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" /></svg>
+                    </button>
+                    <button class="nav-btn-icon" title="خواندن متن" onclick="modal('soon');" draggable="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9 p-2 rounded-full hover:bg-gray-50 text-slate-600 cursor-pointer overflow-visible transition-all"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2.5">
+                <div class="flex items-center gap-2 overflow-hidden overflow-x-auto w-full pb-1" style="scroll-snap-type: x mandatory;" id="questions-list"></div>
+                <form class="flex items-center" id="assistantAyatContentRecommendationForm">
+                    <input type="hidden" id="promptInputHidden" value="">
+                    <input type="text" placeholder="سوال خود را بپرسید..." class="py-5 pr-5 pl-24 bg-slate-100 outline-none border-none rounded-full w-full text-sm relative transition-all" id="promptInput" maxlength="100" autocomplete="off" required>
+
+                    <div class="flex items-center gap-2.5 absolute left-[1.880rem]">
+                        <span title="" onclick="modal('soon');">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="size-5 cursor-pointer"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/></svg>
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M7.917 3.333c.69 0 1.25.56 1.25 1.25v10.834a1.25 1.25 0 1 1-2.5 0V4.583c0-.69.56-1.25 1.25-1.25m4.166 2.5c.69 0 1.25.56 1.25 1.25v5.834a1.25 1.25 0 1 1-2.5 0V7.083c0-.69.56-1.25 1.25-1.25M3.75 7.5C4.44 7.5 5 8.06 5 8.75v2.5a1.25 1.25 0 0 1-2.5 0v-2.5c0-.69.56-1.25 1.25-1.25m12.5 0c.69 0 1.25.56 1.25 1.25v2.5a1.25 1.25 0 0 1-2.5 0v-2.5c0-.69.56-1.25 1.25-1.25"></path></svg> -->
+                        </span>
+                        <button type="submit" class="p-3 bg-white rounded-full cursor-pointer transition-all" id="promptButton"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M6.394 4.444c.188-.592 1.024-.592 1.212 0C8.4 8.9 9.1 9.6 13.556 10.394c.592.188.592 1.024 0 1.212C9.1 12.4 8.4 13.1 7.606 17.556c-.188.592-1.024.592-1.212 0C5.6 13.1 4.9 12.4.444 11.606c-.592-.188-.592-1.024 0-1.212C4.9 9.6 5.6 8.9 6.394 4.444m8.716 9.841a.41.41 0 0 1 .78 0c.51 2.865.96 3.315 3.825 3.826.38.12.38.658 0 .778-2.865.511-3.315.961-3.826 3.826a.408.408 0 0 1-.778 0c-.511-2.865-.961-3.315-3.826-3.826a.408.408 0 0 1 0-.778c2.865-.511 3.315-.961 3.826-3.826Zm2.457-12.968a.454.454 0 0 1 .866 0C19 4.5 19.5 5 22.683 5.567a.454.454 0 0 1 0 .866C19.5 7 19 7.5 18.433 10.683a.454.454 0 0 1-.866 0C17 7.5 16.5 7 13.317 6.433a.454.454 0 0 1 0-.866C16.5 5 17 4.5 17.567 1.317"></path></svg></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if request.user.is_authenticated and request.user.role == 'student' %}
+    <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="assistantAyatPoll">
+        <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('assistantAyatPoll');"></i>
+        <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+            <div class="flex flex-col items-center mx-auto text-center">
+                <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            </div>
+            <div class="flex flex-col gap-2.5 text-slate-800 transition-all">
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex items-center gap-2.5">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="size-10 text-[#1d9d9e] animate-pulse"><path d="M17.665 10C17.665 10.6877 17.1785 11.2454 16.5488 11.3945L16.4219 11.4189C14.7098 11.6665 13.6129 12.1305 12.877 12.8623C12.1414 13.5938 11.6742 14.6843 11.4238 16.3887C11.3197 17.0973 10.7182 17.665 9.96484 17.665C9.27085 17.665 8.68836 17.1772 8.53613 16.5215C8.12392 14.7459 7.6623 13.619 6.95703 12.8652C6.31314 12.1772 5.39414 11.7268 3.88672 11.4688L3.57715 11.4199C2.88869 11.319 2.33496 10.734 2.33496 10C2.33496 9.26603 2.88869 8.681 3.57715 8.58008L3.88672 8.53125C5.39414 8.27321 6.31314 7.82277 6.95703 7.13477C7.6623 6.38104 8.12392 5.25413 8.53613 3.47852L8.56934 3.35742C8.76133 2.76356 9.31424 2.33496 9.96484 2.33496C10.7182 2.33497 11.3197 2.9027 11.4238 3.61133L11.5283 4.22266C11.7954 5.58295 12.2334 6.49773 12.877 7.1377C13.6129 7.86952 14.7098 8.33351 16.4219 8.58105C17.1119 8.68101 17.665 9.26667 17.665 10Z"></path></svg>
+                        <p class="text-sm">دستیار آیت — حال من</p>
+                    </div>
+                </div>
+                <div class="max-h-100 pb-2 text-[15px] flex flex-col gap-2.5 overflow-hidden overflow-y-auto transition-all">
+                    <p class="transition-all" id="statusContentRecommendationCurrentChoose">سلام {{ request.user.username }} عزیز، امروز حالت چطوره؟</p>
+                    <p class="transition-all" id="resultContentRecommendation"></p>
+
+                    <div class="hidden items-center transition-all" id="assistantAyatPollContentRecommendationToolbox">
+                        <button class="nav-btn-icon" title="اشتراک گذاری" onclick="dataShare('', document.getElementById('resultContentRecommendation').textContent, '');" draggable="false">
+                            <svg class="size-9 p-2 rounded-full hover:bg-gray-50 text-slate-600 cursor-pointer overflow-visible transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" /></svg>
+                        </button>
+                        <button class="nav-btn-icon" title="خواندن متن" onclick="modal('soon');" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9 p-2 rounded-full hover:bg-gray-50 text-slate-600 cursor-pointer overflow-visible transition-all"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" /></svg>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-6 overflow-hidden overflow-x-auto transition-all" id="statusContentRecommendationChooses">
+                        <button value="خوشرویی و شادابی" class="flex flex-col items-center gap-2 cursor-pointer transition-all" id="happy" onclick="assistantAyatPoll('happy');"><span class="text-[25px]">😊</span><span class="text-xs text-slate-400">خوشحال</span></button>
+                        <button value="امید و توکل" class="flex flex-col items-center gap-2 cursor-pointer transition-all" id="sad" onclick="assistantAyatPoll('sad');"><span class="text-[25px]">😥</span><span class="text-xs text-slate-400">غمگین</span></button>
+                        <button value="امید و توکل" class="flex flex-col items-center gap-2 cursor-pointer transition-all" id="angry" onclick="assistantAyatPoll('angry');"><span class="text-[25px]">😠</span><span class="text-xs text-slate-400">عصبانی</span></button>
+                        <button value="مدیریت استرس و اضطراب" class="flex flex-col items-center gap-2 cursor-pointer transition-all" id="stress" onclick="assistantAyatPoll('stress');"><span class="text-[25px]">😰</span><span class="text-xs text-slate-400">استرس</span></button>
+                        <button value="انگیزه و تلاش درسی" class="flex flex-col items-center gap-2 cursor-pointer transition-all" id="tired" onclick="assistantAyatPoll('tired');"><span class="text-[25px]">😴</span><span class="text-xs text-slate-400">خسته</span></button>
+                        <button value="امید و توکل" class="flex flex-col items-center gap-2 cursor-pointer transition-all" id="slow" onclick="assistantAyatPoll('slow');"><span class="text-[25px]">🙂</span><span class="text-xs text-slate-400">آرام</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                function getCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split('; ');
+                    const targetPart = parts.find(part => part.startsWith(name + '='));
+                    if (targetPart) {
+                        return targetPart.split('=')[1];
+                    }
+                    return null;
+                }
+
+                const pollCookie = getCookie('assistant_ayat_poll');
+                if (pollCookie === null || pollCookie === 'true') {
+                    setTimeout(() => {
+                        modal('assistantAyatPoll');
+                        document.cookie = "assistant_ayat_poll=false; max-age=86400";
+                    }, 6000);
+                }
+            }, 1);
+        });
+    </script>
+{% endif %}
+
+<script defer src="{% static 'js/lib/ai-ayat.min.js' %}"></script>

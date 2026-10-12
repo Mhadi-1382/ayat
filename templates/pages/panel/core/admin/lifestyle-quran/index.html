@@ -1,0 +1,14 @@
+{% extends '../../../../../core/_base.html' %}
+{% load static %}
+
+{% block title %}پنل مدیریت (مدیرکل) - ویرایش محتوای سبک‌زندگی: {{ lifestyle_quran.id }} {% endblock title %}
+{% block body %}
+    
+    <!-- Include _navbar Module -->
+    {% include '../../../../../core/_navbar.html' %}
+    <!-- Include _sidebar Module -->
+    {% include '../../../../../core/_sidebar.html' %}
+    <!-- Include _index_content Module -->
+    {% include './core/_index_content.html' %}
+
+{% endblock body %}

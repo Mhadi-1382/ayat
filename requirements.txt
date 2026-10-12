@@ -1,0 +1,5 @@
+Django==6.0.2
+django-froala-editor==5.0.1
+django-ratelimit==4.1.0
+persiantools==5.5.0
+pusher-push-notifications==2.0.2

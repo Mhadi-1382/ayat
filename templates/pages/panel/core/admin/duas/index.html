@@ -1,0 +1,23 @@
+{% extends '../../../../../core/_base.html' %}
+{% load static %}
+
+{% block title %}پنل مدیریت (مدیرکل) - ویرایش دعا: {{ dua.title }} {% endblock title %}
+{% block body %}
+    
+    <!-- Include _navbar Module -->
+    {% include '../../../../../core/_navbar.html' %}
+    <!-- Include _sidebar Module -->
+    {% include '../../../../../core/_sidebar.html' %}
+    <!-- Include _index_content Module -->
+    {% include './core/_index_content.html' %}
+
+
+    <link rel="stylesheet" href="{% static 'css/froala_editor.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/code_view.min.css' %}">
+    <script src="{% static 'js/lib/froala_editor.min.js' %}"></script>
+    <script src="{% static 'js/lib/code_view.min.js' %}"></script>
+    <script>
+        var editor = new FroalaEditor('#editor{{ dua.id }}');
+    </script>
+
+{% endblock body %}

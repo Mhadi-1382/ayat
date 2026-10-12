@@ -1,0 +1,80 @@
+{% load static %}
+<style>
+    .surahs-list .surahs-list-card:last-child {border: none !important;}
+</style>
+
+<div class="content-nav-minimize flex flex-col gap-2.5 pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    <!-- Surahs Search -->
+    <div class="flex items-center gap-2.5 mb-4">
+        <div class="flex items-center relative">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-500 absolute right-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+            <input type="search" id="surahSearch" placeholder="جستجو براساس نام سوره" class="w-full bg-gray-100 py-3 px-14 rounded-[20px] outline-none border-none text-sm">
+        </div>
+    </div>
+
+    <!-- Surahs List -->
+    <div class="surahs-list flex flex-col gap-2">
+        {% for item in surahs %}
+            <a href="/surahs/{{ item.id }}/" class="w-full" draggable="false">
+                <div class="surahs-list-card flex items-center justify-between gap-2.5 w-full pt-1 pb-4 px-1.5 border-b border-slate-100">
+                    <div class="flex items-center gap-4">
+                        <p class="flex items-center justify-center size-10 pt-1 rounded-full bg-green-100 text-green-600 font-semibold">{{ item.id }}</p>
+                        <div class="flex flex-col">
+                            <p class="font-semibold text-gray-700">سوره <span>{{ item.name_fa }}</span></p>
+                            <p class="text-sm text-gray-400">{{ item.total_ayah }} آیه</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-10 max-[400px]:gap-8 transition-all">
+                        <p class="font-nabi text-orange-400">{{ item.name_ar }}</p>
+                        <a href="javascript:dataShare('مطالعه سوره {{ item.name_fa }}', '', '{{ item.id }}');" class="text-gray-500" draggable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- Surahs Last Study -->
+    <div class="surahs-last-study flex items-center justify-between gap-2.5 w-full py-3 px-4 mt-4 rounded-3xl sticky left-0 right-0 bottom-2 bg-green-100">
+        <div class="flex flex-col">
+            <p class="text-gray-600 text-[13px]">آخرین سوره مطالعه شده</p>
+            <p class="font-semibold text-gray-700 text-sm" id="historyTitle"></p>
+        </div>
+        <a href="" draggable="false" id="historySlug">
+            <button class="bg-white text-[13px] text-slate-700 py-2 px-4 rounded-full cursor-pointer">ادامه مطالعه</button>
+        </a>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('surahSearch');
+    const list = document.querySelector('.surahs-list');
+
+    function normalize(s) {
+        return (s || '').toString().trim()
+    }
+
+    const cards = list.querySelectorAll('.surahs-list-card');
+    searchInput.addEventListener('input', function () {
+        const query = normalize(this.value);
+
+        if (!query) {
+        cards.forEach(card => {
+            card.style.display = '';
+            list.style.gap = '0.5rem';
+        });
+        return;
+        }
+        cards.forEach(card => {
+        const persianNameElement = card.querySelector('p.text-gray-700 span');
+        const persianText = normalize(persianNameElement?.textContent);
+        const match = persianText.includes(query);
+
+        card.style.display = match ? '' : 'none';
+        list.style.gap = '0.05rem';
+        });
+    });
+</script>

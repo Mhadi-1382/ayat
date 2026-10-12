@@ -1,0 +1,66 @@
+{% load static %}
+<div class="panel content-nav-minimize flex flex-col gap-2.5 overflow-auto pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    {% if request.user.role == 'admin' %}
+        <!-- Panel Details -->
+        <div class="flex flex-col gap-4">
+            <!-- Panel Details: Manage Content -->
+            <!-- Panel Details: Manage Content: Quran -->
+            <details open class="bg-emerald-50 rounded-4xl p-5 flex flex-col overflow-auto transition-all">
+                <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                    <span class="flex items-center gap-2.5">
+                        <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                        <span class="font-bold text-sm">ویرایش سوره ({{ surah.name_fa }})</span>
+                    </span>
+                    <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                </summary>
+
+                <div class="mt-4 mb-5"></div>
+                <div class="w-full text-slate-600 text-sm flex flex-col gap-2.5">
+                    <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                        <p class="py-2.5 font-semibold">شناسه</p>
+                        <p class="py-2.5 font-semibold">نام سوره</p>
+                        <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                    </div>
+
+                    <details open class="flex flex-col gap-2.5">
+                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                            <p class="w-full py-0.5 cursor-pointer">{{ surah.id }}</p>
+                            <p class="w-full py-0.5 cursor-pointer">{{ surah.name_fa }}</p>
+                            <div class="flex items-center gap-2.5">
+                                <a href="javascript:modal('modalPanelQuranSurahInfo');"><p class="py-0.5"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش سوره">¶</button></p></a>
+                                <form action="{% url 'panel_surah_delete' id=surah.id %}" method="post">
+                                    {% csrf_token %}
+
+                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف سوره">×</button></p>
+                                </form>
+                            </div>
+                        </summary>
+                        {% for j in ayahs %}
+                            {% if surah.id == j.surah_id.id %}
+                                <div class="bg-slate-100 py-1 pl-1 pr-4 mt-2.5 rounded-full flex items-center justify-between gap-2.5">
+                                    <a href="javascript:modal('modalPanelQuranAyahInfo{{ j.ayah_number }}');" class="w-full"><span>آیه شماره {{ j.ayah_number }}</span></a>
+                                    <div class="flex items-center gap-2.5">
+                                        <a href="javascript:modal('modalPanelQuranAyahInfo{{ j.ayah_number }}');"><button class="bg-white rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="ویرایش آیه">¶</button></a>
+                                        <form action="{% url 'panel_ayah_delete' surah_id=j.surah_id.id id=j.ayah_number %}" method="post">
+                                            {% csrf_token %}
+    
+                                            <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف آیه">×</button></p>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Include _modals_quran_ayah Module -->
+                            {% include './_modals_quran_ayah.html' %}
+                        {% endfor %}
+                    </details>
+
+                    <!-- Include _modals_quran_surah Module -->
+                    {% include './_modals_quran_surah.html' %}
+                </div>
+            </details>
+        </div>
+    {% endif %}
+
+    <div class="pb-4"></div>
+</div>

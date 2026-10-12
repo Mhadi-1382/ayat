@@ -1,0 +1,62 @@
+{% load static %}
+<div class="panel content-nav-minimize flex flex-col gap-2.5 overflow-auto pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    {% if request.user.role == 'admin' %}
+        <!-- Panel Details -->
+        <div class="flex flex-col gap-4">
+            <!-- Panel Details: Manage Content -->
+            <!-- Panel Details: Manage Content: Lifestyle Quran -->
+            <details open class="bg-emerald-50 rounded-4xl p-5 flex flex-col overflow-auto transition-all">
+                <summary class="list-none outline-none flex items-center justify-between gap-2.5 text-slate-700 sticky right-0 cursor-pointer">
+                    <span class="flex items-center gap-2.5">
+                        <span class="bg-orange-200 rounded-full size-2.5" style="content: '';"></span>
+                        <span class="font-bold text-sm">ویرایش محتوای سبک‌زندگی ({{ lifestyle_quran.id }})</span>
+                    </span>
+                    <span class="text-gray-600 flex items-center justify-center size-8 pt-1">—</span>
+                </summary>
+
+                <div class="mt-4 mb-5"></div>
+                <div class="w-full text-slate-600 text-sm flex flex-col gap-2.5">
+                    <div class="flex items-center justify-between gap-2.5 px-3 bg-white rounded-full sticky top-0">
+                        <p class="py-2.5 font-semibold">شناسه</p>
+                        <p class="py-2.5 font-semibold">عنوان محتوا</p>
+                        <p class="py-2.5 font-semibold pr-2.5">عملیات</p>
+                    </div>
+
+                    <details open class="flex flex-col gap-2.5">
+                        <summary class="flex items-center justify-between gap-2.5 outline-none">
+                            <p class="w-full py-0.5 cursor-pointer">{{ lifestyle_quran.id }}</p>
+                            <p class="w-full py-0.5 cursor-pointer line-clamp-1">{{ lifestyle_quran.title }}</p>
+                            <div class="flex items-center gap-2.5">
+                                <form action="{% url 'panel_lifestyle_quran_delete' id=lifestyle_quran.id %}" method="post">
+                                    {% csrf_token %}
+
+                                    <p class="py-0.5"><button type="submit" class="bg-white text-red-600 rounded-full flex items-center justify-center size-8 pt-1 cursor-pointer" title="حذف محتوای سبک‌زندگی">×</button></p>
+                                </form>
+                            </div>
+                        </summary>
+                        
+                        <form action="{% url 'panel_lifestyle_quran_edit' id=lifestyle_quran.id %}" method="post">
+                            {% csrf_token %}
+
+                            <input type="text" placeholder="عنوان" name="title" value="{{ lifestyle_quran.title }}" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>
+                            <textarea rows="6" name="arabic" placeholder="متن عربی" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none mt-2.5" required>{{ lifestyle_quran.arabic }}</textarea>
+                            <textarea rows="6" name="translation" placeholder="ترجمه" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>{{ lifestyle_quran.translation }}</textarea>
+                            <textarea rows="6" name="analysis" placeholder="تحلیل مفهومی" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>{{ lifestyle_quran.analysis }}</textarea>
+                            <textarea rows="6" name="challenge_action" placeholder="چالش عملی" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>{{ lifestyle_quran.challenge_action }}</textarea>
+                            <input type="text" placeholder="منبع" name="source" value="{{ lifestyle_quran.source }}" maxlength="200" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>
+                            <select name="category_content_id" class="w-full bg-gray-100 py-2 px-6 rounded-[20px] outline-none border-none text-slate-500 mt-2.5">
+                                <option value="">دسته بندی محتوا...</option>
+                                {% for category in categories_content %}
+                                    <option value="{{ category.id }}" {% if lifestyle_quran.category_content_id.id == category.id %}selected{% endif %}>{{ category.title }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="ثبت" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+                        </form>
+                    </details>
+                </div>
+            </details>
+        </div>
+    {% endif %}
+
+    <div class="pb-4"></div>
+</div>

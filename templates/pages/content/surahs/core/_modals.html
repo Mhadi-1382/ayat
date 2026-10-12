@@ -1,0 +1,96 @@
+{% load static %}
+
+<div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="settingsQuran">
+    <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('settingsQuran');"></i>
+    <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+        <div class="flex flex-col items-center mx-auto text-center">
+            <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+            <p class="">تنظیمات نمایش</p>
+        </div>
+        <div class="flex flex-col gap-2.5">
+            <div class="bg-surah-details-intro rounded-3xl p-4 flex flex-col items-center gap-2">
+                <p class="font-indopak text-[1.375rem] leading-10! text-justify text-slate-800 surah-details-text-effect-ar">لا إِلهَ إِلَّا اللَّهُ المَلِک الحقّ المُبین</p>
+                <p class="text-sm surah-details-text-effect-fa">نیست خدایی جز الله فرمانروای حق و آشکار</p>
+            </div>
+
+            <div class="py-4 flex flex-col gap-2 text-[15px]">
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxHideTranslate">
+                    <span class="text-gray-800">عدم نمایش ترجمه</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxHideTranslate" onclick="textEffectHideFa(0);">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="checkboxHideQuran">
+                    <span class="text-gray-800">عدم نمایش قرآن</span>
+                    <span class="flex items-center">
+                        <div class="slider relative inline-block w-12 h-7 transition-all">
+                            <input type="checkbox" class="opacity-0 w-0 h-0 transition-all" id="checkboxHideQuran" onclick="textEffectHideAr(0);">
+                            <span class="absolute cursor-pointer inset-0 bg-gray-100 rounded-full before:bg-white before:rounded-full before:size-4.5 before:absolute before:bottom-1.25 before:left-1.25 transition-all" style="content: '';"></span>
+                        </div>
+                    </span>
+                </label>
+                <hr class="border-gray-100 my-2">
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="selectFontAr">
+                    <span class="text-gray-800">نوع قلم عربی</span>
+                    <span class="flex items-center">
+                        <select id="selectFontAr" class="bg-gray-100 px-1.5 text-sm text-gray-800 rounded-full outline-none border-none transition-all">
+                            <option value="default" selected>پیش فرض (ایندوپاک)</option>
+                            <option value="nabi">نبی</option>
+                            <option value="neirizi">نیریزی</option>
+                            <option value="noorehira">نورهیرا</option>
+                            <option value="vazeh">واضح</option>
+                            <option value="gramophone">گرامافون</option>
+                            <option value="uthmanicHafs">عثمان طه</option>
+                        </select>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="selectFontFa">
+                    <span class="text-gray-800">نوع قلم فارسی</span>
+                    <span class="flex items-center">
+                        <select id="selectFontFa" class="bg-gray-100 px-1.5 text-sm text-gray-800 rounded-full outline-none border-none transition-all">
+                            <option value="default" selected>پیش فرض (استعداد)</option>
+                            <option value="pinar">پینار</option>
+                            <option value="modam">مودام</option>
+                            <option value="iRANSans">ایران یکان</option>
+                        </select>
+                    </span>
+                </label>
+                <hr class="border-gray-100 my-2">
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="selectFontSizeAr">
+                    <span class="text-gray-800">اندازه قلم عربی</span>
+                    <span class="flex items-center">
+                        <select id="selectFontSizeAr" class="bg-gray-100 px-1.5 text-sm text-gray-800 rounded-full outline-none border-none transition-all">
+                            <option value="default" selected>پیش فرض (22)</option>
+                            <option value="25">25</option>
+                            <option value="30">30</option>
+                        </select>
+                    </span>
+                </label>
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="selectFontSizeFa">
+                    <span class="text-gray-800">اندازه قلم فارسی</span>
+                    <span class="flex items-center">
+                        <select id="selectFontSizeFa" class="bg-gray-100 px-1.5 text-sm text-gray-800 rounded-full outline-none border-none transition-all">
+                            <option value="default" selected>پیش فرض (14)</option>
+                            <option value="16">16</option>
+                            <option value="18">18</option>
+                        </select>
+                    </span>
+                </label>
+                <hr class="border-gray-100 my-2">
+                <label class="flex items-center justify-between gap-2.5 cursor-pointer" for="selectFontSizeFa">
+                    <span class="text-gray-800">فاصله بین خطوط</span>
+                    <span class="flex items-center">
+                        <select id="selectLineHeight" class="bg-gray-100 px-1.5 text-sm text-gray-800 rounded-full outline-none border-none transition-all">
+                            <option value="default" selected>40</option>
+                            <option value="50">50</option>
+                            <option value="60">60</option>
+                        </select>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

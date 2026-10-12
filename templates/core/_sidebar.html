@@ -1,0 +1,521 @@
+{% load static %}
+<div class="overlay-nav max-[965px]:bg-black/60 max-[965px]:fixed max-[965px]:inset-0 max-[965px]:w-full max-[965px]:h-full max-[965px]:hidden max-[965px]:z-10 transition-all" id="navOverlay">
+    <i class="max-[965px]:fixed max-[965px]:inset-0 max-[965px]:w-full max-[965px]:h-full min-[965px]:hidden cursor-pointer" onclick="navToggle(0);"></i>
+    <div class="nav flex flex-col gap-1 p-4 h-fit w-65 max-[965px]:h-full! max-[965px]:w-75 min-[965px]:mt-26 bg-white border max-[965px]:border-none border-blue-50 min-[965px]:rounded-[36px] z-50 min-[965px]:z-0 min-[965px]:sticky min-[965px]:top-26 min-[965px]:mb-2.5 text-gray-800 overflow-auto transition-all" id="nav">
+        <div class="w-full flex flex-col gap-1">
+            {% if request.user.is_authenticated %}
+                {% if request.user.username|lower|slice:1 == "a" or request.user.username|lower|slice:1 == "b" or request.user.username|lower|slice:1 == "c" or request.user.username|lower|slice:1 == "d" or request.user.username|slice:1 == "ا" or request.user.username|slice:1 == "آ" or request.user.username|slice:1 == "ب" or request.user.username|slice:1 == "پ" or request.user.username|slice:1 == "ت" or request.user.username|slice:1 == "م" %}
+                    <div class="w-full flex flex-col gap-2 p-3.5 mb-2.5 bg-blue-50 rounded-3xl">
+                        <a href="/panel" draggable="false">
+                            <div class="flex items-center gap-2.5">
+                                <li class="w-10 h-11 px-2 bg-blue-100 rounded-full flex items-center justify-center list-none">{{ request.user.username | slice:1 }}</li>
+                                <div class="flex flex-col gap-1.5">
+                                    <p class="text-[15px]">سلام <span class="font-semibold">{{ request.user.username | truncatechars:16 }}</span> عزیز<span class="max-[965px]:hidden">؛ خوش اومدی 🎉</span></p>
+                                    {% if request.user.role == 'cultural_admin' %}
+                                        <a href="/panel" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز دانشگاه شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ total_points_uni }}</span></li>
+                                        </a>
+                                    {% elif request.user.university_id and request.user.role == 'student' %}
+                                        <a href="/challenge" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span></li>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/dl#pricing" draggable="false" class="flex w-full">
+                                <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-card-shortcut text-white text-xs cursor-pointer w-full"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span></span></button>
+                            </a>
+                        {% endif %}
+                        <hr class="border-blue-100 my-1.5 w-full">
+                        <div class="flex flex-col gap-2.5 text-sm py-1 h-auto max-h-50 overflow-y-auto">
+                            {% if request.user.role == 'admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (مدیرکل)</span>
+                                </a>
+                                <a href="/manage" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                    <span>مدیریت سیستمی</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% elif request.user.role == 'cultural_admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (امور فرهنگی)</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% else %}
+                                <a href="javascript:modal('upgradeAccountRequest');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="upgrade-account-request-icon size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                    <span>درخواست ارتقا حساب</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif request.user.username|lower|slice:1 == "e" or request.user.username|lower|slice:1 == "f" or request.user.username|lower|slice:1 == "g" or request.user.username|lower|slice:1 == "h" or request.user.username|slice:1 == "ث" or request.user.username|slice:1 == "ج" or request.user.username|slice:1 == "چ" or request.user.username|slice:1 == "ح" or request.user.username|slice:1 == "ل" or request.user.username|slice:1 == "ک" %}
+                    <div class="w-full flex flex-col gap-2 p-3.5 mb-2.5 bg-green-50 rounded-3xl">
+                        <a href="/panel" draggable="false">
+                            <div class="flex items-center gap-2.5">
+                                <li class="w-10 h-11 px-2 bg-green-100 rounded-full flex items-center justify-center list-none">{{ request.user.username | slice:1 }}</li>
+                                <div class="flex flex-col gap-1.5">
+                                    <p class="text-[15px]">سلام <span class="font-semibold">{{ request.user.username | truncatechars:16 }}</span> عزیز<span class="max-[965px]:hidden">؛ خوش اومدی 🎉</span></p>
+                                    {% if request.user.role == 'cultural_admin' %}
+                                        <a href="/panel" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز دانشگاه شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ total_points_uni }}</span></li>
+                                        </a>
+                                    {% elif request.user.university_id and request.user.role == 'student' %}
+                                        <a href="/challenge" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span></li>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/dl#pricing" draggable="false" class="flex w-full">
+                                <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-card-shortcut text-white text-xs cursor-pointer w-full"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span></span></button>
+                            </a>
+                        {% endif %}
+                        <hr class="border-green-100 my-1.5 w-full">
+                        <div class="flex flex-col gap-2.5 text-sm py-1 h-auto max-h-50 overflow-y-auto">
+                            {% if request.user.role == 'admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (مدیرکل)</span>
+                                </a>
+                                <a href="/manage" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                    <span>مدیریت سیستمی</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% elif request.user.role == 'cultural_admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (امور فرهنگی)</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% else %}
+                                <a href="javascript:modal('upgradeAccountRequest');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="upgrade-account-request-icon size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                    <span>درخواست ارتقا حساب</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif request.user.username|lower|slice:1 == "i" or request.user.username|lower|slice:1 == "j" or request.user.username|lower|slice:1 == "k" or request.user.username|lower|slice:1 == "l" or request.user.username|slice:1 == "خ" or request.user.username|slice:1 == "د" or request.user.username|slice:1 == "ذ" or request.user.username|slice:1 == "ر" or request.user.username|slice:1 == "ن" or request.user.username|slice:1 == "گ" %}
+                    <div class="w-full flex flex-col gap-2 p-3.5 mb-2.5 bg-yellow-50 rounded-3xl">
+                        <a href="/panel" draggable="false">
+                            <div class="flex items-center gap-2.5">
+                                <li class="w-10 h-11 px-2 bg-yellow-100 rounded-full flex items-center justify-center list-none">{{ request.user.username | slice:1 }}</li>
+                                <div class="flex flex-col gap-1.5">
+                                    <p class="text-[15px]">سلام <span class="font-semibold">{{ request.user.username | truncatechars:16 }}</span> عزیز<span class="max-[965px]:hidden">؛ خوش اومدی 🎉</span></p>
+                                    {% if request.user.role == 'cultural_admin' %}
+                                        <a href="/panel" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز دانشگاه شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ total_points_uni }}</span></li>
+                                        </a>
+                                    {% elif request.user.university_id and request.user.role == 'student' %}
+                                        <a href="/challenge" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span></li>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/dl#pricing" draggable="false" class="flex w-full">
+                                <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-card-shortcut text-white text-xs cursor-pointer w-full"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span></span></button>
+                            </a>
+                        {% endif %}
+                        <hr class="border-yellow-100 my-1.5 w-full">
+                        <div class="flex flex-col gap-2.5 text-sm py-1 h-auto max-h-50 overflow-y-auto">
+                            {% if request.user.role == 'admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (مدیرکل)</span>
+                                </a>
+                                <a href="/manage" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                    <span>مدیریت سیستمی</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% elif request.user.role == 'cultural_admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (امور فرهنگی)</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% else %}
+                                <a href="javascript:modal('upgradeAccountRequest');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="upgrade-account-request-icon size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                    <span>درخواست ارتقا حساب</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif request.user.username|lower|slice:1 == "m" or request.user.username|lower|slice:1 == "n" or request.user.username|lower|slice:1 == "o" or request.user.username|lower|slice:1 == "p" or request.user.username|slice:1 == "ز" or request.user.username|slice:1 == "ژ" or request.user.username|slice:1 == "س" or request.user.username|slice:1 == "ش" or request.user.username|slice:1 == "و" %}
+                    <div class="w-full flex flex-col gap-2 p-3.5 mb-2.5 bg-orange-50 rounded-3xl">
+                        <a href="/panel" draggable="false">
+                            <div class="flex items-center gap-2.5">
+                                <li class="w-10 h-11 px-2 bg-orange-100 rounded-full flex items-center justify-center list-none">{{ request.user.username | slice:1 }}</li>
+                                <div class="flex flex-col gap-1.5">
+                                    <p class="text-[15px]">سلام <span class="font-semibold">{{ request.user.username | truncatechars:16 }}</span> عزیز<span class="max-[965px]:hidden">؛ خوش اومدی 🎉</span></p>
+                                    {% if request.user.role == 'cultural_admin' %}
+                                        <a href="/panel" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز دانشگاه شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ total_points_uni }}</span></li>
+                                        </a>
+                                    {% elif request.user.university_id and request.user.role == 'student' %}
+                                        <a href="/challenge" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span></li>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/dl#pricing" draggable="false" class="flex w-full">
+                                <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-card-shortcut text-white text-xs cursor-pointer w-full"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span></span></button>
+                            </a>
+                        {% endif %}
+                        <hr class="border-orange-100 my-1.5 w-full">
+                        <div class="flex flex-col gap-2.5 text-sm py-1 h-auto max-h-50 overflow-y-auto">
+                            {% if request.user.role == 'admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (مدیرکل)</span>
+                                </a>
+                                <a href="/manage" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                    <span>مدیریت سیستمی</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% elif request.user.role == 'cultural_admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (امور فرهنگی)</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% else %}
+                                <a href="javascript:modal('upgradeAccountRequest');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="upgrade-account-request-icon size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                    <span>درخواست ارتقا حساب</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif request.user.username|lower|slice:1 == "q" or request.user.username|lower|slice:1 == "r" or request.user.username|lower|slice:1 == "s" or request.user.username|lower|slice:1 == "t" or request.user.username|slice:1 == "ص" or request.user.username|slice:1 == "ض" or request.user.username|slice:1 == "ط" or request.user.username|slice:1 == "ظ" or request.user.username|slice:1 == "ه" %}
+                    <div class="w-full flex flex-col gap-2 p-3.5 mb-2.5 bg-indigo-50 rounded-3xl">
+                        <a href="/panel" draggable="false">
+                            <div class="flex items-center gap-2.5">
+                                <li class="w-10 h-11 px-2 bg-indigo-100 rounded-full flex items-center justify-center list-none">{{ request.user.username | slice:1 }}</li>
+                                <div class="flex flex-col gap-1.5">
+                                    <p class="text-[15px]">سلام <span class="font-semibold">{{ request.user.username | truncatechars:16 }}</span> عزیز<span class="max-[965px]:hidden">؛ خوش اومدی 🎉</span></p>
+                                    {% if request.user.role == 'cultural_admin' %}
+                                        <a href="/panel" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز دانشگاه شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ total_points_uni }}</span></li>
+                                        </a>
+                                    {% elif request.user.university_id and request.user.role == 'student' %}
+                                        <a href="/challenge" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span></li>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/dl#pricing" draggable="false" class="flex w-full">
+                                <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-card-shortcut text-white text-xs cursor-pointer w-full"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span></span></button>
+                            </a>
+                        {% endif %}
+                        <hr class="border-indigo-100 my-1.5 w-full">
+                        <div class="flex flex-col gap-2.5 text-sm py-1 h-auto max-h-50 overflow-y-auto">
+                            {% if request.user.role == 'admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (مدیرکل)</span>
+                                </a>
+                                <a href="/manage" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                    <span>مدیریت سیستمی</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% elif request.user.role == 'cultural_admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (امور فرهنگی)</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% else %}
+                                <a href="javascript:modal('upgradeAccountRequest');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="upgrade-account-request-icon size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                    <span>درخواست ارتقا حساب</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif request.user.username|lower|slice:1 == "u" or request.user.username|lower|slice:1 == "v" or request.user.username|lower|slice:1 == "w" or request.user.username|lower|slice:1 == "x" or request.user.username|lower|slice:1 == "y" or request.user.username|lower|slice:1 == "z" or request.user.username|slice:1 == "ع" or request.user.username|slice:1 == "غ" or request.user.username|slice:1 == "ف" or request.user.username|slice:1 == "ق" or request.user.username|slice:1 == "ی" %}
+                    <div class="w-full flex flex-col gap-2 p-3.5 mb-2.5 bg-red-50 rounded-3xl">
+                        <a href="/panel" draggable="false">
+                            <div class="flex items-center gap-2.5">
+                                <li class="w-10 h-11 px-2 bg-red-100 rounded-full flex items-center justify-center list-none">{{ request.user.username | slice:1 }}</li>
+                                <div class="flex flex-col gap-1.5">
+                                    <p class="text-[15px]">سلام <span class="font-semibold">{{ request.user.username | truncatechars:16 }}</span> عزیز<span class="max-[965px]:hidden">؛ خوش اومدی 🎉</span></p>
+                                    {% if request.user.role == 'cultural_admin' %}
+                                        <a href="/panel" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز دانشگاه شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ total_points_uni }}</span></li>
+                                        </a>
+                                    {% elif request.user.university_id and request.user.role == 'student' %}
+                                        <a href="/challenge" class="flex items-center gap-1 min-[956px]:hidden" title="امتیاز شما" draggable="false">
+                                            <li class="bg-yellow-100 rounded-full px-2 pt-1 flex items-center max-[965px]:text-[13px] transition-all">✨ <span class="mr-1 text-[13px] text-gray-700">{{ request.user.total_points }}</span></li>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        {% if request.user.role == 'cultural_admin' %}
+                            <a href="/dl#pricing" draggable="false" class="flex w-full">
+                                <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-2 bg-card-shortcut text-white text-xs cursor-pointer w-full"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span></span></button>
+                            </a>
+                        {% endif %}
+                        <hr class="border-red-100 my-1.5 w-full">
+                        <div class="flex flex-col gap-2.5 text-sm py-1 h-auto max-h-50 overflow-y-auto">
+                            {% if request.user.role == 'admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (مدیرکل)</span>
+                                </a>
+                                <a href="/manage" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.26 7.438 10.666 10.4v6.446l5.129-2.961.104-.07a.93.93 0 0 0 .363-.74zM10.469 3.04a.94.94 0 0 0-.823-.055l-.112.055-5.207 3.005 5.684 3.197 5.838-3.09-.054-.037zM3.739 13.075c0 .334.178.643.467.81l5.129 2.96v-6.456L3.739 7.24zm13.852 0c0 .759-.38 1.464-1.004 1.882l-.128.08-5.326 3.074A2.27 2.27 0 0 1 9 18.183l-.133-.072-5.327-3.075a2.26 2.26 0 0 1-1.132-1.96V6.924c0-.809.432-1.557 1.132-1.961l5.327-3.075.133-.072a2.27 2.27 0 0 1 2.132.072l5.326 3.075.128.079a2.26 2.26 0 0 1 1.004 1.882z"></path></svg>
+                                    <span>مدیریت سیستمی</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% elif request.user.role == 'cultural_admin' %}
+                                <a href="/panel" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="size-5.5 text-gray-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M7.946 14.028a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0M7.946 5.972a1.974 1.974 0 1 0-3.948 0 1.974 1.974 0 0 0 3.948 0m8.055 0a1.974 1.974 0 1 0-3.947 0 1.974 1.974 0 0 0 3.947 0m-6.725 8.056a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0M9.276 5.972a3.304 3.304 0 1 1-6.608 0 3.304 3.304 0 0 1 6.608 0m8.055 0a3.304 3.304 0 1 1-6.607 0 3.304 3.304 0 0 1 6.607 0"></path></svg>
+                                    <span>پنل مدیریت (امور فرهنگی)</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% else %}
+                                <a href="javascript:modal('upgradeAccountRequest');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg class="upgrade-account-request-icon size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3451 5.24391C16.5815 4.90378 17.0489 4.81968 17.389 5.05607C19.5615 6.56595 21.0621 8.9679 21.3665 11.74C21.4117 12.1518 21.1146 12.5222 20.7029 12.5674C20.2911 12.6126 19.9207 12.3155 19.8755 11.9038C19.6199 9.57598 18.3605 7.55794 16.533 6.28781C16.1928 6.05142 16.1087 5.58405 16.3451 5.24391Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.70072 5.28581C7.93986 5.62402 7.85955 6.09206 7.52134 6.33119C5.71207 7.61047 4.47163 9.62807 4.23444 11.9452C4.19226 12.3573 3.82403 12.6571 3.41197 12.6149C2.99991 12.5728 2.70006 12.2045 2.74224 11.7925C3.02505 9.02956 4.50461 6.62715 6.65534 5.10643C6.99355 4.86729 7.46158 4.9476 7.70072 5.28581Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.52307 20.1016C7.71085 19.7324 8.16238 19.5853 8.53158 19.7731C9.58724 20.31 10.7909 20.6116 12.0616 20.6116C13.2878 20.6116 14.4356 20.3374 15.4633 19.8372C15.8358 19.6559 16.2847 19.8109 16.4659 20.1833C16.6472 20.5558 16.4922 21.0047 16.1198 21.1859C14.8876 21.7857 13.5153 22.1116 12.0616 22.1116C10.5523 22.1116 9.11589 21.7531 7.85155 21.1101C7.48235 20.9223 7.33528 20.4708 7.52307 20.1016Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.25 4.64063C9.25 3.12185 10.4812 1.89062 12 1.89062C13.5187 1.89062 14.75 3.12184 14.75 4.64063C14.75 6.15942 13.5187 7.39062 12 7.39062C10.4812 7.39062 9.25 6.15941 9.25 4.64063ZM12 3.39062C11.3096 3.39062 10.75 3.95027 10.75 4.64063C10.75 5.33099 11.3096 5.89062 12 5.89062C12.6903 5.89062 13.25 5.33098 13.25 4.64063C13.25 3.95028 12.6903 3.39062 12 3.39062Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 16.6992C2.25 15.1804 3.48123 13.9492 5 13.9492C6.51877 13.9492 7.75 15.1804 7.75 16.6992C7.75 18.218 6.51879 19.4492 5 19.4492C3.48121 19.4492 2.25 18.218 2.25 16.6992ZM5 15.4492C4.30964 15.4492 3.75 16.0088 3.75 16.6992C3.75 17.3895 4.30965 17.9492 5 17.9492C5.69035 17.9492 6.25 17.3895 6.25 16.6992C6.25 16.0088 5.69036 15.4492 5 15.4492Z" fill="#364153"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.25 16.6992C16.25 15.1804 17.4813 13.9492 19 13.9492C20.5188 13.9492 21.75 15.1804 21.75 16.6992C21.75 18.2179 20.5188 19.4492 19 19.4492C17.4813 19.4492 16.25 18.218 16.25 16.6992ZM19 15.4492C18.3097 15.4492 17.75 16.0088 17.75 16.6992C17.75 17.3895 18.3097 17.9492 19 17.9492C19.6904 17.9492 20.25 17.3896 20.25 16.6992C20.25 16.0088 19.6904 15.4492 19 15.4492Z" fill="#364153"></path></svg>
+                                    <span>درخواست ارتقا حساب</span>
+                                </a>
+                                <a href="javascript:modal('profileEdit');" class="flex items-center gap-2.5" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5.5 text-gray-700">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                    <span>ویرایش اطلاعات</span>
+                                </a>
+                                <a href="/signout" class="flex items-center gap-2.5 text-red-600" draggable="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-red-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                    <span>خروج از حساب کاربری</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <a href="javascript:modal('signin'), navToggle(0);" class="min-[965px]:hidden flex w-full flex-col gap-2.5 p-3.5 mb-2.5 bg-slate-100 text-gray-600 rounded-3xl" draggable="false">
+                    <div class="flex items-center gap-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-14">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <p class="text-sm nav-minimize-unauth">برای بهرمندی از امکانات بیشتر، لطفا وارد حساب کاربری شوید.</p>
+                    </div>
+                    <div class="nav-minimize-unauth bg-slate-200/30 text-center rounded-2xl w-full py-2 px-6 text-sm cursor-pointer">ورود یا ثبت نام</div>
+                </a>
+                <a href="javascript:modal('signin')" class="hidden min-[965px]:flex w-full flex-col gap-2.5 p-3.5 mb-2.5 bg-slate-100 text-gray-600 rounded-3xl" draggable="false">
+                    <div class="flex items-center gap-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-14">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <p class="text-sm nav-minimize-unauth">برای بهرمندی از امکانات بیشتر، لطفا وارد حساب کاربری شوید.</p>
+                    </div>
+                    <div class="nav-minimize-unauth bg-slate-200/30 text-center rounded-2xl w-full py-2 px-6 text-sm cursor-pointer">ورود یا ثبت نام</div>
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Include _nav_items Module -->
+        {% include 'core/_nav_items.html' %}
+
+        <!-- <button type="submit" class="flex items-center justify-center gap-2.5 rounded-4xl px-5 py-3 bg-card-shortcut text-white text-sm cursor-pointer mt-4" onclick="modal('soon')"><span>خرید اشتراک <span class="text-xs text-slate-400">(بزودی)</span> <span>🎉</span></span></button> -->
+
+        {% if request.user.is_authenticated %}
+            {% if request.user.username|lower|slice:1 == "a" or request.user.username|lower|slice:1 == "b" or request.user.username|lower|slice:1 == "c" or request.user.username|lower|slice:1 == "d" or request.user.username|slice:1 == "ا" or request.user.username|slice:1 == "آ" or request.user.username|slice:1 == "ب" or request.user.username|slice:1 == "پ" or request.user.username|slice:1 == "ت" or request.user.username|slice:1 == "م" %}
+                <button class="nav-minimize-btn bg-blue-50 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+            {% elif request.user.username|lower|slice:1 == "e" or request.user.username|lower|slice:1 == "f" or request.user.username|lower|slice:1 == "g" or request.user.username|lower|slice:1 == "h" or request.user.username|slice:1 == "ث" or request.user.username|slice:1 == "ج" or request.user.username|slice:1 == "چ" or request.user.username|slice:1 == "ح" or request.user.username|slice:1 == "ل" or request.user.username|slice:1 == "ک" %}
+                <button class="nav-minimize-btn bg-green-50 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+            {% elif request.user.username|lower|slice:1 == "i" or request.user.username|lower|slice:1 == "j" or request.user.username|lower|slice:1 == "k" or request.user.username|lower|slice:1 == "l" or request.user.username|slice:1 == "خ" or request.user.username|slice:1 == "د" or request.user.username|slice:1 == "ذ" or request.user.username|slice:1 == "ر" or request.user.username|slice:1 == "ن" or request.user.username|slice:1 == "گ" %}
+                <button class="nav-minimize-btn bg-yellow-50 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+            {% elif request.user.username|lower|slice:1 == "m" or request.user.username|lower|slice:1 == "n" or request.user.username|lower|slice:1 == "o" or request.user.username|lower|slice:1 == "p" or request.user.username|slice:1 == "ز" or request.user.username|slice:1 == "ژ" or request.user.username|slice:1 == "س" or request.user.username|slice:1 == "ش" or request.user.username|slice:1 == "و" %}
+                <button class="nav-minimize-btn bg-orange-50 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+            {% elif request.user.username|lower|slice:1 == "q" or request.user.name|lower|slice:1 == "r" or request.user.name|lower|slice:1 == "s" or request.user.name|lower|slice:1 == "t" or request.user.name|slice:1 == "ص" or request.user.name|slice:1 == "ض" or request.user.name|slice:1 == "ط" or request.user.name|slice:1 == "ظ" or request.user.name|slice:1 == "ه" %}
+                <button class="nav-minimize-btn bg-indigo-50 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+            {% elif request.user.name|lower|slice:1 == "u" or request.user.name|lower|slice:1 == "v" or request.user.name|lower|slice:1 == "w" or request.user.name|lower|slice:1 == "x" or request.user.name|lower|slice:1 == "y" or request.user.name|lower|slice:1 == "z" or request.user.name|slice:1 == "ع" or request.user.name|slice:1 == "غ" or request.user.name|slice:1 == "ف" or request.user.name|slice:1 == "ق" or request.user.name|slice:1 == "ی" %}
+                <button class="nav-minimize-btn bg-red-50 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+            {% endif %}
+        {% else %}
+            <button class="nav-minimize-btn bg-slate-100 text-gray-600 pt-1 rounded-full items-center justify-center size-8 mt-1 max-[965px]:hidden min-[965px]:hidden cursor-pointer transition-all" onclick="navMinimize(0);" title="بستن سایدبار">—</button>
+        {% endif %}
+    </div>
+</div>

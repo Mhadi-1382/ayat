@@ -1,0 +1,6 @@
+{% load static %}
+<div class="bg-splash flex flex-col items-center justify-between gap-4 py-6 px-2 fixed inset-0 z-9999" id="splashScreen">
+    <p></p>
+    <img src="{% static 'assets/images/logo/SVG/icon_splash.svg' %}" alt="logo" class="max-[500px]:size-50 size-52 transition-all" draggable="false">
+    <p class="text-gray-600 max-[500px]:text-xs text-sm font-mono transition-all">version {{ APP_VERSION }}</p>
+</div>

@@ -1,0 +1,34 @@
+{% load static %}
+
+<div class="content-nav-minimize flex flex-col gap-2.5 pt-4 w-full min-[965px]:w-[calc(93%-230px)] min-[1300px]:w-[calc(100%-230px)] mt-22.5 max-[965px]:mt-18.75 rounded-[36px] transition-all">
+    <!-- Recitation Path -->
+    <div class="recitation-path flex flex-col gap-4 mt-4 mb-4">
+        <div class="flex flex-col gap-6 p-5 pb-10 mb-4 bg-lime-100 rounded-4xl">
+            <div class="flex items-center justify-between gap-2.5">
+                <p class="font-semibold text-sm text-slate-600">پیشرفت آموزشی <span class="text-xs text-slate-300">(بزودی)</span></p>
+            </div>
+            <div class="h-4 w-full bg-amber-100 rounded-full relative transition-all">
+                <div class="h-4 w-10 bg-white rounded-full absolute bottom-0 transition-all"></div>
+                <div class="flex items-center justify-between gap-4 text-slate-400 text-xs absolute top-6 w-full transition-all">
+                    <p>سطح یک</p>
+                    <p>سطح دو</p>
+                    <p>سطح سه</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-2.5 w-full">
+            <a href="" draggable="false" class="cursor-pointer text-center bg-slate-200 hover:bg-slate-100 py-4 px-8 rounded-3xl border-2 border-white text-slate-600 flex flex-col gap-1 w-full transition-all">
+                <button class="font-neirizi cursor-pointer">آموزش ترتیل <span class="text-xs text-slate-300">(بزودی)</span></button>
+                <span class="text-xs text-slate-400">یادگیری تلاوت روان و صحیح قرآن، مطابق با اصول استاندارد ترتیل</span>
+            </a>
+            <a href="" draggable="false" class="cursor-pointer text-center bg-slate-200 hover:bg-slate-100 py-4 px-8 rounded-3xl border-2 border-white text-slate-600 flex flex-col gap-1 w-full transition-all">
+                <button class="font-neirizi cursor-pointer">آموزش تجوید <span class="text-xs text-slate-300">(بزودی)</span></button>
+                <span class="text-xs text-slate-400">آشنایی با قواعد تجوید و مخارج حروف برای تلاوت صحیح و زیباتر قرآن</span>
+            </a>
+        </div>
+        <a href="" draggable="false" class="cursor-pointer text-center bg-slate-200 hover:bg-slate-100 py-4 px-8 rounded-3xl border-2 border-white text-slate-600 flex flex-col gap-1 w-full transition-all">
+            <button class="font-neirizi cursor-pointer">نقشه یادگیری <span class="text-xs text-slate-300">(بزودی)</span></button>
+        </a>
+    </div>
+</div>

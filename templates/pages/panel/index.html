@@ -1,0 +1,31 @@
+{% extends '../../core/_base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if request.user.role == 'admin' %}
+        پنل مدیریت (مدیرکل)
+    {% elif request.user.role == 'cultural_admin' %}
+        پنل مدیریت (امور فرهنگی)
+    {% else %}
+        پنل مدیریت (دانشجو)
+    {% endif %}
+{% endblock title %}
+{% block body %}
+    
+    <!-- Include _navbar Module -->
+    {% include '../../core/_navbar.html' %}
+    <!-- Include _sidebar Module -->
+    {% include '../../core/_sidebar.html' %}
+    <!-- Include _index_content Module -->
+    {% include './core/_index_content.html' %}
+
+
+    <link rel="preload" href="{% static 'css/froala_editor.min.css' %}" as="style" onload="this.onload=null='stylesheet'">
+    <link rel="preload" href="{% static 'css/code_view.min.css' %}" as="style" onload="this.onload=null='stylesheet'">
+    <script async src="{% static 'js/lib/froala_editor.min.js' %}"></script>
+    <script async src="{% static 'js/lib/code_view.min.js' %}"></script>
+    <script>
+        var editor = new FroalaEditor('#editor_modalPanelDuasCreate');
+    </script>
+
+{% endblock body %}

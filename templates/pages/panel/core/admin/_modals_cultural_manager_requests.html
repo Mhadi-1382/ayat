@@ -1,0 +1,78 @@
+{% load static %}
+{% if cultural_manager_requests|length >= 1 %}
+    {% for item in cultural_manager_requests %}
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="modalCulturalManagerRequests{{ item.id }}">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('modalCulturalManagerRequests{{ item.id }}');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <p class="">جزییات درخواست: {{ item.id }}</p>
+                </div>
+                <div class="flex flex-col gap-4 text-slate-800 text-sm transition-all">
+                    <div class="flex items-center gap-2.5">
+                        <img src="https://{{ request.get_host }}/media/{{ item.university_icon }}" alt="{{ item.university_name }}" class="size-20 rounded-2xl mb-2.5" draggable="false">
+                        <div class="flex flex-col gap-2.5">
+                            <p><span class="font-semibold">نام دانشگاه (واحد):</span> {{ item.university_name }}</p>
+                            <p><span class="font-semibold">نام شهرستان:</span> {{ item.city }}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-4xl flex flex-col gap-4">
+                        <p class="flex flex-col gap-2"><span class="font-semibold">ایجاد شده توسط:</span> {{ item.user_id.username }}</p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">مدارک رسمی:</span> <a href="https://{{ request.get_host }}/media/{{ item.document_file }}" draggable="false">مدارک رسمی</a></p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">شماره تماس امور فرهنگی:</span> <a href="tel:{{ item.phone_cultural_admin }}" draggable="false">{{ item.phone_cultural_admin }}</a></p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">شماره تماس دانشگاه:</span> <a href="tel:{{ item.phone_university }}" draggable="false">{{ item.phone_university }}</a></p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">توضیحات:</span> {{ item.description }}</p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">یادداشت مدیر:</span> {{ item.admin_note }}</p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">تاریخ ایجاد:</span> <span dir="auto"> {{ item.created_at }}</span></p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">وضعیت درخواست:</span> 
+                            {% if item.status == 'pending' %}
+                                درحال بررسی
+                            {% elif item.status == 'rejected' %}
+                                رد شده
+                            {% elif item.status == 'approved' %}
+                                تایید شده
+                            {% endif %}
+                        </p>
+                        <p class="flex flex-col gap-2"><span class="font-semibold">تاریخ بررسی:</span> <span dir="auto"> {{ item.reviewed_at }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="modalCulturalManagerRequestsRejected{{ item.id }}">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('modalCulturalManagerRequestsRejected{{ item.id }}');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <p class="">رد درخواست: {{ item.id }}</p>
+                </div>
+                <div class="flex flex-col gap-4 text-slate-800 text-sm transition-all">
+                    <form action="{% url 'panel_cultural_admin_request_rejected' id=item.id user_id=item.user_id.id %}" method="post">
+                        {% csrf_token %}
+                        
+                        <textarea name="admin_note" rows="6" placeholder="یادداشت مدیر" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>عرض سلام و احترام، درخواست شما مبنی بر ثبت دانشگاه "{{ item.university_name }}" رد شد (عدم احراز هویت).</textarea>
+                        <input type="submit" value="رد درخواست" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="overlay-modal bg-black/60 fixed inset-0 w-full h-full hidden z-50 transition-all" id="modalCulturalManagerRequestsApproved{{ item.id }}">
+            <i class="fixed inset-0 w-full h-full cursor-pointer" onclick="modal('modalCulturalManagerRequestsApproved{{ item.id }}');"></i>
+            <div class="modal fixed max-[965px]:left-0 max-[965px]:right-0 max-[965px]:bottom-3 min-[965px]:inset-0 w-full max-[965px]:w-[95%] min-[965px]:w-120 h-fit max-h-[90%] m-auto px-5 pb-5 pt-3 flex flex-col gap-2.5 bg-white rounded-[26px] z-50 overflow-y-auto transition-all">
+                <div class="flex flex-col items-center mx-auto text-center">
+                    <div class="bg-gray-200 w-12 h-1 rounded-full flex items-center justify-center mx-auto mb-1.5"></div>
+                    <p class="">تایید درخواست: {{ item.id }}</p>
+                </div>
+                <div class="flex flex-col gap-4 text-slate-800 text-sm transition-all">
+                    <form action="{% url 'panel_cultural_admin_request_approved' id=item.id user_id=item.user_id.id %}" method="post">
+                        {% csrf_token %}
+                        
+                        <textarea name="admin_note" rows="6" placeholder="یادداشت مدیر" class="w-full bg-gray-100 py-3 px-6 rounded-[20px] outline-none border-none" required>عرض سلام و احترام، درخواست شما مبنی بر ثبت دانشگاه "{{ item.university_name }}" تایید شد و دسترسی های لازم برای شما فعال شد. ممنون از اعتمادتون 🙏</textarea>
+                        <input type="submit" value="تایید درخواست" class="w-full bg-primary text-white text-center py-3 px-6 rounded-[20px] outline-none border-none cursor-pointer mt-3">
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+{% endif %}

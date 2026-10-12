@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101010">
+        <meta name="color-scheme" media="(prefers-color-scheme: light)" content="#ffffff">
+        <meta name="color-scheme" media="(prefers-color-scheme: dark)" content="#101010">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+        <!-- Import STYLE & FAVICON & MANIFEST -->
+        <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/globals.min.css' %}">
+        <link rel="shortcut icon" href="{% static 'assets/images/logo/SVG/icon_app.svg' %}" type="image/x-icon">
+        <link rel="manifest" href="{% static 'manifest.json' %}">
+
+        <!-- Init TITLE -->
+        <title>{% block title %}{% endblock title %} - آیت</title>
+
+        <!-- Import Script PUSHER -->
+        <script defer src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
+
+        <!-- Init Script PUSHER & SERVICE WORKER -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("{% static 'js/service-worker.js' %}")
+                .then(function(reg) {
+                    console.log('Service Worker registered!', reg);
+                })
+                .catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+            }
+            
+            if (Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+
+            const beamsClient = new PusherPushNotifications.Client({ instanceId: '3ca35f8a-d0aa-428c-a10c-a3aeddf0da48' });
+            beamsClient.start()
+            .then(() => beamsClient.addDeviceInterest('Ayat'))
+            .then(() => console.log('Successfully registered and subscribed!'))
+            .catch(console.error);
+        </script>
+    </head>
+    <body id="app">
+
+        {% block body %}{% endblock body %}
+
+
+        <!-- Import Script app.js -->
+        <script src="{% static 'js/app.min.js' %}"></script>
+        <script>
+            oncontextmenu = function() { return false };
+        </script>
+
+    </body>
+</html>
